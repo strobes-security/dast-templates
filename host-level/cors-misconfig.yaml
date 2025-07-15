@@ -1,0 +1,221 @@
+id: cors-misconfig
+
+info:
+  name: Basic CORS misconfiguration
+  author: brenocss,nadino,G4L1T0,convisoappsec,pdteam
+  severity: info
+  reference: https://portswigger.net/web-security/cors
+  tags: cors,generic
+
+requests:
+  - raw:
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://{{Hostname}}
+
+#        Origin: anysubdomain.{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://anysub.{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://anysub.{{Hostname}}
+
+# Null Origin
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: null
+
+# Origin: anydomain you controll
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://anything.tld
+
+# Hostname Prefix
+  #        Origin: {{Hostname}}.anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://{{Hostname}}.anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://{{Hostname}}.anything.tld
+  #        Origin: {{Hostname}}anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://{{Hostname}}anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://{{Hostname}}anything.tld
+  #        Origin: {{Hostname}}_.anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://{{Hostname}}_.anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://{{Hostname}}_.anything.tld
+  #        Origin: {{Hostname}}-anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://{{Hostname}}-anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://{{Hostname}}-anything.tld
+  #        Origin: {{Hostname}}%60anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://{{Hostname}}%60anything.tld
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://{{Hostname}}%60anything.tld
+
+# Hostname Sufix
+  #        Origin: anything{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://anything{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://anything{{Hostname}}
+  #        Origin: anything-{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://anything-{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://anything-{{Hostname}}
+  #        Origin: anything_.{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://anything_.{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://anything_.{{Hostname}}
+  #        Origin: anything%60{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: http://anything%60{{Hostname}}
+      - |
+        GET / HTTP/1.1
+        Host: {{Hostname}}
+        Origin: https://anything%60{{Hostname}}
+# Matchers
+    matchers-condition: or
+    matchers:
+      - type: dsl
+        name: wildcard-acao
+        dsl:
+          - "contains(tolower(all_headers), 'access-control-allow-origin: *')"
+    # Access-control-allow-credentions: true
+      #        Origin: https?://*.{{Hostname}}
+      - type: dsl
+        name: https-wildcard-subdomains-acactrue
+        dsl:
+          - "regex('access-control-allow-origin: https?://anysub[.].*', tolower(all_headers))"
+          - "contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+      #        Origin: null
+      - type: dsl
+        name: null-origin-acactrue
+        dsl:
+          - "contains(tolower(all_headers), 'access-control-allow-origin: null')"
+          - "contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+
+      #   Origin: https?://evildomain       
+      - type: dsl
+        name: arbitrary-origin-acactrue
+        dsl:
+          - "regex('access-control-allow-origin: https?://anything.tld', tolower(all_headers))"
+          - "contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+        
+      # Origin : https://{{hostname}}evildomain.tld
+      # Everything thats endwith evildomain
+      - type: dsl
+        name: bypass-cors-hostnameprefix-acactrue
+        dsl:
+          - "regex('access-control-allow-origin: https?://.*[a-zA-Z0-9-_%.]anything.tld', tolower(all_headers))"
+          - "contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+
+      # Origin : https://evildomain?{{Hostname}}
+      # anything that starts with evildomain and isn't followed by dot
+      - type: dsl
+        name: bypass-cors-hostnamesufix-acactrue
+        dsl:
+          - "regex('access-control-allow-origin: https?://anything[a-zA-Z0-9-_%].*', tolower(all_headers))"
+          - "contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+    # Access-control-allow-credentions: false
+      - type: dsl
+        name: https-wildcard-subdomains-acacfalse
+        dsl:
+          - "regex('access-control-allow-origin: https?://anysub[.].*', tolower(all_headers))"
+          - "!contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+      #        Origin: null
+      - type: dsl
+        name: null-origin-acacfalse
+        dsl:
+          - "contains(tolower(all_headers), 'access-control-allow-origin: null')"
+          - "!contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+
+      #   Origin: https?://*          
+      - type: dsl
+        name: arbitrary-origin-acacfalse
+        dsl:
+          - "regex('access-control-allow-origin: https?://anything.tld', tolower(all_headers))"
+          - "!contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+        
+      # Origin : https://{{hostname}}evildomain.tld
+      # Everything thats endwith evildomain
+      - type: dsl
+        name: bypass-cors-hostnameprefix-acacfalse
+        dsl:
+          - "regex('access-control-allow-origin: https?://.*[a-zA-Z0-9-_%.]anything.tld', tolower(all_headers))"
+          - "!contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
+
+      # Origin : https://evildomain?{{Hostname}}
+      # anything that starts with evildomain and isn't followed by dot
+      - type: dsl
+        name: bypass-cors-hostnamesufix-acacfalse
+        dsl:
+          - "regex('access-control-allow-origin: https?://anything[a-zA-Z0-9-_%].*', tolower(all_headers))"
+          - "!contains(tolower(all_headers), 'access-control-allow-credentials: true')"
+        condition: and
