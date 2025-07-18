@@ -1,0 +1,23 @@
+id: http-missing-strict-transport-security
+
+info:
+  name: Missing Strict-Transport-Security Header
+  author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
+  severity: info
+  description: The 'Strict-Transport-Security' header is missing. This header enforces HTTPS and protects against downgrade attacks.
+  metadata:
+    max-request: 1
+  tags: misconfig,headers,strict-transport-security
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+    host-redirects: true
+    max-redirects: 3
+    matchers:
+      - type: dsl
+        dsl:
+          - "!regex('(?i)strict-transport-security', header)"
+          - "status_code != 301 && status_code != 302"
+        condition: and

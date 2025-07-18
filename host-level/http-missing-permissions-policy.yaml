@@ -1,0 +1,23 @@
+id: http-missing-permissions-policy
+
+info:
+  name: Missing Permissions-Policy Header
+  author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
+  severity: info
+  description: The 'Permissions-Policy' header is missing. This controls browser features like camera, mic, and geolocation.
+  metadata:
+    max-request: 1
+  tags: misconfig,headers,permissions-policy
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+    host-redirects: true
+    max-redirects: 3
+    matchers:
+      - type: dsl
+        dsl:
+          - "!regex('(?i)permissions-policy', header)"
+          - "status_code != 301 && status_code != 302"
+        condition: and

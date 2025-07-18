@@ -1,0 +1,23 @@
+id: http-missing-x-frame-options
+
+info:
+  name: Missing X-Frame-Options Header
+  author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
+  severity: info
+  description: The 'X-Frame-Options' header is missing. This prevents clickjacking attacks by restricting framing.
+  metadata:
+    max-request: 1
+  tags: misconfig,headers,x-frame-options
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+    host-redirects: true
+    max-redirects: 3
+    matchers:
+      - type: dsl
+        dsl:
+          - "!regex('(?i)x-frame-options', header)"
+          - "status_code != 301 && status_code != 302"
+        condition: and

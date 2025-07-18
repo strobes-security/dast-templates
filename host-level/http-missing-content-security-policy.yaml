@@ -1,0 +1,23 @@
+id: http-missing-content-security-policy
+
+info:
+  name: Missing Content-Security-Policy Header
+  author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
+  severity: info
+  description: The 'Content-Security-Policy' header is missing. This helps prevent XSS and other code injection attacks.
+  metadata:
+    max-request: 1
+  tags: misconfig,headers,content-security-policy
+
+http:
+  - method: GET
+    path:
+      - "{{BaseURL}}"
+    host-redirects: true
+    max-redirects: 3
+    matchers:
+      - type: dsl
+        dsl:
+          - "!regex('(?i)content-security-policy', header)"
+          - "status_code != 301 && status_code != 302"
+        condition: and
