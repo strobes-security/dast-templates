@@ -17,6 +17,7 @@ http:
       - type: dsl
         dsl:
           - 'method != "OPTIONS"'
+          - 'method == "POST"'
 
     payloads:
       injection:

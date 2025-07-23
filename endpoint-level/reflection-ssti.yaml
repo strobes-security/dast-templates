@@ -21,6 +21,7 @@ http:
       - type: dsl
         dsl:
           - 'method == "GET"'
+          - 'method == "POST"'
 
     skip-variables-check: true
     payloads:

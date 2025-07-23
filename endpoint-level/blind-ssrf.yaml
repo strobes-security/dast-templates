@@ -13,6 +13,7 @@ http:
       - type: dsl
         dsl:
           - 'method == "GET"'
+          - 'method == "POST"'
 
     payloads:
       ssrf:
