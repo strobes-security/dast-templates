@@ -3,14 +3,18 @@ info:
   name: GraphQL CSRF / GET method
   author: Dolev Farhi
   severity: info
-  description: 'Cross Site Request Forgery happens when an external website gains
-    ability to make API calls impersonating an user if he visits the website while
-    being authenticated to your API.
-
-    Allowing API calls through GET requests can lead to CSRF attacks, because cookies
-    are added automatically to GET requests by the browser.
-
-    '
+  description: The "GraphQL CSRF / GET method" vulnerability occurs when a GraphQL
+    API allows the use of HTTP GET requests for sensitive operations, such as data
+    modifications or privileged actions. This can lead to a Cross-Site Request Forgery
+    (CSRF) attack, where an attacker can perform unauthorized actions on behalf of
+    the victim user. The vulnerability arises because GET requests are typically not
+    protected by CSRF tokens or other anti-forgery mechanisms, making them vulnerable
+    to exploitation. An attacker could leverage this flaw to access sensitive user
+    data, modify critical information, or even launch further attacks by compromising
+    the affected application or its connected systems. To mitigate this vulnerability,
+    it is crucial to implement robust CSRF protection for all GraphQL API endpoints,
+    preferably by disabling the use of GET requests for sensitive operations and enforcing
+    the use of POST requests with a validated CSRF token.
   reference:
   - https://graphql.org/learn/serving-over-http/#get-request
   - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application

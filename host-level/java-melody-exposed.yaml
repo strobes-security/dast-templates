@@ -3,10 +3,17 @@ info:
   name: JavaMelody Monitoring Exposed
   author: dhiyaneshDK,thomas_from_offensity
   severity: medium
-  description: JavaMelody is a tool used to monitor Java or Java EE applications in
-    QA and production environments. JavaMelody was detected on this web application.
-    One option in the dashboard is to "View http sessions". This can be used by an
-    attacker to steal a user's session.
+  description: The "JavaMelody Monitoring Exposed" vulnerability arises from the improper
+    configuration and access controls of the JavaMelody monitoring tool integrated
+    within the web application. This vulnerability can allow an attacker to gain unauthorized
+    access to active user sessions by navigating to the "View http sessions" option
+    in the JavaMelody dashboard. With the stolen user session, the attacker can then
+    impersonate the legitimate user and perform actions that the user is authorized
+    to perform, potentially leading to the compromise of sensitive data or further
+    escalation of privileges within the web application or the underlying system.
+    To mitigate this vulnerability, it is essential to implement strong access controls,
+    limit the visibility of the monitoring interface, and regularly review and update
+    the security practices surrounding the use of the JavaMelody tool.
   reference:
   - https://www.acunetix.com/vulnerabilities/web/javamelody-publicly-accessible/
   - https://github.com/javamelody/javamelody/wiki/UserGuide#16-security

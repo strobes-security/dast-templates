@@ -3,8 +3,19 @@ info:
   name: CNAME Detect Dangling
   author: pdteam,nytr0gen
   severity: info
-  description: A CNAME detect dangling condition was discovered. Most commonly this
-    relates to failing to remove records from the zone once they are no longer needed.
+  description: The "CNAME Detect Dangling" vulnerability occurs when a Canonical Name
+    (CNAME) record in the Domain Name System (DNS) points to a resource that no longer
+    exists or is not actively maintained. This situation, known as a "dangling CNAME,"
+    can be exploited by an attacker to gain control over the affected domain, potentially
+    compromising the confidentiality, integrity, and availability of the system. Attackers
+    may leverage the dangling CNAME to redirect users to a malicious site, launch
+    phishing attacks, host malware, or even gain unauthorized access to the system,
+    leading to further escalation of privileges. Additionally, the presence of a dangling
+    CNAME can result in service disruptions, as users may be unable to access the
+    intended resource. To mitigate this vulnerability, it is crucial to implement
+    a robust process for regularly reviewing and maintaining the organization's DNS
+    records, ensuring the timely removal of any dangling CNAME entries and establishing
+    clear policies and procedures for proper DNS management.
   reference:
   - https://securitytrails.com/blog/subdomain-takeover-tips
   - https://nominetcyber.com/dangling-dns-is-no-laughing-matter/

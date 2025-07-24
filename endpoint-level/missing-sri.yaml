@@ -3,10 +3,17 @@ info:
   name: Missing Subresource Integrity
   author: lucky0x0d,PulseSecurity.co.nz,sullo amarsct
   severity: info
-  description: 'Checks if external script and stylesheet tags in the HTML response
-    are missing the Subresource Integrity (SRI) attribute.
-
-    '
+  description: The "Missing Subresource Integrity" vulnerability occurs when external
+    script or stylesheet resources are loaded without the use of Subresource Integrity
+    (SRI) verification. This could allow an attacker to potentially inject malicious
+    code into the external resource, which could then be executed by the victim's
+    browser. This could lead to sensitive data exposure, targeted attacks, and the
+    bypassing of security controls. The lack of SRI could also enable persistent threats,
+    as the vulnerability could be exploited repeatedly if the external resources are
+    frequently loaded. To address this issue, developers should implement SRI by generating
+    and including the appropriate hash values for each external resource, and regularly
+    update these hashes as the resources are updated. Implementing Content Security
+    Policy (CSP) in addition to SRI can further strengthen the application's security.
   reference:
   - https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html#subresource-integrity
   - https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity

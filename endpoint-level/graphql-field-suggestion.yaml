@@ -3,15 +3,21 @@ info:
   name: GraphQL Field Suggestion Information Disclosure
   author: Dolev Farhi
   severity: info
-  description: 'If introspection is disabled on your target, Field Suggestion can
-    allow users to still earn information on the GraphQL schema.
-
-    By default, GraphQL backends have a feature for fields and operations suggestions.
-
-    If you try to query a field but you have made a typo, GraphQL will attempt to
-    suggest fields that are similar to the initial attempt.
-
-    '
+  description: The "GraphQL Field Suggestion Information Disclosure" vulnerability
+    allows attackers to gain valuable information about the structure of the GraphQL
+    schema, including the available types, fields, and their relationships. Even if
+    the GraphQL API's introspection feature is disabled, the field suggestion functionality
+    can be utilized to enumerate the existing fields and operations. This information
+    disclosure can enable attackers to refine their attack strategies, potentially
+    uncover sensitive data or functionality, and plan more sophisticated attacks,
+    such as constructing targeted queries to extract additional data or perform unauthorized
+    actions. The disclosed information could lead to a further compromise of the application,
+    as the attacker gains a better understanding of the system's internals and potential
+    attack vectors. To address this vulnerability, it is essential to disable the
+    field suggestion feature in the GraphQL backend, which will prevent attackers
+    from leveraging this functionality to gather information about the schema, even
+    if introspection is disabled. By removing this attack surface, the risk of unauthorized
+    access and further compromise of the application can be significantly reduced.
   reference:
   - https://github.com/webonyx/graphql-php/issues/454
   - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application

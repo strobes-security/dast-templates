@@ -3,10 +3,18 @@ info:
   name: Laravel Debug Info Leak
   author: pwnhxl
   severity: medium
-  description: 'This template can be used to detect a Laravel debug information leak
-    by making a POST-based request.
-
-    '
+  description: The "Laravel Debug Info Leak" vulnerability arises when a Laravel-based
+    web application is configured with debug mode enabled in the production environment.
+    This can lead to the unintentional exposure of sensitive application details,
+    such as database credentials, API keys, and other configuration information. This
+    leaked data can enable attackers to gain deeper insights into the target environment,
+    potentially leading to further attacks or the discovery of additional vulnerabilities.
+    By understanding the application's internal structure and logic, as well as the
+    underlying infrastructure details, attackers can refine their attack strategies
+    and increase the chances of a successful intrusion. To address this vulnerability,
+    it is crucial to disable the debug mode in the production environment and implement
+    proper error handling and logging mechanisms to prevent the leakage of sensitive
+    information.
   reference:
   - https://github.com/dem0ns/improper/blob/master/laravel/5_debug/1.png
   classification:

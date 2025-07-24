@@ -3,10 +3,19 @@ info:
   name: Node.js Express NODE_ENV Development Mode
   author: FLX
   severity: medium
-  description: 'The Node.js application runs in development mode, which can expose
-    sensitive information, such as source code and secrets, depending on the application.
-
-    '
+  description: The vulnerability lies in the use of the development mode in a Node.js
+    Express application. When the application is run with the NODE_ENV environment
+    variable set to a development value, it exposes sensitive information, such as
+    application source code, configuration details, and debugging data, that should
+    not be accessible in a production environment. This can allow an attacker to gain
+    valuable insights into the application's inner workings, potentially leading to
+    the disclosure of sensitive information like API keys, database credentials, and
+    other secrets. Additionally, the development mode may disable important security
+    features, making the application more susceptible to various types of injection
+    attacks, including SQL injection and cross-site scripting (XSS). Exploiting this
+    vulnerability could potentially allow an attacker to execute arbitrary code on
+    the server, potentially leading to a complete compromise of the system and access
+    to any data or resources within the application.
   reference:
   - https://www.invicti.com/web-vulnerability-scanner/vulnerabilities/express-development-mode-is-enabled/
   - https://www.synopsys.com/blogs/software-security/nodejs-mean-stack-vulnerabilities.html

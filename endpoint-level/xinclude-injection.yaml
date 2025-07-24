@@ -3,12 +3,18 @@ info:
   name: XInclude Injection - Detection
   author: DhiyaneshDK,ritikchaddha
   severity: high
-  description: 'XInclude is a part of the XML specification that allows an XML document
-    to be built from sub-documents. You can place an XInclude attack within any data
-    value in an XML document, so the attack can be performed in situations where you
-    only control a single item of data that is placed into a server-side XML document.
-
-    '
+  description: The XInclude Injection vulnerability allows an attacker to inject malicious
+    XInclude tags into the XML input processed by the application, potentially leading
+    to sensitive file disclosure, arbitrary code execution, information leakage, and
+    denial-of-service (DoS) attacks. By inserting crafted XInclude tags, an attacker
+    can trick the XML parser into resolving and including external files or resources,
+    granting the attacker access to sensitive information or enabling them to execute
+    arbitrary code on the server. This vulnerability arises due to inadequate input
+    validation and sanitization, as well as overreliance on the XML parsing process
+    without proper security measures. Addressing this issue requires implementing
+    robust input validation, disabling unnecessary XML features, and maintaining up-to-date
+    software dependencies to ensure the application is protected against XInclude
+    Injection attacks.
   reference:
   - https://d0pt3x.gitbook.io/passion/webapp-security/xxe-attacks/xinclude-attacks
   tags: dast,xxe,xinclude

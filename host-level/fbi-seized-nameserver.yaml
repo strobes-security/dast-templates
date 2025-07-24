@@ -3,10 +3,24 @@ info:
   name: FBI Seized Nameserver - Detect
   author: rxerium
   severity: info
-  description: 'Detected domains whose nameservers have been seized by law enforcement
-    (e.g., FBI), often indicating involvement in malicious or criminal activity.
-
-    '
+  description: The "FBI Seized Nameserver - Detect" vulnerability refers to the risk
+    of an attacker identifying and targeting domains associated with potential criminal
+    or malicious activities, as well as the potential for further exploitation or
+    disruption. This vulnerability arises from the ability of an attacker to gather
+    intelligence on law enforcement's actions and mitigation strategies, which could
+    inform future attacks or help the attacker evade detection. Additionally, the
+    seized nameservers could be leveraged by the attacker to carry out man-in-the-middle
+    attacks, intercepting or modifying traffic to the affected domains. The attacker
+    may also attempt to gain control of the seized nameservers, potentially regaining
+    access to the targeted domains and their associated infrastructure. This information
+    could be used by the attacker to build a more comprehensive understanding of the
+    threat landscape, aiding in the development of new attack tactics and techniques.
+    To address this vulnerability, organizations should proactively monitor their
+    domain infrastructure, respond swiftly to any indications of law enforcement seizure,
+    implement robust monitoring and alerting mechanisms, establish clear incident
+    response and communication protocols, review and update their domain management
+    and transfer procedures, and consider implementing alternative or redundant nameserver
+    configurations.
   classification:
     cwe-id: CWE-200
   metadata:

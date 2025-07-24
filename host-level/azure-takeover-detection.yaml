@@ -3,9 +3,19 @@ info:
   name: Microsoft Azure Takeover Detection
   author: pdteam
   severity: high
-  description: Microsoft Azure is vulnerable to subdomain takeover attacks. Subdomain
-    takeovers are a common, high-severity threat for organizations that regularly
-    create and delete many resources. A subdomain takeover can occur when a D>
+  description: The Microsoft Azure Takeover Detection vulnerability arises when an
+    organization's Azure infrastructure contains subdomains that are not properly
+    managed or secured. This can occur when a subdomain is created but not actively
+    used or maintained, allowing an attacker to potentially take control of the subdomain
+    and host malicious content. The impact of such a takeover can be significant,
+    as the attacker could leverage the compromised subdomain to launch phishing attacks,
+    gain a foothold within the target organization's Azure environment, intercept
+    and modify traffic, or distribute malware. To address this vulnerability, organizations
+    must implement robust processes to continuously monitor and manage their Azure
+    subdomains, ensuring that all active subdomains are properly configured and secured,
+    and promptly addressing any identified issues. By proactively managing their Azure
+    infrastructure, organizations can significantly reduce the risk of subdomain takeover
+    attacks and the associated security and reputational consequences.
   reference:
   - https://godiego.co/posts/STO/
   - https://docs.microsoft.com/en-us/azure/security/fundamentals/subdomain-takeover

@@ -3,14 +3,28 @@ info:
   name: Cookies without HttpOnly attribute - Detect
   author: RJ Coleman,Mr.Bobo HP
   severity: info
-  description: 'Checks whether cookies in the HTTP response contain the HttpOnly attribute.
-    If the HttpOnly flag is set, it means that the cookie is HTTP-only
+  description: The absence of the HttpOnly attribute on cookies used by the application
+    increases the risk of client-side attacks, potentially compromising user session
+    security and data privacy. When cookies lack the HttpOnly flag, they can be accessed
+    and manipulated by client-side scripts, enabling threats such as session hijacking.
+    To address this vulnerability, developers should ensure that all cookies set in
+    the application's HTTP responses are marked as HttpOnly. This mitigates the risk
+    of cross-site scripting (XSS) attacks by preventing client-side scripts from accessing
+    and interacting with the session cookies, thus enhancing the overall security
+    of the application. Implementing this secure coding practice and regularly reviewing
+    the application's security posture are crucial steps to address this vulnerability
+    and protect the application and its users.
+  impact: '- An attacker could access and manipulate the application''s session cookies
+    using client-side scripts, enabling session hijacking and impersonation of legitimate
+    users.
 
-    '
-  impact: 'Lack of HttpOnly flag on cookies increases the risk of client-side attacks,
-    compromising user session security and data privacy.
+    - The absence of the HttpOnly attribute on cookies increases the risk of cross-site
+    scripting (XSS) attacks, potentially allowing the attacker to steal sensitive
+    information or perform unauthorized actions on behalf of the user.
 
-    '
+    - The vulnerability could be exploited to bypass security controls and gain unauthorized
+    access to the application''s data and functionality, compromising the overall
+    security and privacy of the system.'
   remediation: 'Cookies without the HttpOnly attribute pose a significant security
     risk, as they can be accessed and manipulated by client-side scripts, potentially
     leading to session hijacking and other attacks. To address this issue, developers

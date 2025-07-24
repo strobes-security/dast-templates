@@ -3,9 +3,18 @@ info:
   name: DNS Servfail Host Finder
   author: pdteam
   severity: info
-  description: A DNS ServFail error occurred. ServFail errors occur when there is
-    an error communicating with a DNS server. This could have a number of causes,
-    including an error on the DNS server itself, or a temporary networking issue.
+  description: The "DNS Servfail Host Finder" vulnerability allows an attacker to
+    gather sensitive information about a target organization's internal network infrastructure
+    by exploiting a DNS server's inability to resolve certain queries. When a DNS
+    server encounters a Servfail error, it may provide the client with a list of potentially
+    vulnerable hosts or systems, revealing details about the network topology, devices,
+    and potential attack vectors. This information can then be leveraged to identify
+    additional vulnerable systems, intercept and modify DNS responses, disrupt network
+    services, and potentially escalate privileges or gain unauthorized access to sensitive
+    data. To mitigate this vulnerability, organizations should thoroughly review and
+    validate their DNS server configurations, implement robust monitoring and alerting
+    mechanisms, and develop incident response procedures to quickly address and resolve
+    any DNS Servfail issues that may arise.
   classification:
     cwe-id: CWE-200
   metadata:

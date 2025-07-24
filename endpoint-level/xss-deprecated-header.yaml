@@ -3,8 +3,17 @@ info:
   name: XSS-Protection Header - Cross-Site Scripting
   author: joshlarsen
   severity: info
-  description: Setting the XSS-Protection header is deprecated. Setting the header
-    to anything other than `0` can actually introduce an XSS vulnerability.
+  description: The "XSS-Protection Header - Cross-Site Scripting" vulnerability arises
+    when the web application's configuration enables the XSS-Protection feature, which
+    can actually introduce a cross-site scripting (XSS) vulnerability if set to anything
+    other than '0'. This vulnerability allows an attacker to inject malicious scripts
+    into web pages, which would then be executed by the victim's browser. The consequences
+    can be severe, as the attacker may be able to steal sensitive information, perform
+    unauthorized actions on behalf of the victim, or even gain unauthorized access
+    to the victim's account or system. To address this issue, it is recommended to
+    disable the XSS-Protection header entirely by setting it to '0', and instead focus
+    on implementing robust server-side input validation and output encoding mechanisms
+    to mitigate cross-site scripting vulnerabilities in the application.
   reference:
   - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
   - https://owasp.org/www-project-secure-headers/#x-xss-protection

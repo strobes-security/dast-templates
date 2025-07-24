@@ -3,8 +3,19 @@ info:
   name: Missing Permissions-Policy Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'Permissions-Policy' header is missing. This controls browser features
-    like camera, mic, and geolocation.
+  description: The "Missing Permissions-Policy Header" vulnerability refers to the
+    absence of a crucial security header in the web application's response. The Permissions-Policy
+    header is designed to control the browser's access to various features, such as
+    the camera, microphone, and geolocation. Without this header, an attacker could
+    potentially gain unauthorized access to these sensitive user data and system resources,
+    enabling unwanted surveillance, data exfiltration, and system compromise. The
+    lack of the Permissions-Policy header could also allow the execution of powerful
+    browser features, such as the ability to lock the screen or control the user's
+    input devices, further increasing the potential for exploitation. To address this
+    vulnerability, developers should implement the Permissions-Policy header and configure
+    it to explicitly enable or disable the desired browser features based on the application's
+    security requirements, ensuring that the header is consistently included and properly
+    configured across all endpoints.
   metadata:
     max-request: 1
   tags: misconfig,headers,permissions-policy

@@ -3,8 +3,20 @@ info:
   name: CAA Record
   author: pdteam
   severity: info
-  description: A CAA record was discovered. A CAA record is used to specify which
-    certificate authorities (CAs) are allowed to issue certificates for a domain.
+  description: The CAA record vulnerability arises when a domain's Certification Authority
+    Authorization (CAA) record is not properly configured, allowing an attacker to
+    potentially bypass the intended security controls and obtain a valid SSL/TLS certificate
+    for the domain from an unauthorized Certificate Authority (CA). This could enable
+    the attacker to intercept and decrypt the domain's encrypted traffic, potentially
+    exposing sensitive information, as well as conduct man-in-the-middle attacks by
+    impersonating the legitimate domain and tricking users into revealing sensitive
+    credentials. The compromise of the CAA record could lead to a broader attack surface,
+    enabling the attacker to further exploit the domain and its associated systems
+    and services. To mitigate this vulnerability, the domain's CAA record should be
+    reviewed, updated to include all authorized CAs, and set to "critical" to enforce
+    the specified restrictions and prevent unauthorized CAs from issuing certificates.
+    Regularly reviewing and validating the accuracy of the CAA record is essential
+    to maintain robust security controls.
   reference:
   - https://support.dnsimple.com/articles/caa-record/#whats-a-caa-record
   classification:

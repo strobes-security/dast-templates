@@ -3,10 +3,18 @@ info:
   name: DNS Rebinding Attack
   author: ricardomaia
   severity: unknown
-  description: 'Detects DNS Rebinding attacks by checking if the DNS response contains
-    a private IPv4 or IPv6 address.
-
-    '
+  description: The DNS Rebinding Attack is a technique that allows an attacker to
+    bypass the Same-Origin Policy (SOP) restrictions imposed by web browsers, enabling
+    unauthorized access to internal network resources. This vulnerability arises when
+    a web application fails to properly validate the origin of incoming requests,
+    allowing an attacker to bind a malicious domain to the target's internal IP address.
+    By doing so, the attacker can impersonate legitimate users and steal sensitive
+    data, perform lateral movement within the network, or even execute arbitrary code
+    on the target system by exploiting vulnerabilities in internal applications. To
+    mitigate this vulnerability, organizations should implement a combination of server-side
+    and client-side security measures, such as strict origin validation, access controls,
+    and user education, to prevent unauthorized access to internal resources and protect
+    against the potential consequences of a successful DNS Rebinding Attack.
   reference:
   - https://capec.mitre.org/data/definitions/275.html
   - https://payatu.com/blog/dns-rebinding/

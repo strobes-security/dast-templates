@@ -3,8 +3,32 @@ info:
   name: Missing Strict-Transport-Security Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'Strict-Transport-Security' header is missing. This header enforces
-    HTTPS and protects against downgrade attacks.
+  description: 'The "Missing Strict-Transport-Security Header" vulnerability arises
+    when a website fails to include the Strict-Transport-Security (HSTS) header in
+    its HTTP responses. This header is a critical security mechanism that instructs
+    the user''s web browser to only communicate with the website using the HTTPS protocol,
+    even if the user initially attempts to access the site over an insecure HTTP connection.
+
+
+    Without the HSTS header in place, an attacker could potentially intercept and
+    tamper with the user''s traffic, gaining access to sensitive information or credentials.
+    Furthermore, the attacker could perform a man-in-the-middle attack, impersonating
+    the legitimate website and stealing user data. Additionally, the lack of the HSTS
+    header leaves the website vulnerable to downgrade attacks, where the attacker
+    forces the user to connect over an insecure HTTP connection. This could enable
+    the attacker to conduct session hijacking and eavesdrop on the user''s communication
+    with the website.
+
+
+    To address this vulnerability, the website should be configured to add the Strict-Transport-Security
+    header to all responses, with a minimum duration of 6 months. This will ensure
+    that all communication between the user''s browser and the website is encrypted,
+    protecting against the aforementioned attacks. Additionally, the website should
+    implement a redirect mechanism to automatically redirect all HTTP requests to
+    the HTTPS version of the site, and consider enabling the `includeSubDomains` directive
+    in the HSTS header to enforce HTTPS on all subdomains. Regular review and update
+    of the HSTS header configuration is also recommended to maintain the desired level
+    of protection.'
   metadata:
     max-request: 1
   tags: misconfig,headers,strict-transport-security

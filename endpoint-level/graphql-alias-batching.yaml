@@ -3,14 +3,19 @@ info:
   name: GraphQL Alias-based Batching
   author: Dolev Farhi
   severity: info
-  description: 'GraphQL supports aliasing of multiple sub-queries into a single queries.
-    This allows users to request multiple objects or multiple instances of objects
-    efficiently.
-
-    However, an attacker can leverage this feature to evade many security measures,
-    including rate limit.
-
-    '
+  description: The "GraphQL Alias-based Batching" vulnerability arises from the ability
+    to execute multiple GraphQL queries within a single request by leveraging the
+    alias feature. Attackers can exploit this to bypass rate limiting and other security
+    measures, potentially retrieving sensitive data or launching denial-of-service
+    (DoS) attacks. By abusing aliasing, an attacker can conceal their individual queries
+    within a larger request, making it more difficult to detect and monitor malicious
+    activity. Additionally, the use of aliased queries can enable unauthorized actions,
+    such as modifying or deleting data, by executing multiple mutation operations
+    simultaneously. To address this vulnerability, developers should implement strict
+    input validation, enforce rate limiting based on the overall request size, and
+    monitor GraphQL query patterns for suspicious activity. Employing a GraphQL-specific
+    firewall or proxy, along with robust logging and auditing mechanisms, can also
+    help mitigate the risks associated with the abuse of the alias feature.
   remediation: 'To address the "GraphQL Alias-based Batching" vulnerability, developers
     should implement strict input validation and rate limiting measures to prevent
     attackers from exploiting the alias feature. This can be achieved by:

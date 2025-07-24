@@ -3,11 +3,29 @@ info:
   name: CSV Injection Detection
   author: DhiyaneshDK,ritikchaddha
   severity: medium
-  description: 'A CSV injection detection template to identify and prevent CSV injection
-    vulnerabilities by using various payloads that could be interpreted as formulas
-    by spreadsheet applications.
+  description: 'The CSV Injection Detection vulnerability arises when an application
+    fails to properly validate and sanitize user-supplied CSV (Comma-Separated Values)
+    data before processing or storing it. This can lead to a range of security issues,
+    including the potential for an attacker to execute arbitrary code on the server,
+    gain unauthorized access to sensitive data, bypass security controls, and even
+    perform denial-of-service (DoS) attacks.
 
-    '
+
+    The vulnerability occurs when the application does not adequately filter or escape
+    special characters, formulas, or functions within the CSV data, allowing an attacker
+    to inject malicious content. This can enable the attacker to execute arbitrary
+    commands on the server, access sensitive information stored in the application''s
+    databases or file system, or even gain administrative-level privileges within
+    the application.
+
+
+    Addressing this vulnerability is crucial to maintain the security and integrity
+    of the application. It is essential to implement robust input validation and sanitization
+    techniques, such as using a whitelist approach to define acceptable characters
+    and data formats, escaping or removing special characters, and disabling the execution
+    of known malicious formulas or functions within the CSV data. Additionally, the
+    use of a dedicated CSV parsing library with built-in security features can help
+    mitigate the risk of CSV injection attacks.'
   tags: dast,csv,oast
   impact: '- Potential to execute arbitrary code on the server by injecting malicious
     formulas or functions into CSV data.

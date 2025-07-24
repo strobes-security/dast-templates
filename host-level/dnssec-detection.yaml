@@ -3,9 +3,19 @@ info:
   name: DNSSEC Detection
   author: pdteam
   severity: info
-  description: Domain Name System Security Extensions (DNSSEC) are enabled. The Delegation
-    of Signing (DS) record provides information about a signed zone file when DNSSEC
-    enabled.
+  description: The "DNSSEC Detection" vulnerability refers to the potential for an
+    attacker to gather sensitive information about the target organization's domain
+    and DNS configuration through the analysis of DNSSEC-related records. DNSSEC (Domain
+    Name System Security Extensions) is a security protocol that provides authentication
+    and integrity for DNS data, but the information revealed by these records could
+    be leveraged by an attacker to aid in further attacks, such as spoofing, man-in-the-middle
+    attacks, or domain hijacking. By identifying the specific DNSSEC implementation,
+    version, and configuration details, an attacker might also be able to discover
+    and exploit vulnerabilities in the DNSSEC implementation itself, further compromising
+    the target's security posture. To mitigate this vulnerability, organizations should
+    ensure their DNSSEC implementation is secure, consider masking or obfuscating
+    DNSSEC-related information, and implement robust access controls and monitoring
+    mechanisms for their domain management and DNS configuration.
   reference:
   - https://www.icann.org/resources/pages/dnssec-what-is-it-why-important-2019-03-05-en
   - https://www.cyberciti.biz/faq/unix-linux-test-and-validate-dnssec-using-dig-command-line/

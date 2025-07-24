@@ -3,10 +3,22 @@ info:
   name: ElasticBeanstalk Subdomain Takeover Detection
   author: philippedelteil,rotemreiss,zy9ard3,joaonevess
   severity: high
-  description: ElasticBeanstalk subdomain takeover detected. A subdomain takeover
-    occurs when an attacker gains control over a subdomain of a target domain. Typically,
-    this happens when the subdomain has a canonical name (CNAME) in the Domain Name
-    System (DNS), but no host is providing content for it.
+  description: The "ElasticBeanstalk Subdomain Takeover Detection" vulnerability arises
+    when an organization's ElasticBeanstalk instances are not properly configured
+    or managed, leaving certain subdomains unattended. This can allow an attacker
+    to effectively take control of the vulnerable subdomain, enabling them to host
+    their own content and impersonate the target organization. The consequences of
+    a successful subdomain takeover can be significant, as the attacker could leverage
+    the hijacked subdomain to conduct phishing campaigns, distribute malware, or gain
+    access to sensitive information and systems. Furthermore, the attacker could use
+    the compromised subdomain to launch further attacks, such as cross-site scripting
+    (XSS) or cross-site request forgery (CSRF) attacks, potentially compromising the
+    confidentiality, integrity, and availability of the target organization's data
+    and infrastructure. To mitigate this vulnerability, organizations must closely
+    monitor and manage their ElasticBeanstalk subdomains, ensure that each subdomain
+    has a valid host providing content, and implement continuous detection mechanisms
+    to identify and address any instances of unclaimed or unmanaged subdomains in
+    a timely manner.
   reference:
   - https://github.com/EdOverflow/can-i-take-over-xyz/issues/147
   - https://twitter.com/payloadartist/status/1362035009863880711

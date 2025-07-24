@@ -3,17 +3,44 @@ info:
   name: GraphQL Array-based Batching
   author: Dolev Farhi
   severity: info
-  description: 'Some GraphQL engines support batching of multiple queries into a single
-    request. This allows users to request multiple objects or multiple instances of
-    objects efficiently.
+  description: The security vulnerability, known as "Array-based Batching" in GraphQL-based
+    systems, poses a significant risk to the application's security and performance.
+    This issue allows attackers to bypass rate limiting and other security controls
+    by bundling multiple requests into a single batched query, enabling them to execute
+    a significantly higher volume of requests. This can facilitate rapid enumeration
+    and data extraction, potentially exposing sensitive information. Additionally,
+    the vulnerability can lead to increased server load and potential denial of service
+    by sending large batched queries with numerous nested requests. Attackers can
+    also conceal malicious activity by distributing it across multiple requests within
+    a single batched query, making it more challenging to detect and investigate.
+    Furthermore, the batching feature can be leveraged to carry out complex and coordinated
+    attacks, such as a series of write operations that could result in a data breach
+    or system compromise. To mitigate this vulnerability, organizations should consider
+    deactivating or limiting the Batching functionality in their GraphQL engine.
+  remediation: 'To address the "GraphQL Array-based Batching" vulnerability, organizations
+    should consider the following remediation steps:
 
-    However, an attacker can leverage this feature to evade many security measures,
-    including Rate Limit.
 
-    '
-  remediation: 'Deactivate or limit Batching in your GraphQL engine.
+    - Evaluate the necessity of the batching functionality in your GraphQL-based application.
+    If the feature is not essential, consider disabling or deactivating it entirely
+    to eliminate the risk.
 
-    '
+    - If the batching functionality is required, implement strict rate limiting and
+    input validation controls to mitigate the risks associated with this vulnerability.
+    Ensure that the rate limiting is applied at the batched query level, not just
+    the individual request level.
+
+    - Implement thorough monitoring and logging mechanisms to detect and investigate
+    any suspicious activity or unusually large batched queries. Regularly review the
+    logs for potential abuse or malicious patterns.
+
+    - Educate your development team on the risks posed by the "GraphQL Array-based
+    Batching" vulnerability and ensure they understand the importance of implementing
+    the necessary security controls.
+
+    - Consider adopting a GraphQL security solution or framework that provides built-in
+    protection against this type of vulnerability, such as schema-based validation
+    or automatic rate limiting.'
   reference:
   - https://stackoverflow.com/questions/62421352/graphql-difference-between-using-alias-versus-multiple-query-objects-when-doin
   - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application

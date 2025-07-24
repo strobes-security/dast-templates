@@ -3,15 +3,31 @@ info:
   name: Cookies without Secure attribute - Detect
   author: vthiery,RJ Coleman
   severity: info
-  description: 'Checks whether cookies in the HTTP response contain the Secure attribute.
-    If the Secure flag is set, it means that the cookie can only be transmitted over
-    HTTPS
+  description: The issue of cookies without the Secure attribute being transmitted
+    over unsecured HTTP connections poses a significant security risk. This vulnerability
+    allows the cookie's contents to be exposed to potential eavesdropping and manipulation
+    by attackers conducting man-in-the-middle (MITM) attacks. By failing to set the
+    Secure attribute on cookies, the application allows them to be sent over an insecure
+    channel, potentially revealing sensitive information or enabling unauthorized
+    access. To address this vulnerability, it is crucial to review all cookie settings
+    and ensure that the Secure attribute is consistently applied. This will instruct
+    the browser to only transmit the cookies over a secure HTTPS connection, mitigating
+    the risk of MITM attacks and protecting the confidentiality and integrity of the
+    application's data.
+  impact: '- Potential exposure of sensitive information contained within the cookies,
+    such as session IDs, authentication tokens, or user data.
 
-    '
-  impact: 'Lack of Secure flag on cookies allows the cookie to be sent over unsecure
-    HTTP, making it vulnerable to man-in-the-middle (MITM) attacks.
+    - Ability for attackers to intercept and potentially modify the cookie contents,
+    leading to unauthorized access or privilege escalation.
 
-    '
+    - Risk of session hijacking, where an attacker can use the intercepted cookie
+    to impersonate a legitimate user and gain unauthorized access to the application.
+
+    - Potential for attackers to conduct man-in-the-middle (MITM) attacks, intercepting
+    and tampering with the communication between the client and the server.
+
+    - Increased vulnerability to other attacks, such as cross-site scripting (XSS)
+    or cross-site request forgery (CSRF), due to the exposure of the cookie contents.'
   remediation: 'Cookies without the Secure attribute can be transmitted over unsecured
     HTTP, exposing the cookie''s contents to potential eavesdropping and manipulation
     by attackers. To address this vulnerability, it is essential to ensure that all

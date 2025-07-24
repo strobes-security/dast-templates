@@ -3,8 +3,29 @@ info:
   name: Missing Content-Security-Policy Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'Content-Security-Policy' header is missing. This helps prevent
-    XSS and other code injection attacks.
+  description: 'The absence of a Content-Security-Policy (CSP) header in the web application
+    represents a security vulnerability. The CSP header is a crucial security mechanism
+    that helps mitigate cross-site scripting (XSS) and other code injection attacks
+    by restricting the sources from which resources can be loaded and the types of
+    content that can be executed within the web application.
+
+
+    Without the CSP header, an attacker could potentially inject malicious scripts
+    into the web page, allowing them to steal sensitive user data, such as login credentials
+    or personal information. The lack of the CSP header could also enable other client-side
+    attacks, such as bypassing security restrictions and gaining access to restricted
+    areas of the web application or sensitive backend systems. Additionally, the web
+    application may be susceptible to a wide range of code injection attacks, including
+    SQL injection and command injection, compromising the overall security of the
+    system.
+
+
+    To address this vulnerability, the web application should be configured to include
+    a well-designed Content-Security-Policy header that specifies the allowed sources
+    for various resource types, such as scripts, styles, images, and fonts. This can
+    be done by setting the appropriate directives in the header, and the policy should
+    be regularly reviewed and updated to adapt to changes in the web application''s
+    functionality and to address any new security risks.'
   metadata:
     max-request: 1
   tags: misconfig,headers,content-security-policy

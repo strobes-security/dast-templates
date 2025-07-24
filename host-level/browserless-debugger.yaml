@@ -3,8 +3,18 @@ info:
   name: Exposed Browserless debugger
   author: ggranjus
   severity: medium
-  description: Browserless instance can be used to make web requests. May worth checking
-    /workspace for juicy files.
+  description: The "Exposed Browserless debugger" vulnerability arises when the debugger
+    interface for the Browserless application is inadvertently left accessible to
+    unauthorized parties. Browserless is a tool that provides headless browser functionality,
+    but its internal debugger can be misused by attackers to make unauthorized web
+    requests, potentially accessing sensitive data or functionality on the targeted
+    system. If the debugger's /workspace directory contains sensitive files or documents,
+    an attacker could attempt to retrieve them. Additionally, the exposed debugger
+    could serve as an entry point for further exploitation, allowing an attacker to
+    bypass security controls, escalate privileges, or move laterally within the network.
+    To mitigate this vulnerability, it is crucial to restrict access to the Browserless
+    debugger, disable it if not required, review and secure the /workspace directory,
+    implement network-level controls, and regularly monitor for suspicious activity.
   reference:
   - https://docs.browserless.io/docs/docker.html#securing-your-instance
   classification:

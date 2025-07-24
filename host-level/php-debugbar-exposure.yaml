@@ -3,11 +3,18 @@ info:
   name: Php Debug Bar - Exposure
   author: ritikchaddha,pdteam,DhiyaneshDk,geeknik
   severity: high
-  description: 'The DebugBar integrates easily into projects and can display profiling
-    data from any part of your application.This template detects exposed PHP Debug
-    Bars by looking for known response bodies and the `phpdebugbar-id` in headers.
-
-    '
+  description: The PHP Debug Bar, a tool intended for development and testing purposes,
+    can pose a significant security risk if inadvertently exposed in a production
+    environment. This vulnerability can allow an attacker to gain access to sensitive
+    information, such as database credentials, API keys, or other confidential data,
+    that may be displayed through the Debug Bar. Additionally, the attacker could
+    potentially execute arbitrary code on the server by leveraging the debug functionality
+    and vulnerabilities present in the tool. This exposure could also enable the attacker
+    to bypass security controls and access restricted areas of the application, escalating
+    their privileges and gaining unauthorized access to the system. The information
+    revealed through the exposed Debug Bar, including details about the application's
+    architecture, technology stack, and other sensitive configurations, could be exploited
+    by the attacker to plan and execute further attacks against the target system.
   reference:
   - https://hackerone.com/reports/1883806
   - http://phpdebugbar.com/

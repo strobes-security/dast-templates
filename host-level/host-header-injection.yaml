@@ -3,9 +3,20 @@ info:
   name: Host Header Injection
   author: princechaddha
   severity: info
-  description: HTTP header injection is a general class of web application security
-    vulnerability which occurs when Hypertext Transfer Protocol headers are dynamically
-    generated based on user input.
+  description: The issue of "Host Header Injection" arises from the dynamic generation
+    of HTTP headers based on user input. Attackers can manipulate the Host header
+    to conduct a variety of malicious activities, such as server-side request forgery
+    (SSRF), bypassing security controls, phishing, and gaining unauthorized access
+    to sensitive areas of the web application. This vulnerability stems from the application's
+    failure to properly validate and sanitize the user-supplied Host header, allowing
+    attackers to inject malicious content and leverage it for their own nefarious
+    purposes. Successful exploitation of this vulnerability can enable attackers to
+    access internal resources, redirect users to malicious websites, bypass authentication
+    mechanisms, and potentially gain elevated privileges within the web application.
+    Addressing this critical security vulnerability requires a comprehensive approach,
+    including validating and sanitizing all user input, implementing strict URL validation
+    and whitelisting, using secure, server-side generated Host headers, and regularly
+    reviewing and updating the application's security measures.
   reference:
   - https://portswigger.net/web-security/host-header
   - https://portswigger.net/web-security/host-header/exploiting
