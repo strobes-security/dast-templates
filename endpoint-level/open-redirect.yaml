@@ -168,6 +168,35 @@ http:
           - "https?://" # Replace HTTP URLs with alternatives
         fuzz:
           - "https://{{redirect}}"
+    
+      - part: path
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "https://{{redirect}}"
+  
+      - part: body
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "https://{{redirect}}"
+
+      - part: header
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "https://{{redirect}}"
+
+      - part: cookie
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "https://{{redirect}}"
+
 
     stop-at-first-match: true
     matchers-condition: and

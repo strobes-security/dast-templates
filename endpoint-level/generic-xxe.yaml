@@ -39,6 +39,30 @@ http:
         fuzz:
           - "{{xxe}}"
 
+      - part: body
+        keys-regex:
+          - "(.*?)xml(.*?)"
+        fuzz:
+          - "{{xxe}}"
+
+      - part: body
+        values:
+          - "(<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>"
+        fuzz:
+          - "{{xxe}}"
+
+      - part: header
+        keys-regex:
+          - "(.*?)xml(.*?)"
+        fuzz:
+          - "{{xxe}}"
+
+      - part: header
+        values:
+          - "(<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>"
+        fuzz:
+          - "{{xxe}}"
+
     stop-at-first-match: true
     matchers:
       - type: regex

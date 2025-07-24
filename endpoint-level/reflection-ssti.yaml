@@ -47,6 +47,30 @@ http:
         fuzz:
           - "{{ssti}}"
 
+      - part: body
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{ssti}}"
+
+      - part: header
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{ssti}}"
+
+      - part: cookie
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{ssti}}"
+
+      - part: path
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{ssti}}"
+
     stop-at-first-match: true
     matchers:
       - type: word

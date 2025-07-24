@@ -273,6 +273,35 @@ http:
         fuzz:
           - "{{redirect}}"
 
+
+      - part: path
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "{{redirect}}"
+  
+      - part: body
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "{{redirect}}"
+
+      - part: header
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "{{redirect}}"
+
+      - part: cookie
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+        fuzz:
+          - "{{redirect}}"
+          
     stop-at-first-match: true
     matchers-condition: and
     matchers:

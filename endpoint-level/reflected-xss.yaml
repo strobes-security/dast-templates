@@ -25,7 +25,25 @@ http:
         - "\"><{{first}}>"
 
     fuzzing:
+      - part: body
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{reflection}}"
+
       - part: query
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{reflection}}"
+
+      - part: header
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{reflection}}"
+
+      - part: cookie
         type: postfix
         mode: single
         fuzz:

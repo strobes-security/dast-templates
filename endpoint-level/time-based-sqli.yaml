@@ -43,6 +43,18 @@ http:
         fuzz:
           - "{{injection}}"
 
+      - part: body
+        type: replace
+        mode: single
+        fuzz:
+          - "{{injection}}"
+
+      - part: header
+        type: replace
+        mode: single
+        fuzz:
+          - "{{injection}}"
+          
     stop-at-first-match: true
     matchers:
       - type: dsl

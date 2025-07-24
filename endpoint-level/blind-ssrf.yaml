@@ -32,6 +32,38 @@ http:
         fuzz:
           - "https://{{ssrf}}"
 
+      - part: body
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+          - "\\./.*" # Replace path parameters with ssrf payloads
+        fuzz:
+          - "https://{{ssrf}}"
+
+      - part: path
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+          - "\\./.*" # Replace path parameters with ssrf payloads
+        fuzz:
+          - "https://{{ssrf}}"
+
+      - part: cookie
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+          - "\\./.*" # Replace path parameters with ssrf payloads
+        fuzz:
+          - "https://{{ssrf}}"
+
+      - part: header
+        mode: single
+        values:
+          - "https?://" # Replace HTTP URLs with alternatives
+          - "\\./.*" # Replace path parameters with ssrf payloads
+        fuzz:
+          - "https://{{ssrf}}"
+
     stop-at-first-match: true
     matchers:
       - type: word
