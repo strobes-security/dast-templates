@@ -3,9 +3,20 @@ info:
   name: DNS DMARC - Detect
   author: juliosmelo
   severity: info
-  description: 'DNS DMARC information was detected.
-
-    '
+  description: The "DNS DMARC - Detect" vulnerability allows an attacker to gather
+    information about the organization's email security configuration, specifically
+    its DMARC (Domain-based Message Authentication, Reporting, and Conformance) policies.
+    This could enable the attacker to conduct more targeted phishing or email spoofing
+    attacks, increasing the chances of successful social engineering attempts. Additionally,
+    the attacker could use the DMARC information to map the organization's email infrastructure,
+    potentially identifying other vulnerabilities or entry points for further exploitation.
+    The exposure of DMARC information could also lead to reputational damage and a
+    loss of trust in the organization's email security measures, making it more difficult
+    to effectively communicate with customers, partners, and stakeholders. To address
+    this vulnerability, the organization should ensure that DMARC records are properly
+    configured and secured, implement access controls and logging mechanisms, consider
+    deploying a DMARC monitoring and reporting solution, educate employees, and collaborate
+    with email service providers and partners to consistently enforce DMARC policies.
   reference:
   - https://dmarc.org/
   - https://dmarc.org/wiki/FAQ#Why_is_DMARC_important.3F

@@ -3,9 +3,16 @@ info:
   name: Backup Directory Listing - Detect
   author: DhiyaneshDK
   severity: low
-  description: 'Backup Directory Listing folder was detected.
-
-    '
+  description: The "Backup Directory Listing - Detect" vulnerability occurs when an
+    attacker can access and list the contents of a web application's backup directory.
+    This can potentially expose sensitive files and data stored in the backup directory,
+    such as configuration files, source code, or other proprietary information. The
+    attacker can then use this information to gain a better understanding of the web
+    application's architecture and infrastructure, potentially leading to the discovery
+    and exploitation of other vulnerabilities. This vulnerability poses a significant
+    risk as it can enable unauthorized access to sensitive data, increase the attack
+    surface, and potentially result in remote code execution or other high-impact
+    compromises if the backup directory contains exploitable files.
   reference:
   - https://www.invicti.com/learn/directory-listing/
   - https://hackerone.com/reports/684838

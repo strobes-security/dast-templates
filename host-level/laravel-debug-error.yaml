@@ -3,7 +3,23 @@ info:
   name: Larvel Debug Method Enabled
   author: dhiyaneshDK
   severity: medium
-  description: Larvel Debug method is enabled.
+  description: The described vulnerability relates to the unintentional enablement
+    of the Larvel framework's debug functionality in a production environment. This
+    can have severe security implications, as the debug mode may expose sensitive
+    information, such as database credentials, API keys, and other confidential details,
+    that an attacker could leverage to launch further attacks or compromise the system.
+    Additionally, the debug mode may allow the attacker to execute arbitrary PHP code
+    on the server, potentially leading to remote code execution (RCE) and complete
+    control of the system. The vulnerability also enables the bypassing of authentication
+    mechanisms, granting the attacker access to restricted areas of the application
+    and potentially compromising user accounts and data. Furthermore, the attacker
+    may be able to dump the application's entire database, including user information,
+    orders, and other sensitive data, leading to a significant data breach. Finally,
+    the attacker could modify the application's code, inject malicious content, or
+    deface the website, causing reputational damage and service disruption. To mitigate
+    this vulnerability, the Larvel Debug mode must be disabled in the production environment,
+    and the application's code and configuration should be reviewed to ensure that
+    no other debug-related features or settings are enabled.
   metadata:
     max-request: 1
   tags: debug,laravel,misconfig

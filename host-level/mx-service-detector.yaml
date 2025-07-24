@@ -3,8 +3,21 @@ info:
   name: Email Service Detector
   author: binaryfigments
   severity: info
-  description: An email service was detected. Check the email service or spam filter
-    that is used for a domain.
+  description: The "Email Service Detector" vulnerability allows an attacker to potentially
+    gain unauthorized access to sensitive email communications and information exchanged
+    through the vulnerable email service. By exploiting this issue, the attacker could
+    also leverage the email service to launch phishing attacks or distribute malware
+    to the organization's employees. Additionally, the attacker could disrupt the
+    organization's email operations by tampering with or denying access to the email
+    service. Furthermore, the attacker could gather intelligence about the organization's
+    email infrastructure, which could be used to plan further attacks. In the worst-case
+    scenario, the attacker could gain unauthorized access to the email service's administrative
+    interface, allowing them to control and misuse the system. To address this vulnerability,
+    the organization should review the email service and spam filter configurations,
+    implement robust access controls and authentication mechanisms, regularly monitor
+    and audit the email service's activities, keep the service and associated software
+    up-to-date with the latest security patches, and implement email security best
+    practices.
   classification:
     cwe-id: CWE-200
   metadata:

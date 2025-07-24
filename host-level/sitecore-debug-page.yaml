@@ -3,7 +3,18 @@ info:
   name: SiteCore Debug Page
   author: dhiyaneshDK
   severity: low
-  description: SiteCore debug page is exposed.
+  description: The SiteCore debug page is a feature that can expose sensitive system
+    information and potentially allow for unauthorized access and exploitation. When
+    left accessible, this debug page can provide attackers with details about the
+    server configuration, software versions, and potentially even database connection
+    details. Malicious actors could leverage vulnerabilities in the debug page to
+    execute arbitrary code on the server, leading to a complete compromise of the
+    system. Additionally, unauthorized users could gain access to the SiteCore administration
+    interface, enabling them to modify website content, user accounts, and other critical
+    system settings. The exposure of the debug page could also be used by attackers
+    to map out the internal network infrastructure and identify other potentially
+    vulnerable systems within the organization, posing a significant risk to data
+    confidentiality and overall system security.
   metadata:
     max-request: 1
     shodan-query: http.title:"Welcome to Sitecore"

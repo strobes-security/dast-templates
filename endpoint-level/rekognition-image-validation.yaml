@@ -3,7 +3,20 @@ info:
   name: Rekognition Image Validation Debug UI Panel - Detect
   author: tess
   severity: info
-  description: Rekognition Image Validation UI panel was detected.
+  description: The "Rekognition Image Validation Debug UI Panel - Detect" vulnerability
+    allows an attacker to potentially access and manipulate the Rekognition Image
+    Validation Debug UI panel, which could enable them to bypass image validation
+    checks and upload unauthorized or malicious images. This could lead to a breach
+    of confidentiality or integrity, as the attacker could gain access to sensitive
+    data or functionality within the Rekognition system that is intended for debugging
+    or internal use. Additionally, the presence of the debug UI panel could indicate
+    a lack of proper access controls or segmentation within the application, potentially
+    making it easier for an attacker to escalate privileges and gain unauthorized
+    access to other parts of the system. If the debug UI panel is accessible from
+    the internet, an attacker could potentially exploit it remotely to gain a foothold
+    in the system and launch further attacks. The exposure of the debug UI panel could
+    also indicate broader security weaknesses or poor secure coding practices within
+    the application, which could lead to the discovery of additional vulnerabilities.
   classification:
     cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
     cvss-score: 0

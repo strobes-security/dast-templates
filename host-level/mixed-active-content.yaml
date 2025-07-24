@@ -3,10 +3,19 @@ info:
   name: Mixed Active Content
   author: Liwermor
   severity: info
-  description: 'This check detects if there are any active content loaded over HTTP
-    instead of HTTPS.
-
-    '
+  description: The "Mixed Active Content" vulnerability occurs when a webpage or application
+    loads active content, such as scripts, plugins, or other resources, over an insecure
+    HTTP connection, while the main page is served over a secure HTTPS connection.
+    This mismatch in security protocols can enable an attacker to intercept and modify
+    the active content, potentially allowing them to execute arbitrary code on the
+    victim's system, steal sensitive information, or launch other types of client-side
+    attacks. The vulnerability can also enable the attacker to bypass security mechanisms
+    implemented by the browser, such as the same-origin policy, leading to cross-site
+    scripting (XSS) attacks or session hijacking. To address this issue, organizations
+    should ensure that all active content is loaded over a secure HTTPS connection,
+    implement a Content Security Policy (CSP) to restrict the sources of active content,
+    and regularly test their applications to identify and address any instances of
+    mixed active content.
   reference:
   - https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
   - https://portswigger.net/kb/issues/01000400_mixed-content

@@ -3,12 +3,44 @@ info:
   name: Laravel Debug Enabled
   author: notsoevilweasel
   severity: medium
-  description: 'Laravel with APP_DEBUG set to true is prone to show verbose errors.
+  description: The vulnerability described relates to the improper configuration of
+    Laravel's debug mode. When enabled, this feature can inadvertently disclose sensitive
+    information, such as database connection details, file paths, and stack traces,
+    which an attacker could leverage to gain further insights into the application's
+    internals and potentially execute arbitrary PHP code on the server. This could
+    lead to a remote code execution vulnerability, compromising the system and enabling
+    the attacker to plan and carry out more targeted attacks. The verbose error messages
+    generated in debug mode may also reveal sensitive information that could be exploited
+    to gain unauthorized access. To remediate this issue, it is recommended to disable
+    Laravel's debug mode by setting the APP_DEBUG configuration parameter to false.
+  remediation: 'To address the "Laravel Debug Enabled" vulnerability, it is crucial
+    to ensure that the debug mode is disabled in the production environment. When
+    debug mode is enabled, it can inadvertently expose sensitive information, such
+    as database connection details, file paths, and stack traces, which an attacker
+    could leverage to gain further insights into the application''s internals and
+    potentially execute arbitrary PHP code on the server. This could lead to a remote
+    code execution vulnerability, compromising the system and enabling the attacker
+    to carry out more targeted attacks.
 
-    '
-  remediation: 'Disable Laravel''s debug mode by setting APP_DEBUG to false.
 
-    '
+    To remediate this issue, follow these steps:
+
+
+    - Verify the current configuration of the Laravel application and ensure that
+    the `APP_DEBUG` environment variable is set to `false` in the production environment.
+
+    - Review the application''s configuration files (e.g., `.env` file) and ensure
+    that the `APP_DEBUG` parameter is set to `false`.
+
+    - Implement a process to regularly review and validate the production environment''s
+    configuration to prevent the accidental re-enabling of debug mode.
+
+    - Implement logging and monitoring mechanisms to detect any unexpected changes
+    in the application''s configuration or behavior that could indicate a potential
+    compromise.
+
+    - Educate the development team on the importance of properly configuring the production
+    environment and the risks associated with leaving debug mode enabled.'
   metadata:
     max-request: 1
   tags: debug,laravel,misconfig

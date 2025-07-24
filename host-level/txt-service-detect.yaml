@@ -3,9 +3,28 @@ info:
   name: DNS TXT Service - Detect
   author: rxerium
   severity: info
-  description: 'Finding the services companies use via their TXT records.
+  description: 'In this report, the "DNS TXT Service - Detect" vulnerability refers
+    to the potential exposure of sensitive information about the target organization
+    through the analysis of the domain''s TXT records. TXT records are a type of Domain
+    Name System (DNS) resource record used to store miscellaneous information about
+    a domain, and can inadvertently contain details such as email server configurations,
+    domain registration data, and other organizational information.
 
-    '
+
+    An attacker could leverage this vulnerability to gather intelligence about the
+    target, potentially identifying subdomains, services, and employee contact details
+    that are not publicly known. This information could be used to enhance the attacker''s
+    understanding of the target''s infrastructure and assist in the planning and execution
+    of more sophisticated attacks, including social engineering efforts. Additionally,
+    the exposed data could be used to obtain a better overall picture of the target
+    organization, increasing the effectiveness of subsequent attack phases.
+
+
+    To address this vulnerability, the organization should review all TXT records
+    associated with their domain, identify and remove any sensitive information, and
+    implement a process to regularly monitor and secure TXT record modifications.
+    Additionally, educating employees on the appropriate use of TXT records can help
+    prevent the inadvertent exposure of confidential data.'
   reference:
   - https://www.abenezer.ca/blog/services-companies-use-txt-records
   metadata:

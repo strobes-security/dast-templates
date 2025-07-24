@@ -3,10 +3,20 @@ info:
   name: SOA Record Service - Detection
   author: rxerium
   severity: info
-  description: 'Detects which domain provider a domain is using, detected through
-    SOA records
-
-    '
+  description: The "SOA Record Service - Detection" vulnerability allows an attacker
+    to obtain sensitive information about the target domain's infrastructure, including
+    details such as the domain registrar, primary and secondary name servers, and
+    email administrators. This information can be leveraged to launch more targeted
+    attacks, such as social engineering or credential guessing against key personnel,
+    as well as to gain a better understanding of the target's network topology, which
+    could aid in the planning and execution of further penetration testing activities
+    or malicious operations. The disclosure of these sensitive details about the target
+    organization's domain management practices could also be used to undermine their
+    security posture or reputation. To mitigate this vulnerability, organizations
+    should implement measures to protect sensitive information disclosed through SOA
+    records, such as reviewing and configuring domain registration settings, implementing
+    appropriate DNS zone configurations, educating personnel, and regularly monitoring
+    and auditing domain and DNS configurations.
   reference:
   - https://www.cloudflare.com/learning/dns/dns-records/dns-soa-record/
   metadata:

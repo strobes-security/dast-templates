@@ -3,8 +3,20 @@ info:
   name: Missing X-Frame-Options Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'X-Frame-Options' header is missing. This prevents clickjacking
-    attacks by restricting framing.
+  description: The "Missing X-Frame-Options Header" vulnerability arises when a web
+    application fails to include the crucial X-Frame-Options header in its HTTP responses.
+    This header is a critical security mechanism that helps prevent clickjacking attacks
+    by restricting the ability to embed the website within an attacker's website.
+    Without this header, the affected website can be easily integrated into a malicious
+    webpage, enabling the attacker to overlay their own content and trick users into
+    performing unintended actions, such as clicking on buttons or links. This could
+    expose sensitive information displayed on the vulnerable website, including login
+    forms, leading to potential data theft. Furthermore, the vulnerability could be
+    exploited to carry out unauthorized actions on the user's behalf, such as making
+    purchases or transferring funds, without their knowledge or consent. Addressing
+    this issue by implementing the appropriate X-Frame-Options header is essential
+    to safeguard the website and its users against clickjacking attacks and associated
+    security risks.
   metadata:
     max-request: 1
   tags: misconfig,headers,x-frame-options

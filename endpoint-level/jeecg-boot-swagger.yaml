@@ -3,7 +3,33 @@ info:
   name: Jeecg Boot Swagger Bootstrap UI - Detect
   author: ritikchaddha
   severity: info
-  description: Jeecg Swagger Bootstrap UI exposed.
+  description: 'The "Jeecg Boot Swagger Bootstrap UI - Detect" vulnerability allows
+    an attacker to access the Swagger UI interface, which provides detailed information
+    about the application''s API endpoints, request and response structures, and other
+    sensitive details. This exposes the application to several security risks, as
+    the attacker can potentially exploit vulnerabilities in the API endpoints, perform
+    unauthorized actions, gather intelligence for more targeted attacks, and discover
+    additional vulnerabilities in the application or related components.
+
+
+    The Swagger UI is designed to provide a user-friendly interface for developers
+    to explore and interact with the application''s APIs. However, leaving the Swagger
+    UI accessible in a production environment can inadvertently reveal sensitive information
+    and increase the attack surface. Attackers can leverage the Swagger UI to gain
+    a deeper understanding of the application''s functionality and potentially find
+    and exploit vulnerabilities, leading to unauthorized access, data disclosure,
+    or even remote code execution.
+
+
+    To mitigate this vulnerability, it is recommended to either disable the Swagger
+    UI in the production environment or implement strict access controls, such as
+    authentication and authorization mechanisms, to limit access to authorized users
+    or IP addresses. Additionally, the API documentation and endpoints exposed through
+    the Swagger UI should be regularly reviewed and updated to remove or restrict
+    any unnecessary or sensitive information. Implementing other security measures,
+    such as rate-limiting or additional security controls, can further reduce the
+    risk of automated attacks or brute-force attempts against the Swagger UI and API
+    endpoints.'
   classification:
     cpe: cpe:2.3:a:jeecg:jeecg-boot:*:*:*:*:*:*:*:*
   metadata:

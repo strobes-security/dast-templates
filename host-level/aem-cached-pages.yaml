@@ -3,7 +3,19 @@ info:
   name: Invalidate / Flush Cached Pages on AEM
   author: hetroublemakr
   severity: low
-  description: Cached Pages on AEM can be Flushed.
+  description: The vulnerability allows an attacker to invalidate or flush cached
+    pages on the Adobe Experience Manager (AEM) server. By exploiting this issue,
+    an attacker could expose sensitive or confidential information that was previously
+    cached, as well as force the server to generate and serve fresh content, which
+    could reveal additional vulnerabilities or sensitive information. This vulnerability
+    could also be leveraged to disrupt the normal operation of the AEM server, leading
+    to potential denial-of-service (DoS) attacks or other service disruptions. Furthermore,
+    an attacker could use this vulnerability to gain deeper insights into the AEM
+    server's configuration, potentially uncovering additional weaknesses that could
+    be exploited for further malicious activities. To mitigate this vulnerability,
+    organizations should implement strict access controls, enforce comprehensive caching
+    policies, utilize cache segmentation, implement monitoring and alerting mechanisms,
+    and regularly review and update the caching configurations in the AEM server.
   reference:
   - https://twitter.com/AEMSecurity/status/1244965623689609217
   classification:

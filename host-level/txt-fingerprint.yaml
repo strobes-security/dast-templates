@@ -3,8 +3,20 @@ info:
   name: DNS TXT Record Detected
   author: pdteam
   severity: info
-  description: A DNS TXT record was detected. The TXT record lets a domain admin leave
-    notes on a DNS server.
+  description: The "DNS TXT Record Detected" vulnerability refers to the presence
+    of a text (TXT) record within the Domain Name System (DNS) configuration that
+    could be exploited by an attacker. TXT records are designed to store arbitrary
+    data, but they can be abused to store and retrieve sensitive information, host
+    malicious infrastructure, or deliver phishing payloads. The existence of such
+    a TXT record may indicate inadequate security controls or a lack of monitoring,
+    making the target organization more vulnerable to further attacks. Attackers could
+    leverage the TXT record to maintain persistent access to the network, gather intelligence
+    about the infrastructure, or trick users into divulging credentials or executing
+    malicious code. To address this vulnerability, it is crucial to review the DNS
+    configuration, remove any unnecessary or suspicious TXT records, establish strict
+    record management policies, enhance network monitoring and logging, and provide
+    training to relevant personnel on the risks associated with TXT records and the
+    importance of maintaining a secure DNS environment.
   reference:
   - https://www.netspi.com/blog/technical/network-penetration-testing/analyzing-dns-txt-records-to-fingerprint-service-providers/
   classification:

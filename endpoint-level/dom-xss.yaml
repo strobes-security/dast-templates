@@ -1,51 +1,97 @@
 id: dom-xss
-
 info:
   name: DOM Cross Site Scripting
   author: theamanrawat,AmirHossein Raeisi,dwisiswant0
   severity: medium
-  description: |
-    Detects DOM-based Cross Site Scripting (XSS) vulnerabilities.
-  impact: |
-    Allows attackers to execute malicious scripts in the victim's browser.
-  remediation: |
-    Sanitize and validate user input to prevent script injection.
+  description: DOM Cross Site Scripting (DOM XSS) is a type of web application vulnerability
+    that arises when user-supplied data is improperly handled and incorporated into
+    the Document Object Model (DOM) of a web page. This can allow attackers to inject
+    malicious scripts that execute within the victim's browser, granting the attacker
+    the ability to perform a wide range of malicious actions, such as stealing sensitive
+    information, hijacking user sessions, or redirecting the user to a malicious website.
+    DOM XSS vulnerabilities occur when client-side scripts dynamically update the
+    DOM using unsanitized user input, enabling the injection of arbitrary HTML or
+    JavaScript code. This vulnerability is particularly concerning as it can be exploited
+    without any server-side interaction, making it more difficult to detect and mitigate.
+    Addressing DOM XSS requires thorough input validation and sanitization on the
+    client-side, as well as the implementation of effective security measures to ensure
+    the integrity and safety of the web application's DOM.
+  impact: '- An attacker could inject malicious scripts that execute within the victim''s
+    browser, granting the attacker the ability to steal sensitive information, such
+    as session cookies, login credentials, or other personal data.
+
+    - The attacker could hijack the user''s session, allowing them to perform unauthorized
+    actions on behalf of the victim, such as making purchases, modifying account information,
+    or accessing restricted areas of the application.
+
+    - The attacker could redirect the user to a malicious website, potentially leading
+    to further exploitation, such as the installation of malware or the collection
+    of additional sensitive information.
+
+    - The attacker could use the injected scripts to gather information about the
+    user''s system, such as browser version, operating system, or installed plugins,
+    which could be used to further refine the attack.
+
+    - The attacker could leverage the DOM XSS vulnerability to bypass security controls,
+    such as Cross-Site Request Forgery (CSRF) protection, and perform actions that
+    the user would not normally be able to.'
+  remediation: 'Addressing DOM Cross Site Scripting (DOM XSS) vulnerabilities requires
+    a comprehensive approach to client-side input validation and sanitization. Developers
+    must ensure that all user-supplied data is properly sanitized and encoded before
+    being dynamically inserted into the Document Object Model (DOM) of a web page.
+    This process should be implemented at multiple layers of the application, including
+    on the client-side and on the server-side, to provide robust protection against
+    this type of vulnerability.
+
+
+    - Implement strict input validation and sanitization: Thoroughly validate and
+    sanitize all user input before using it to update the DOM. Use a well-maintained
+    and actively maintained library or framework to perform this task, such as DOMPurify
+    or similar solutions.
+
+    - Avoid direct manipulation of the DOM: Minimize the use of direct DOM manipulation
+    with user-supplied data. Instead, consider using templating engines or other secure
+    methods to update the DOM.
+
+    - Leverage Content Security Policy (CSP): Implement a robust Content Security
+    Policy to restrict the sources from which resources (such as scripts, styles,
+    and iframes) can be loaded, reducing the risk of successful DOM XSS attacks.
+
+    - Educate developers on secure coding practices: Provide training and guidance
+    to developers on the proper techniques for handling user input and updating the
+    DOM securely, emphasizing the importance of input validation and sanitization.
+
+    - Implement regular security testing: Regularly conduct security assessments,
+    such as penetration testing and dynamic application security testing (DAST), to
+    identify and address any DOM XSS vulnerabilities within the application.'
   tags: xss,dom,dast,headless
-
 variables:
-  num: "{{rand_int(10000, 99999)}}"
-
+  num: '{{rand_int(10000, 99999)}}'
 headless:
-  - steps:
-      - action: navigate
-        args:
-          url: "{{BaseURL}}"
-
-      - action: waitdialog
-        name: reflected
-
-    payloads:
-      reflection:
-        - "'\"><script>alert({{num}})</script>"
-
-    fuzzing:
-      - part: query
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{url_encode(reflection)}}"
-
-      - part: path
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{reflection}}"
-
-    stop-at-first-match: true
-    matchers:
-      - type: dsl
-        dsl:
-          - reflected == true
-          - reflected_message == num
-        condition: and
-# digest: 4a0a00473045022100ee6ce9a1a1571d06b368c39579f8371f3346ca6291c2faf59b579f471887a2d1022013ef7113fdaf3306f2fcdeaa0c2ebcaf1d66258a417a1f1a807c207ee6cf4316:922c64590222798bb761d5b6d8e72950
+- steps:
+  - action: navigate
+    args:
+      url: '{{BaseURL}}'
+  - action: waitdialog
+    name: reflected
+  payloads:
+    reflection:
+    - '''"><script>alert({{num}})</script>'
+  fuzzing:
+  - part: query
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{url_encode(reflection)}}'
+  - part: path
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{reflection}}'
+  stop-at-first-match: true
+  matchers:
+  - type: dsl
+    dsl:
+    - reflected == true
+    - reflected_message == num
+    condition: and

@@ -3,9 +3,26 @@ info:
   name: SPF Record - Detection
   author: rxerium
   severity: info
-  description: 'An SPF TXT record was detected
+  description: 'The "SPF Record - Detection" vulnerability involves the lack of a
+    properly configured Sender Policy Framework (SPF) record for a domain. SPF is
+    a mechanism that allows domain owners to specify the authorized senders for their
+    domain, enabling email receivers to verify the legitimacy of incoming emails and
+    prevent email spoofing attacks.
 
-    '
+
+    The absence of a robust SPF record can allow attackers to impersonate legitimate
+    users or organizations by sending fraudulent emails from unauthorized sources.
+    This can undermine email security and trust, leading to data breaches, financial
+    fraud, or other malicious activities. Additionally, the use of the organization''s
+    domain for such malicious purposes can result in reputational damage.
+
+
+    To address this vulnerability, organizations should configure a comprehensive
+    SPF record that includes all authorized senders for their domain, such as their
+    own email servers, any third-party email services, and any other entities that
+    may legitimately send emails on their behalf. By implementing a well-designed
+    SPF record and keeping it up-to-date, organizations can enhance their email security
+    and better protect their users and customers from fraudulent activities.'
   reference:
   - https://www.mimecast.com/content/how-to-create-an-spf-txt-record
   metadata:

@@ -3,7 +3,19 @@ info:
   name: Springboot Actuator Caches
   author: ELSFA7110
   severity: low
-  description: The caches endpoint provides access to the application's caches.
+  description: The "Springboot Actuator Caches" vulnerability arises from the potential
+    exposure of sensitive information stored within the application's caching system.
+    This can occur when the caching mechanism, often used to improve performance and
+    efficiency, is not properly secured or configured. Malicious actors could leverage
+    this vulnerability to retrieve confidential data, such as authentication tokens,
+    API keys, or other sensitive information, which could then be used to conduct
+    further attacks, such as unauthorized access, service disruptions, or data manipulation.
+    Additionally, the caches could reveal insights into the application's internal
+    structure and functionality, enabling more sophisticated attack planning. Addressing
+    this vulnerability requires a comprehensive approach, including restricting access
+    to the caching endpoint, removing or anonymizing sensitive data stored in the
+    caches, and implementing robust logging and monitoring mechanisms to detect and
+    respond to any unauthorized activities.
   reference:
   - https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/#caches
   metadata:

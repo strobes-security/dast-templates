@@ -3,7 +3,18 @@ info:
   name: AWS EC2 Detection
   author: melbadry9
   severity: info
-  description: Amazon Elastic Compute Cloud (EC2) detected.
+  description: The "AWS EC2 Detection" vulnerability allows an attacker to identify
+    the existence of an Amazon Elastic Compute Cloud (EC2) instance, potentially revealing
+    information about the target's infrastructure and web services. This issue arises
+    due to the inherent visibility of EC2 instances, which can be detected through
+    various reconnaissance techniques, such as network scanning or cloud service enumeration.
+    By gaining knowledge of the target's EC2 instance, the attacker may be able to
+    gather insights into the organization's cloud-based resources and architecture,
+    which could aid in further reconnaissance and attack planning. Additionally, the
+    identified EC2 instance could be leveraged as a stepping stone to explore potential
+    vulnerabilities in the underlying operating system, applications, or AWS services,
+    potentially leading to unauthorized access, data modification, deletion, or theft,
+    and compromising the confidentiality, integrity, or availability of critical information.
   reference:
   - https://aws.amazon.com/ec2/
   - https://infosecwriteups.com/dangling-dns-aws-ec2-e2d801701e8

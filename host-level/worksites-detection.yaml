@@ -3,7 +3,19 @@ info:
   name: Worksites.net Service Detection
   author: melbadry9
   severity: info
-  description: A worksites.net service was detected.
+  description: The "Worksites.net Service Detection" vulnerability allows attackers
+    to gather information about the target organization's infrastructure, including
+    internal network infrastructure, services, and applications. This can enable them
+    to identify potential attack vectors and plan more targeted attacks. Attackers
+    could leverage the knowledge of the worksites.net service to bypass security controls,
+    gain unauthorized access to the organization's systems or data, and use it as
+    an entry point to launch further attacks, such as privilege escalation or lateral
+    movement within the network. Additionally, the information gathered from the worksites.net
+    service detection could be used to create more sophisticated social engineering
+    attacks, targeting specific individuals or departments within the organization.
+    To address this vulnerability, it is essential to remove or block access to the
+    worksites.net service from the organization's network, implement network monitoring
+    and intrusion detection systems, and provide security awareness training to employees.
   reference:
   - https://blog.melbadry9.xyz/dangling-dns/xyz-services/ddns-worksites
   classification:

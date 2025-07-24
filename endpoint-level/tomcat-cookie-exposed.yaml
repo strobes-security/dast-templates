@@ -3,7 +3,17 @@ info:
   name: Tomcat Cookie Exposed
   author: tess,dk999
   severity: low
-  description: Tomcat Cookie is exposed.
+  description: The "Tomcat Cookie Exposed" vulnerability refers to the potential disclosure
+    of sensitive information contained within Tomcat's session cookies. This can occur
+    when the Tomcat application fails to properly secure or encrypt the cookies, allowing
+    an attacker to intercept and access the data they hold. This could include session
+    identifiers, user credentials, or other confidential information that could be
+    exploited to hijack authenticated user sessions, gain unauthorized access to the
+    Tomcat server, or launch further attacks against the affected users or organization.
+    To mitigate this vulnerability, it is crucial to implement robust cookie security
+    measures, such as encryption, secure cookie settings, and adherence to session
+    management best practices, as well as regularly reviewing and updating the Tomcat
+    configuration to maintain a strong security posture.
   reference:
   - https://medium.com/bugbountywriteup/apache-example-servlet-leads-to-61a2720cac20
   metadata:

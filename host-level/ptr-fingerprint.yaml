@@ -3,7 +3,19 @@ info:
   name: PTR Detected
   author: pdteam
   severity: info
-  description: A PTR record was detected. A PTR record refers to the domain name.
+  description: The "PTR Detected" vulnerability refers to the potential exposure of
+    sensitive information through the domain's Reverse DNS (rDNS) or Pointer (PTR)
+    record. This record can reveal details about the organization or company behind
+    the domain, the server hosting the domain, and potentially other related domains.
+    An attacker could leverage this information to launch more targeted attacks, such
+    as phishing campaigns or social engineering attempts, against the organization
+    or individuals associated with the domain. Additionally, the exposed information
+    could be used to map out the infrastructure of the organization, potentially identifying
+    vulnerabilities or entry points for further exploitation. To address this vulnerability,
+    the organization should review and properly configure the PTR record to limit
+    the amount of sensitive information that is publicly available, implement network
+    security controls to restrict access to the infrastructure, and regularly assess
+    and address any additional security weaknesses that could be exploited by attackers.
   classification:
     cwe-id: CWE-200
   metadata:

@@ -3,9 +3,26 @@ info:
   name: BIMI Record - Detection
   author: rxerium
   severity: info
-  description: 'A BIMI record was detected
+  description: 'The "BIMI Record - Detection" vulnerability refers to a potential
+    security issue related to the Brand Indicators for Message Identification (BIMI)
+    email standard. BIMI is a protocol that allows organizations to display a trusted
+    visual indicator, such as a logo, within the email client to verify the sender''s
+    identity and build trust with recipients.
 
-    '
+
+    However, an attacker could leverage the BIMI record to conduct phishing and email
+    spoofing attacks, potentially deceiving recipients into believing that the emails
+    originate from a trusted and legitimate source. By exploiting the BIMI record,
+    the attacker could enhance the credibility of malicious emails, making them more
+    likely to bypass security measures and be accepted by users. This could lead to
+    unauthorized access to sensitive information, the distribution of malware, or
+    reputational damage to the affected organization.
+
+
+    To address this vulnerability, organizations should verify the legitimacy and
+    ownership of the BIMI record, review its content for any misleading or deceptive
+    elements, implement robust email authentication protocols, educate employees on
+    the risks, and regularly monitor and review their email security posture.'
   reference:
   - https://postmarkapp.com/blog/what-the-heck-is-bimi
   metadata:

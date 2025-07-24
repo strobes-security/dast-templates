@@ -3,7 +3,18 @@ info:
   name: Public Swagger API - Detect
   author: pdteam,c-sh0,AmirHossein Raeisi
   severity: info
-  description: Public Swagger API was detected.
+  description: The exposure of the Swagger API documentation presents a significant
+    security concern for the web application. The availability of this API metadata
+    can enable an attacker to enumerate and gather sensitive information about the
+    application's endpoints, parameters, and data structures. This information could
+    then be leveraged to discover and exploit vulnerabilities within the API, such
+    as improper input validation, authorization flaws, or the exposure of sensitive
+    data. Additionally, the attacker could use the detailed API documentation to craft
+    more sophisticated and targeted attack vectors, automating their testing and increasing
+    the likelihood of successful attacks. The public accessibility of the Swagger
+    API could also allow the attacker to bypass any intended access controls or security
+    measures implemented for the web application, posing a substantial risk to the
+    system's overall security.
   reference: https://swagger.io/
   classification:
     cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N

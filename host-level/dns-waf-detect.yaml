@@ -3,7 +3,20 @@ info:
   name: DNS WAF Detection
   author: lu4nx
   severity: info
-  description: A DNS WAF was detected.
+  description: The "DNS WAF Detection" vulnerability refers to potential weaknesses
+    or flaws in the implementation or configuration of a DNS Web Application Firewall
+    (WAF) that could allow an attacker to bypass its protective measures. If exploited,
+    this vulnerability could enable the attacker to execute unauthorized DNS queries,
+    access sensitive information, or evade detection by the DNS WAF. This could compromise
+    the integrity of the DNS infrastructure, potentially leading to the redirection
+    of users to malicious websites, the interception of sensitive data, and the disruption
+    of the organization's DNS services, ultimately impacting business operations.
+    To address this vulnerability, it is crucial to thoroughly review the DNS WAF's
+    configuration, implement strong access controls, continuously monitor and analyze
+    DNS traffic, and ensure the WAF is kept up-to-date with the latest security patches
+    and threat intelligence. Additionally, the organization should consider implementing
+    complementary security measures, such as network segmentation and incident response
+    planning, to enhance the overall security of its DNS infrastructure.
   classification:
     cwe-id: CWE-200
   metadata:

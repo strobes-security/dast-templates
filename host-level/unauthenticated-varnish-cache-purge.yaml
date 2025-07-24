@@ -3,8 +3,19 @@ info:
   name: Varnish Unauthenticated Cache Purge
   author: 0xelkomy
   severity: low
-  description: As per guideline one should protect purges with ACLs from unauthorized
-    hosts.
+  description: The "Varnish Unauthenticated Cache Purge" vulnerability allows an attacker
+    to purge the cache of the web application without any form of authentication or
+    authorization. This could lead to an increase in server load and reduced performance,
+    as the server would be forced to generate and serve the content again. Additionally,
+    the attacker could selectively purge specific content from the cache, effectively
+    removing certain pages or resources from the web application, disrupting the user
+    experience. Furthermore, by purging the cache, the attacker could potentially
+    expose sensitive information that was previously cached, such as error messages
+    or debugging data. This vulnerability could also be leveraged to perform denial-of-service
+    (DoS) attacks, exhausting server resources and making the web application unavailable
+    to legitimate users. Finally, the cache purge vulnerability could be used to bypass
+    caching mechanisms and gain access to content that should be protected or restricted,
+    potentially leading to unauthorized access to sensitive data.
   reference:
   - https://book.varnish-software.com/4.0/chapters/Cache_Invalidation.html
   - https://hackerone.com/reports/154278

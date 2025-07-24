@@ -3,9 +3,19 @@ info:
   name: HTTPS to HTTP redirect Misconfiguration
   author: kazet,idealphase
   severity: info
-  description: 'Detects whether there is a redirect from https:// to http://
-
-    '
+  description: The "HTTPS to HTTP redirect Misconfiguration" vulnerability occurs
+    when a web application is improperly configured, allowing users to access certain
+    pages or resources over an unencrypted HTTP connection, rather than the intended
+    secure HTTPS connection. This can lead to several security risks, as an attacker
+    could intercept and eavesdrop on the user's traffic, exposing sensitive information
+    such as login credentials, personal data, or financial transactions. Additionally,
+    the lack of end-to-end encryption could enable the attacker to perform man-in-the-middle
+    attacks, modify the content of the website, or inject malicious code into the
+    user's browser, bypassing any security measures or protections in place for the
+    HTTPS connection. This vulnerability could also allow the attacker to gain unauthorized
+    access to restricted resources or services that should only be accessible over
+    a secure HTTPS connection, potentially leading to further attacks, such as session
+    hijacking or cookie theft, and compromising the user's account.
   metadata:
     verified: true
     max-request: 1

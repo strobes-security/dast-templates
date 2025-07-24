@@ -3,7 +3,22 @@ info:
   name: Compressed Backup File - Detect
   author: toufik-airane,dwisiswant0,ffffffff0x,pwnhxl,mastercho
   severity: medium
-  description: Multiple compressed backup files were detected.
+  description: The "Compressed Backup File - Detect" vulnerability refers to the potential
+    risk associated with the existence of unencrypted or unsecured compressed backup
+    files within an organization's infrastructure. These backup files may contain
+    sensitive data, such as confidential information, system configurations, or user
+    credentials, which could be accessed by an unauthorized individual. An attacker
+    could gain unauthorized access to the backup files, potentially restoring them
+    on a separate system and using the extracted data for further malicious activities,
+    such as lateral movement, privilege escalation, or data exfiltration. Additionally,
+    the availability of the system could be compromised if the attacker were to delete
+    or modify the backup files, rendering the organization unable to recover from
+    a system failure or data loss incident. Furthermore, the attacker could use the
+    backup files to gather intelligence about the target organization's infrastructure,
+    applications, and security controls, which could be leveraged in subsequent attacks.
+    If the backup files contain unencrypted passwords or other sensitive information,
+    the attacker could use this data to gain unauthorized access to other systems
+    or accounts within the organization.
   classification:
     cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N
     cvss-score: 5.3

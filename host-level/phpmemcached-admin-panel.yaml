@@ -3,7 +3,19 @@ info:
   name: phpMemcachedAdmin Panel
   author: tess
   severity: medium
-  description: phpMemcachedAdmin Panel is exposed.
+  description: The issue with the "phpMemcachedAdmin Panel" is that it exposes a web-based
+    management interface for the Memcached server, which could allow an attacker to
+    gain unauthorized access and potentially compromise the system. By accessing the
+    exposed panel, an attacker could view and manipulate sensitive information stored
+    in the Memcached server, execute arbitrary code on the server hosting the panel,
+    launch denial of service (DoS) attacks, or carry out cache poisoning attacks that
+    could lead to the corruption or manipulation of data. Additionally, the exposure
+    of the phpMemcachedAdmin panel could result in the disclosure of sensitive information,
+    such as server configurations or database credentials, which could be leveraged
+    by the attacker in subsequent attacks. To mitigate this vulnerability, it is crucial
+    to restrict access to the phpMemcachedAdmin panel, limit its exposure, secure
+    the Memcached server configuration, keep all software components up-to-date, and
+    implement comprehensive monitoring and logging mechanisms.
   metadata:
     verified: true
     max-request: 1

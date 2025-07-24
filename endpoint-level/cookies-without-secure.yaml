@@ -1,17 +1,41 @@
 id: cookies-without-secure
-
 info:
   name: Cookies without Secure attribute - Detect
   author: vthiery,RJ Coleman
   severity: info
-  description: |
-    Checks whether cookies in the HTTP response contain the Secure attribute. If the Secure flag is set, it means that the cookie can only be transmitted over HTTPS
-  impact: |
-    Lack of Secure flag on cookies allows the cookie to be sent over unsecure HTTP, making it vulnerable to man-in-the-middle (MITM) attacks.
-  remediation: |
-    Ensure that all cookies are set with the Secure attribute to prevent MITM attacks.
+  description: 'Checks whether cookies in the HTTP response contain the Secure attribute.
+    If the Secure flag is set, it means that the cookie can only be transmitted over
+    HTTPS
+
+    '
+  impact: 'Lack of Secure flag on cookies allows the cookie to be sent over unsecure
+    HTTP, making it vulnerable to man-in-the-middle (MITM) attacks.
+
+    '
+  remediation: 'Cookies without the Secure attribute can be transmitted over unsecured
+    HTTP, exposing the cookie''s contents to potential eavesdropping and manipulation
+    by attackers. To address this vulnerability, it is essential to ensure that all
+    cookies are set with the Secure attribute. This will instruct the browser to only
+    transmit the cookie over a secure HTTPS connection, mitigating the risk of man-in-the-middle
+    attacks.
+
+
+    - Review all cookie settings in your application and ensure that the Secure attribute
+    is set for each cookie.
+
+    - Implement a policy to enforce the use of the Secure attribute for all cookies,
+    regardless of the data they contain.
+
+    - Update your web server configuration to redirect all HTTP traffic to HTTPS,
+    ensuring that cookies are only transmitted over a secure connection.
+
+    - Consider implementing a Content Security Policy (CSP) or other web security
+    measures to further enhance the security of your application.
+
+    - Regularly audit your application''s cookie settings and update them as needed
+    to address any changes or new vulnerabilities.'
   reference:
-    - https://owasp.org/www-community/controls/SecureCookieAttribute
+  - https://owasp.org/www-community/controls/SecureCookieAttribute
   classification:
     cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
     cvss-score: 0
@@ -19,33 +43,24 @@ info:
     verified: true
     max-request: 1
   tags: misconfig,http,cookie,generic
+flow: 'http()
 
-flow: |
-    http()
-    javascript()
+  javascript()
 
+  '
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-    host-redirects: true
-    max-redirects: 2
-
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 2
 javascript:
-  - code: |
-      content = template.http_all_headers
-      const setCookieLines = content
-        .split(/\r\n/)
-        .filter(line => line.trim().toLowerCase().startsWith('set-cookie:'));
-      const nonSecureCookies = setCookieLines.filter(line => !line.toLowerCase().includes('secure'));
-      const cookieNames = nonSecureCookies.map(line => {
-        const match = line.match(/set-cookie:\s*([^=]+)=/i);
-        return match ? match[1] : null;
-      }).filter(Boolean);
-      cookieNames
-
-    extractors:
-      - type: regex
-        regex:
-          - '[a-zA-Z0-9_-]+'
-# digest: 490a0046304402203c40f31794d6d2667d13faa55d201451ba8eee9cf390a4fe6c7d62b06031880b02205d896a6a3cab707c824d7092f7a346e8c38e30fcac61e935c09eb26e40cdad94:922c64590222798bb761d5b6d8e72950
+- code: "content = template.http_all_headers\nconst setCookieLines = content\n  .split(/\\\
+    r\\n/)\n  .filter(line => line.trim().toLowerCase().startsWith('set-cookie:'));\n\
+    const nonSecureCookies = setCookieLines.filter(line => !line.toLowerCase().includes('secure'));\n\
+    const cookieNames = nonSecureCookies.map(line => {\n  const match = line.match(/set-cookie:\\\
+    s*([^=]+)=/i);\n  return match ? match[1] : null;\n}).filter(Boolean);\ncookieNames\n"
+  extractors:
+  - type: regex
+    regex:
+    - '[a-zA-Z0-9_-]+'

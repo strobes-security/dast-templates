@@ -3,8 +3,20 @@ info:
   name: NS Record Detection
   author: pdteam
   severity: info
-  description: An NS record was detected. An NS record delegates a subdomain to a
-    set of name servers.
+  description: The "NS Record Detection" vulnerability refers to the potential for
+    attackers to exploit misconfigurations or unauthorized changes in the Domain Name
+    System (DNS) records of a targeted domain. Specifically, this issue arises when
+    the Name Server (NS) records, which define the authoritative DNS servers responsible
+    for resolving the domain's queries, are not properly managed or secured. Threat
+    actors could potentially hijack the domain by modifying the NS records to point
+    to their own malicious name servers, allowing them to intercept and monitor all
+    traffic to the affected domain, potentially gaining access to sensitive information.
+    Additionally, the compromised domain could be used as a launch pad for further
+    attacks, such as distributing malware or conducting phishing campaigns. To address
+    this vulnerability, it is crucial to closely monitor and maintain strict control
+    over your domain's DNS configuration, implementing strong access controls, regular
+    auditing, and protective measures to prevent unauthorized modifications to the
+    NS records.
   classification:
     cwe-id: CWE-200
   metadata:

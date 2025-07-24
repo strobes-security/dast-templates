@@ -3,9 +3,16 @@ info:
   name: Time-Based Blind SQL Injection
   author: 0xKayala
   severity: critical
-  description: 'This Template detects time-based Blind SQL Injection vulnerability
-
-    '
+  description: Time-Based Blind SQL Injection is a vulnerability that occurs when
+    an application fails to properly sanitize user input before using it in SQL queries.
+    This vulnerability allows an attacker to inject malicious SQL code into the application's
+    database queries, enabling them to execute arbitrary SQL commands on the backend
+    database. The attacker can then use these capabilities to access, modify, or delete
+    sensitive data, escalate privileges, perform reconnaissance on the target system,
+    and potentially even achieve remote code execution if the underlying database
+    management system is vulnerable. This vulnerability poses a significant risk to
+    the confidentiality, integrity, and availability of the application and the data
+    it manages, making it a critical issue that requires immediate attention and remediation.
   tags: time-based-sqli,sqli,dast,blind
   impact: '- Ability to execute arbitrary SQL queries on the backend database, potentially
     allowing an attacker to access, modify, or delete sensitive data.

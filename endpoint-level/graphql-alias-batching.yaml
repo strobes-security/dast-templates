@@ -11,10 +11,29 @@ info:
     including rate limit.
 
     '
-  remediation: 'Limit queries aliasing in your GraphQL Engine to ensure mitigation
-    of aliasing-based attacks.
+  remediation: 'To address the "GraphQL Alias-based Batching" vulnerability, developers
+    should implement strict input validation and rate limiting measures to prevent
+    attackers from exploiting the alias feature. This can be achieved by:
 
-    '
+
+    - Implementing strict input validation to ensure that all incoming GraphQL queries
+    are well-formed and do not contain any malicious or unexpected constructs, such
+    as excessive aliasing or nested queries.
+
+    - Enforcing rate limiting on the number of GraphQL requests a client can make
+    within a specific time frame, and ensuring that this limit applies to the overall
+    request size, not just the number of individual queries.
+
+    - Monitoring and analyzing GraphQL query patterns to detect and block any suspicious
+    or anomalous activity, such as an unusually large number of aliased queries or
+    requests that attempt to retrieve sensitive data.
+
+    - Considering the use of a GraphQL-specific firewall or proxy to inspect and validate
+    incoming GraphQL requests before forwarding them to the server.
+
+    - Implementing robust logging and auditing mechanisms to track and analyze GraphQL
+    usage patterns, which can help identify and mitigate potential abuse of the alias
+    feature.'
   reference:
   - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application
   - https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html

@@ -3,7 +3,22 @@ info:
   name: PHP Source - Backup File Information Disclosure
   author: StreetOfHackerR007,pwnhxl,mastercho,0xpugal
   severity: medium
-  description: PHP Source File is disclosed to external users.
+  description: The "PHP Source - Backup File Information Disclosure" vulnerability
+    arises when PHP source files or associated backup files are left accessible to
+    unauthorized individuals. This can occur when these sensitive files are not properly
+    secured or are stored in publicly accessible locations on the web server. An attacker
+    who discovers these backup files could gain access to the application's source
+    code, potentially exposing business logic, API keys, or other confidential information.
+    This disclosure of sensitive information can have severe consequences, as the
+    attacker could use the knowledge gained to identify and exploit additional vulnerabilities
+    within the application, launch more targeted attacks, such as code injection or
+    privilege escalation, or bypass intended access controls and gain unauthorized
+    access to the system. The exposure of the source code could also lead to a loss
+    of intellectual property and undermine the overall security of the application.
+    To address this vulnerability, developers must ensure that all PHP source files
+    and backup files are properly secured and not accessible to unauthorized users,
+    through a combination of server configurations, secure file storage solutions,
+    and developer education.
   metadata:
     max-request: 1512
   tags: exposure,backup,php,disclosure,fuzz

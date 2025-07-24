@@ -1,17 +1,40 @@
 id: cookies-without-httponly
-
 info:
   name: Cookies without HttpOnly attribute - Detect
   author: RJ Coleman,Mr.Bobo HP
   severity: info
-  description: |
-    Checks whether cookies in the HTTP response contain the HttpOnly attribute. If the HttpOnly flag is set, it means that the cookie is HTTP-only
-  impact: |
-    Lack of HttpOnly flag on cookies increases the risk of client-side attacks, compromising user session security and data privacy.
-  remediation: |
-    Ensure that all cookies are set with the HttpOnly attribute to prevent client-side access.
+  description: 'Checks whether cookies in the HTTP response contain the HttpOnly attribute.
+    If the HttpOnly flag is set, it means that the cookie is HTTP-only
+
+    '
+  impact: 'Lack of HttpOnly flag on cookies increases the risk of client-side attacks,
+    compromising user session security and data privacy.
+
+    '
+  remediation: 'Cookies without the HttpOnly attribute pose a significant security
+    risk, as they can be accessed and manipulated by client-side scripts, potentially
+    leading to session hijacking and other attacks. To address this issue, developers
+    should ensure that all cookies set in the application''s HTTP responses are marked
+    as HttpOnly. This mitigates the risk of cross-site scripting (XSS) attacks by
+    preventing client-side scripts from accessing and interacting with the session
+    cookies, thus enhancing the overall security of the application.
+
+
+    - Review the application''s codebase and identify all instances where cookies
+    are set in the HTTP response.
+
+    - For each cookie, ensure that the HttpOnly flag is explicitly set to true.
+
+    - Implement a secure coding practice to automatically set the HttpOnly flag on
+    all cookies in the application.
+
+    - Consider implementing a web application firewall (WAF) or other security controls
+    to detect and block any cookies without the HttpOnly attribute.
+
+    - Regularly review the application''s security posture and update the remediation
+    strategy as needed.'
   reference:
-    - https://owasp.org/www-community/HttpOnly
+  - https://owasp.org/www-community/HttpOnly
   classification:
     cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
     cvss-score: 0
@@ -19,35 +42,24 @@ info:
     verified: true
     max-request: 1
   tags: misconfig,http,cookie,generic
+flow: 'http()
 
-flow: |
-    http()
-    javascript()
+  javascript()
 
+  '
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-    host-redirects: true
-    max-redirects: 2
-
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 2
 javascript:
-  - code: |
-      content = template.http_all_headers
-      const setCookieLines = content
-        .split(/\r\n/)
-        .filter(line => line.trim().toLowerCase().startsWith('set-cookie:'));
-
-      const nonHttpOnlyCookies = setCookieLines.filter(line => !line.toLowerCase().includes('httponly'));
-
-      const cookieNames = nonHttpOnlyCookies.map(line => {
-        const match = line.match(/set-cookie:\s*([^=]+)=/i);
-        return match ? match[1] : null;
-      }).filter(Boolean);
-      cookieNames
-
-    extractors:
-      - type: regex
-        regex:
-          - '[a-zA-Z0-9_-]+'
-# digest: 4a0a004730450221009853a1fd0fcd7b9ae5811205d5ebf34aadbafcac264fb5692d3b7b1f8fd09d2302202db9f6d84864b95a363dec82325a6ad42acf1e770e15dec0655a197142831970:922c64590222798bb761d5b6d8e72950
+- code: "content = template.http_all_headers\nconst setCookieLines = content\n  .split(/\\\
+    r\\n/)\n  .filter(line => line.trim().toLowerCase().startsWith('set-cookie:'));\n\
+    \nconst nonHttpOnlyCookies = setCookieLines.filter(line => !line.toLowerCase().includes('httponly'));\n\
+    \nconst cookieNames = nonHttpOnlyCookies.map(line => {\n  const match = line.match(/set-cookie:\\\
+    s*([^=]+)=/i);\n  return match ? match[1] : null;\n}).filter(Boolean);\ncookieNames\n"
+  extractors:
+  - type: regex
+    regex:
+    - '[a-zA-Z0-9_-]+'

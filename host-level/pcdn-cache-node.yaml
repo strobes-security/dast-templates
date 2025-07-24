@@ -3,7 +3,19 @@ info:
   name: PCDN Cache Node Dataset
   author: DhiyaneshDk
   severity: low
-  description: PCDN Cache Node dataset is exposed.
+  description: The "PCDN Cache Node Dataset" vulnerability refers to the potential
+    exposure of sensitive data stored within a content delivery network (CDN) cache
+    node. An attacker could retrieve information such as customer details, system
+    configurations, or even access credentials from the exposed dataset. This could
+    enable further malicious activities, such as targeted phishing campaigns or attempts
+    to escalate privileges. Additionally, the attacker could gain valuable insights
+    into the target organization's infrastructure, potentially identifying other vulnerabilities
+    to exploit. The exposure of the PCDN cache node dataset could also disrupt the
+    organization's content delivery network, leading to service interruptions and
+    a loss of trust in the organization's ability to protect sensitive information.
+    To address this vulnerability, it is essential to secure the PCDN cache node,
+    review the stored data, assess the impact on the CDN, enhance the overall security
+    posture, and develop a comprehensive incident response plan.
   classification:
     cpe: cpe:2.3:a:cache-base_project:cache-base:*:*:*:*:node.js:*:*:*
   metadata:

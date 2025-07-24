@@ -1,65 +1,95 @@
 id: angular-client-side-template-injection
-
 info:
   name: Angular Client-side-template-injection
   author: theamanrawat
   severity: high
-  description: |
-    Detects Angular client-side template injection vulnerability.
-  impact: |
-    May lead to remote code execution or sensitive data exposure.
-  remediation: |
-    Sanitize user inputs and avoid using user-controlled data in template rendering.
+  description: The vulnerability described involves a flaw in the Angular framework
+    that can allow an attacker to inject arbitrary code into client-side templates.
+    This can occur when user-supplied data is directly incorporated into the template
+    without proper sanitization, enabling the inclusion of malicious content. Such
+    an injection can potentially lead to remote code execution on the client-side
+    or the exposure of sensitive information, depending on the specific application
+    logic and data being processed. Addressing this issue requires implementing robust
+    input validation and sanitization mechanisms to ensure that user-controlled data
+    is properly encoded or escaped before being used in template rendering, thus preventing
+    the injection of harmful code.
+  impact: '- Injection of malicious code into client-side templates, potentially leading
+    to remote code execution on the user''s device.
+
+    - Exposure of sensitive information stored in the application or accessible through
+    the compromised client-side templates.
+
+    - Ability to perform unauthorized actions or access restricted functionality on
+    the client-side, depending on the application''s logic and data.
+
+    - Potential for further attacks, such as phishing or social engineering, by injecting
+    malicious content into the affected templates.
+
+    - Disruption of the application''s intended functionality and user experience
+    due to the injection of malicious code.'
+  remediation: 'To address the "Angular Client-side-template-injection" vulnerability,
+    developers should implement robust input validation and sanitization mechanisms
+    to ensure that user-controlled data is properly encoded or escaped before being
+    used in template rendering. This will prevent the injection of malicious code
+    into client-side templates, which could otherwise lead to remote code execution
+    on the user''s device, exposure of sensitive information, or the ability to perform
+    unauthorized actions on the client-side.
+
+
+    - Implement a content security policy (CSP) to restrict the types of content that
+    can be loaded and executed within the application.
+
+    - Use Angular''s built-in `DomSanitizer` service to sanitize all user-supplied
+    data before rendering it in the template.
+
+    - Establish a whitelist of allowed HTML tags and attributes to be used in the
+    templates, and ensure that any user-provided content is properly encoded or escaped.
+
+    - Regularly review and update the application''s dependencies, including the Angular
+    framework, to ensure that the latest security patches are applied.
+
+    - Educate developers on secure coding practices and the importance of input validation
+    and sanitization when working with client-side templates.'
   reference:
-    - https://www.acunetix.com/vulnerabilities/web/angularjs-client-side-template-injection/
-    - https://portswigger.net/research/xss-without-html-client-side-template-injection-with-angularjs
+  - https://www.acunetix.com/vulnerabilities/web/angularjs-client-side-template-injection/
+  - https://portswigger.net/research/xss-without-html-client-side-template-injection-with-angularjs
   tags: angular,csti,dast,headless,xss
-
 variables:
-  first: "{{rand_int(1000, 9999)}}"
-  second: "{{rand_int(1000, 9999)}}"
-  result: "{{to_number(first)*to_number(second)}}"
-
+  first: '{{rand_int(1000, 9999)}}'
+  second: '{{rand_int(1000, 9999)}}'
+  result: '{{to_number(first)*to_number(second)}}'
 headless:
-  - steps:
-      - action: navigate
-        args:
-          url: "{{BaseURL}}"
-
-      - action: waitload
-
-    payloads:
-      payload:
-        - '{{concat("{{", "{{first}}*{{second}}", "}}")}}'
-
-    fuzzing:
-      - part: query
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{payload}}"
-
-      - part: body
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{payload}}"
-
-      - part: header
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{payload}}"
-
-      - part: path
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{payload}}"
-
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "{{result}}"
-# digest: 4a0a00473045022020e22f3aa1d49de743347240f3cfc2d4aaa31d402183612be52fd033f51e0792022100a2ed81987f5a5c068275bcf09d505c3582738155068ebb6511cea83023af40c1:922c64590222798bb761d5b6d8e72950
+- steps:
+  - action: navigate
+    args:
+      url: '{{BaseURL}}'
+  - action: waitload
+  payloads:
+    payload:
+    - '{{concat("{{", "{{first}}*{{second}}", "}}")}}'
+  fuzzing:
+  - part: query
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{payload}}'
+  - part: body
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{payload}}'
+  - part: header
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{payload}}'
+  - part: path
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{payload}}'
+  matchers:
+  - type: word
+    part: body
+    words:
+    - '{{result}}'

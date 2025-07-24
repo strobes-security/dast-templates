@@ -3,10 +3,21 @@ info:
   name: Tomcat Stack Traces Enabled
   author: lucky0x0d
   severity: info
-  description: 'Examine whether Tomcat stack traces are turned on by employing a designated
-    problematic pattern.
-
-    '
+  description: The "Tomcat Stack Traces Enabled" vulnerability arises when the web
+    server is configured to display detailed stack trace information in the event
+    of an error or exception. This can occur due to improper error handling or misconfiguration
+    within the Tomcat application server. The exposure of these stack traces can be
+    a significant security concern, as they may reveal sensitive information about
+    the server's architecture, software versions, and potential vulnerabilities. An
+    attacker could leverage this information to gain valuable insights, enabling them
+    to craft more targeted and sophisticated attacks, such as identifying weaknesses
+    in the server's configuration or potential routes for privilege escalation. Additionally,
+    the disclosure of sensitive server-side information through the stack traces could
+    lead to a breach of confidentiality, as the attacker may gain access to sensitive
+    data or internal network details. To mitigate this vulnerability, it is crucial
+    to disable the display of detailed stack trace information in the production environment
+    and implement appropriate error handling and logging mechanisms that do not expose
+    sensitive server-side information.
   classification:
     cpe: cpe:2.3:a:apache:tomcat:*:*:*:*:*:*:*:*
   metadata:

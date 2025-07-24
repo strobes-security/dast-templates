@@ -3,7 +3,20 @@ info:
   name: TYPO3 Debug Mode Enabled
   author: tess,FLX
   severity: low
-  description: TYPO3 Debug Mode is enabled.
+  description: The TYPO3 Debug Mode Enabled vulnerability arises when the debug mode
+    is left enabled in the production environment of the TYPO3 web application. This
+    can lead to the unintended disclosure of sensitive information, such as database
+    credentials, server configurations, and detailed error messages. Additionally,
+    the enabled debug mode can potentially allow an attacker to execute arbitrary
+    code on the server, bypass authentication mechanisms, and gain unauthorized access
+    to administrative functions within the TYPO3 application. This vulnerability can
+    be exploited to gather intelligence about the server's architecture and software
+    versions, which can be used in subsequent attacks. Furthermore, the debug mode
+    can disrupt the normal operation of the TYPO3 application, causing denial of service
+    or other disruptions to the web application. To mitigate this vulnerability, the
+    TYPO3 Debug Mode should be disabled in production environments, and a process
+    should be implemented to regularly review and validate the TYPO3 configuration
+    to ensure the debug mode remains disabled.
   classification:
     cpe: cpe:2.3:a:typo3:typo3:*:*:*:*:*:*:*:*
   metadata:

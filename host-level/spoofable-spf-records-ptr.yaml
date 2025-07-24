@@ -3,7 +3,17 @@ info:
   name: Spoofable SPF Records with PTR Mechanism
   author: binaryfigments
   severity: info
-  description: SPF records in DNS containing a PTR mechanism are spoofable.
+  description: The "Spoofable SPF Records with PTR Mechanism" vulnerability allows
+    an attacker to manipulate the domain's Sender Policy Framework (SPF) record, which
+    is a DNS-based email authentication method used to verify the legitimacy of the
+    sender's email address. By exploiting this vulnerability, an attacker could spoof
+    the domain's SPF record, enabling them to send emails that appear to originate
+    from the legitimate domain owner. This could bypass email security controls and
+    enable the delivery of malicious emails, such as spam, phishing attempts, or business
+    email compromise (BEC) attacks, that impersonate a trusted source. The vulnerability
+    is particularly concerning as it can undermine the recipient's trust in the domain's
+    email communications, potentially leading to reputational damage and financial
+    losses for the organization.
   reference:
   - https://www.digitalocean.com/community/tutorials/how-to-use-an-spf-record-to-prevent-spoofing-improve-e-mail-reliability
   classification:

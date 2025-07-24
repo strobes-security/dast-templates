@@ -3,8 +3,17 @@ info:
   name: Missing X-Content-Type-Options Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'X-Content-Type-Options' header is missing. This prevents MIME-type
-    sniffing.
+  description: The "Missing X-Content-Type-Options Header" vulnerability occurs when
+    web pages or web applications do not include the 'X-Content-Type-Options' header
+    in their responses. This header is designed to instruct the browser to trust the
+    declared Content-Type of the resource, rather than attempting to guess or "sniff"
+    the content type, which can lead to the execution of unintended content. Without
+    this header, the browser may perform MIME-type sniffing, which can allow an attacker
+    to manipulate the Content-Type header and trick the victim's browser into executing
+    malicious content, such as cross-site scripting (XSS) attacks. Successful exploitation
+    of this vulnerability could result in the attacker gaining unauthorized access
+    to sensitive information or taking control of the affected system, potentially
+    enabling further attacks or data breaches within the target environment.
   metadata:
     max-request: 1
   tags: misconfig,headers,x-content-type-options

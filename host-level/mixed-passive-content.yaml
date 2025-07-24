@@ -3,10 +3,18 @@ info:
   name: Mixed Passive Content
   author: Liwermor
   severity: info
-  description: 'This check detects if there are any passive content being loaded over
-    HTTP instead of HTTPS.
-
-    '
+  description: The "Mixed Passive Content" vulnerability occurs when a web application
+    loads certain resources, such as images, scripts, or stylesheets, over an insecure
+    (HTTP) connection, while the main page itself is loaded over a secure (HTTPS)
+    connection. This mismatch in security protocols can allow an attacker to intercept
+    and modify the passive content, potentially leading to the injection of malicious
+    content, man-in-the-middle attacks, and the exposure of sensitive user information.
+    The presence of mixed passive content can also reduce the overall security of
+    the application, making it more susceptible to other types of attacks. To address
+    this vulnerability, it is crucial to ensure that all passive content is loaded
+    over HTTPS, implement a Content Security Policy to restrict the sources of passive
+    content, and regularly monitor the application for any new instances of mixed
+    passive content.
   reference:
   - https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
   - https://portswigger.net/kb/issues/01000400_mixed-content

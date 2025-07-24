@@ -3,7 +3,21 @@ info:
   name: WAMP Xdebug - Detect
   author: e_schultze_
   severity: info
-  description: WAMP Xdebug was detected.
+  description: The "WAMP Xdebug - Detect" vulnerability relates to the presence of
+    the Xdebug debugging tool within a WAMP (Windows, Apache, MySQL, PHP) server environment.
+    Xdebug is a powerful feature that can assist developers in troubleshooting and
+    debugging PHP applications, but if left enabled in a production setting, it can
+    pose significant security risks. Attackers may be able to leverage Xdebug to gain
+    unauthorized access to sensitive system information, such as server configurations,
+    application source code, and database details. This can lead to further exploitation,
+    potentially allowing remote code execution and the attacker gaining control of
+    the system. Additionally, the exposure of confidential data could be used for
+    financial gain or other malicious purposes, and the presence of Xdebug may indicate
+    the existence of other vulnerabilities or misconfigurations, increasing the likelihood
+    of the system being targeted for additional attacks. To mitigate this vulnerability,
+    it is critical to disable the Xdebug functionality, review the system's configuration,
+    and implement strict access control measures to restrict exposure and regularly
+    monitor the environment for any suspicious activities.
   reference:
   - https://github.com/random-robbie/My-Shodan-Scripts/blob/1b01bceecc9be0b74b202f445874920eee48bba5/wamp-xdebug/wamp-xdebug.py
   classification:

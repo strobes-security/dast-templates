@@ -3,7 +3,18 @@ info:
   name: DNS SaaS Service Detection
   author: noah @thesubtlety,pdteam
   severity: info
-  description: A CNAME DNS record was discovered
+  description: The "DNS SaaS Service Detection" vulnerability allows an attacker to
+    determine the existence of a Software-as-a-Service (SaaS) solution being utilized
+    by the target organization. By analyzing the organization's DNS records, an attacker
+    can potentially identify CNAME records that reveal the use of third-party SaaS
+    services. This information can be leveraged to gather details about the SaaS service,
+    such as its name, version, and other configuration details. The attacker can then
+    use this information to identify potential vulnerabilities or misconfigurations
+    in the SaaS service, which could be exploited to gain unauthorized access to the
+    target organization's systems or data. To mitigate this vulnerability, it is essential
+    to secure the organization's DNS infrastructure, regularly review and audit DNS
+    records, and implement a centralized process for approving and managing the use
+    of SaaS services within the organization.
   reference:
   - https://ns1.com/resources/cname
   - https://www.theregister.com/2021/02/24/dns_cname_tracking/
