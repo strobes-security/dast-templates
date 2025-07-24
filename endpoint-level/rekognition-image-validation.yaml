@@ -1,5 +1,4 @@
 id: rekognition-image-validation
-
 info:
   name: Rekognition Image Validation Debug UI Panel - Detect
   author: tess
@@ -14,21 +13,58 @@ info:
     max-request: 1
     shodan-query: title:"Rekognition Image Validation Debug UI"
   tags: misconfig,exposure
+  impact: '- An attacker could access and potentially manipulate the Rekognition Image
+    Validation Debug UI panel, which could enable them to bypass image validation
+    checks and upload unauthorized or malicious images.
 
+    - The attacker could potentially access sensitive data or functionality within
+    the Rekognition system that is intended for debugging or internal use, leading
+    to a breach of confidentiality or integrity.
+
+    - The presence of the debug UI panel could indicate a lack of proper access controls
+    or segmentation within the application, potentially making it easier for an attacker
+    to escalate privileges and gain unauthorized access to other parts of the system.
+
+    - If the debug UI panel is accessible from the internet, an attacker could potentially
+    exploit it remotely to gain a foothold in the system and launch further attacks.
+
+    - The exposure of the debug UI panel could also indicate broader security weaknesses
+    or poor secure coding practices within the application, which could lead to the
+    discovery of additional vulnerabilities.'
+  remediation: 'To address the "Rekognition Image Validation Debug UI Panel - Detect"
+    vulnerability, the following steps should be taken:
+
+
+    - Immediately remove or disable the Rekognition Image Validation Debug UI panel
+    from the production environment. This panel should only be accessible in a secure,
+    non-production environment with strict access controls.
+
+    - Conduct a thorough review of the application''s codebase to identify and remove
+    any other instances of debug or development-related functionality that may have
+    been inadvertently left in the production environment.
+
+    - Implement robust access controls and authentication mechanisms to ensure that
+    the Rekognition system and its associated functionalities can only be accessed
+    by authorized personnel with a legitimate need.
+
+    - Ensure that the application is properly segmented and that sensitive functionality,
+    such as the Rekognition image validation process, is isolated and protected from
+    unauthorized access.
+
+    - Perform a comprehensive security audit of the Rekognition system and the overall
+    application architecture to identify and address any additional vulnerabilities
+    or security weaknesses that may be present.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        words:
-          - 'Rekognition Image Validation Debug UI</title>'
-          - 'Optional Parameters'
-        condition: and
-
-      - type: status
-        status:
-          - 200
-# digest: 490a00463044022047ebaaa0613cbb6557c9edc9b79cc4fb5146dbcc46cd01da06164ec39eae52d702200553a42897d5753f025af68e5980f8e1c4c188ee9d48c7e42eaf61bf334ad09e:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: and
+  matchers:
+  - type: word
+    words:
+    - Rekognition Image Validation Debug UI</title>
+    - Optional Parameters
+    condition: and
+  - type: status
+    status:
+    - 200

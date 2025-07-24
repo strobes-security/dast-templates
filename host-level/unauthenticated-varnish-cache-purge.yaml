@@ -1,32 +1,71 @@
 id: unauthenticated-varnish-cache-purge
-
 info:
   name: Varnish Unauthenticated Cache Purge
   author: 0xelkomy
   severity: low
-  description: As per guideline one should protect purges with ACLs from unauthorized hosts.
+  description: As per guideline one should protect purges with ACLs from unauthorized
+    hosts.
   reference:
-    - https://book.varnish-software.com/4.0/chapters/Cache_Invalidation.html
-    - https://hackerone.com/reports/154278
+  - https://book.varnish-software.com/4.0/chapters/Cache_Invalidation.html
+  - https://hackerone.com/reports/154278
   metadata:
     max-request: 1
   tags: misconfig,cache,hackerone,varnish
+  impact: '- An attacker could purge the cache of the web application, forcing the
+    server to generate and serve the content again, potentially leading to increased
+    server load and reduced performance.
 
+    - The attacker could selectively purge specific content from the cache, effectively
+    removing certain pages or resources from the web application, disrupting the user
+    experience.
+
+    - By purging the cache, the attacker could potentially expose sensitive information
+    that was previously cached, such as error messages or debugging data.
+
+    - The attacker could leverage the cache purge functionality to perform denial-of-service
+    (DoS) attacks, exhausting server resources and making the web application unavailable
+    to legitimate users.
+
+    - The attacker could use the cache purge vulnerability to bypass caching mechanisms
+    and gain access to content that should be protected or restricted, potentially
+    leading to unauthorized access to sensitive data.'
+  remediation: 'To address the "Varnish Unauthenticated Cache Purge" vulnerability,
+    it is essential to implement appropriate access control measures to protect the
+    cache purge functionality. This can be achieved by configuring the Varnish cache
+    server to require authentication and authorization for cache purge requests.
+
+
+    - Implement a robust authentication mechanism, such as integrating with an existing
+    identity management system or implementing custom authentication logic, to verify
+    the identity of users or systems attempting to purge the cache.
+
+    - Establish access control rules (ACLs) that restrict cache purge operations to
+    authorized users or systems only. Ensure that these rules are properly configured
+    and maintained to prevent unauthorized access.
+
+    - Consider implementing additional safeguards, such as rate limiting or IP-based
+    restrictions, to mitigate the risk of denial-of-service attacks or other malicious
+    activities targeting the cache purge functionality.
+
+    - Regularly monitor and audit the cache purge activity to detect and investigate
+    any suspicious or unauthorized requests, and take appropriate action to address
+    any identified security concerns.
+
+    - Review and update the cache purge access control policies and configurations
+    on a regular basis to ensure they remain effective in protecting against evolving
+    threats and changes in the application''s security requirements.'
 http:
-  - method: PURGE
-    path:
-      - "{{BaseURL}}"
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '<title>200 Purged</title>'
-          - '"status": "ok"'
-        condition: or
-
-      - type: status
-        status:
-          - 200
-# digest: 490a0046304402205d9985c110bf58b4905f8a0765a59acee6425c4ecfbc34067e058480d182114c022000f58eb3b8a6536952ebcd46aa2c453cea39a46843a6a272781a5563095f9db5:922c64590222798bb761d5b6d8e72950
+- method: PURGE
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - <title>200 Purged</title>
+    - '"status": "ok"'
+    condition: or
+  - type: status
+    status:
+    - 200

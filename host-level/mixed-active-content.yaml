@@ -1,57 +1,88 @@
 id: mixed-active-content
-
 info:
   name: Mixed Active Content
   author: Liwermor
   severity: info
-  description: |
-    This check detects if there are any active content loaded over HTTP instead of HTTPS.
+  description: 'This check detects if there are any active content loaded over HTTP
+    instead of HTTPS.
+
+    '
   reference:
-    - https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
-    - https://portswigger.net/kb/issues/01000400_mixed-content
-    - https://resources.infosecinstitute.com/topics/vulnerabilities/https-mixed-content-vulnerability/
-    - https://docs.gitlab.com/ee/user/application_security/dast/checks/319.1.html
+  - https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
+  - https://portswigger.net/kb/issues/01000400_mixed-content
+  - https://resources.infosecinstitute.com/topics/vulnerabilities/https-mixed-content-vulnerability/
+  - https://docs.gitlab.com/ee/user/application_security/dast/checks/319.1.html
   metadata:
     max-request: 1
   tags: misconfig
+  impact: '- An attacker could intercept and modify the active content (e.g., scripts,
+    plugins) loaded over an insecure HTTP connection, potentially enabling them to
+    execute arbitrary code on the victim''s system or steal sensitive information.
 
+    - The attacker could exploit the mixed active content vulnerability to launch
+    man-in-the-middle attacks, where they can eavesdrop on the communication between
+    the client and the server, compromising the confidentiality and integrity of the
+    data.
+
+    - The mixed active content vulnerability could allow the attacker to bypass the
+    security mechanisms implemented by the browser, such as the same-origin policy,
+    potentially leading to cross-site scripting (XSS) attacks or other types of client-side
+    attacks.
+
+    - An attacker could leverage the mixed active content issue to perform session
+    hijacking, where they can gain unauthorized access to the user''s session and
+    impersonate the legitimate user.
+
+    - The mixed active content vulnerability could enable the attacker to conduct
+    content injection attacks, where they can insert their own content (e.g., malicious
+    advertisements, phishing pages) into the victim''s website, potentially compromising
+    the user''s trust and exposing them to further attacks.'
+  remediation: "To address the \"Mixed Active Content\" vulnerability, you should\
+    \ ensure that all active content (such as scripts, plugins, and other resources)\
+    \ is loaded over a secure HTTPS connection. This will help prevent potential man-in-the-middle\
+    \ attacks and protect the confidentiality and integrity of the data being transmitted.\
+    \ \n\n- Identify all instances of active content loaded over HTTP and update the\
+    \ corresponding code to use HTTPS instead.\n- Implement a Content Security Policy\
+    \ (CSP) to further restrict the sources from which active content can be loaded,\
+    \ ensuring that only trusted and secure sources are used.\n- Regularly test your\
+    \ website or application to identify and address any new instances of mixed active\
+    \ content that may arise due to changes in your codebase or third-party dependencies.\n\
+    - Consider using a content delivery network (CDN) that supports HTTPS to serve\
+    \ static assets, ensuring that all content is loaded over a secure connection.\n\
+    - Ensure that your server is properly configured to serve HTTPS content and that\
+    \ all appropriate security measures, such as SSL/TLS certificates and secure ciphers,\
+    \ are in place."
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-
-    matchers-condition: and
-    max-redirects: 0
-    matchers:
-      - type: regex
-        part: body
-        negative: true
-        regex:
-          - "(?mi)<!--\\[if (lt|lte) IE [0-9]*\\]>\\s*<script[^>]*\\ssrc=\"http://"
-
-      - type: regex
-        part: body
-        negative: true
-        regex:
-          - "<!--\\s*<script"
-
-      - type: regex
-        part: body
-        regex:
-          - "<script[^>]*src=['\"]http://[^'\">]+['\"]"
-          - "<iframe[^>]*src=['\"]http://[^'\">]+['\"]"
-          - "<object[^>]*data=['\"]http://[^'\">]+['\"]"
-
-      - type: dsl
-        dsl:
-          - 'startswith(tostring(BaseURL), "https://")'
-
-    extractors:
-      - type: regex
-        group: 1
-        part: body
-        regex:
-          - "<script[^>]*src=['\"](http[^s'\">][^'\">]*)['\"]"
-          - "<iframe[^>]*src=['\"](http[^s'\">][^'\">]*)['\"]"
-          - "<object[^>]*data=['\"](http[^s'\">][^'\">]*)['\"]"
-# digest: 4a0a0047304502210081097a0f68ce4644a9ff5f97118edbc99458d6c1ec6f89f87cacadb753b39b920220597682ad049d54c722b1e524506e0227602aed730fb622bd4208cb038bbdd4bd:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: and
+  max-redirects: 0
+  matchers:
+  - type: regex
+    part: body
+    negative: true
+    regex:
+    - (?mi)<!--\[if (lt|lte) IE [0-9]*\]>\s*<script[^>]*\ssrc="http://
+  - type: regex
+    part: body
+    negative: true
+    regex:
+    - <!--\s*<script
+  - type: regex
+    part: body
+    regex:
+    - <script[^>]*src=['"]http://[^'">]+['"]
+    - <iframe[^>]*src=['"]http://[^'">]+['"]
+    - <object[^>]*data=['"]http://[^'">]+['"]
+  - type: dsl
+    dsl:
+    - startswith(tostring(BaseURL), "https://")
+  extractors:
+  - type: regex
+    group: 1
+    part: body
+    regex:
+    - <script[^>]*src=['"](http[^s'">][^'">]*)['"]
+    - <iframe[^>]*src=['"](http[^s'">][^'">]*)['"]
+    - <object[^>]*data=['"](http[^s'">][^'">]*)['"]

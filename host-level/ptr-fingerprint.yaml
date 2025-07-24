@@ -1,5 +1,4 @@
 id: ptr-fingerprint
-
 info:
   name: PTR Detected
   author: pdteam
@@ -10,19 +9,65 @@ info:
   metadata:
     max-request: 1
   tags: dns,ptr
+  impact: '- An attacker could use the PTR record to gather additional information
+    about the domain, such as the organization or company behind the domain, the server
+    hosting the domain, and potentially other related domains.
 
+    - With the information gathered from the PTR record, an attacker could launch
+    more targeted attacks, such as phishing campaigns or social engineering attempts,
+    against the organization or individuals associated with the domain.
+
+    - The PTR record could provide valuable information to an attacker that could
+    be used to bypass security measures, such as firewalls or access controls, and
+    potentially gain unauthorized access to the system or network.
+
+    - An attacker could use the PTR record to map out the infrastructure of the organization,
+    which could be used to identify potential vulnerabilities or entry points for
+    further exploitation.
+
+    - The exposure of the PTR record could also lead to additional vulnerabilities
+    being discovered, such as misconfigured DNS settings or insecure network services,
+    which an attacker could then attempt to exploit.'
+  remediation: 'To address the "PTR Detected" vulnerability, the following steps should
+    be taken:
+
+
+    The PTR record, which provides information about the domain''s owner and hosting
+    infrastructure, should be reviewed and properly configured to limit the amount
+    of information that is publicly available. This can help prevent attackers from
+    gathering valuable intelligence about the organization and potentially using it
+    to launch targeted attacks. Additionally, the organization should consider implementing
+    additional security measures, such as firewalls, access controls, and network
+    monitoring, to further protect against potential exploitation of the exposed information.
+
+
+    - Review the PTR record and ensure that it does not reveal any sensitive information
+    about the organization or its infrastructure.
+
+    - Modify the PTR record to only include the necessary information, such as the
+    domain name and related IP addresses, without exposing additional details about
+    the organization or its hosting environment.
+
+    - Implement network security controls, such as firewalls and access control lists,
+    to restrict access to the organization''s infrastructure and limit the information
+    that can be gathered by external parties.
+
+    - Conduct regular vulnerability assessments and penetration testing to identify
+    and address any additional security weaknesses that could be exploited by attackers.
+
+    - Educate employees on the importance of maintaining strong security practices,
+    such as avoiding the use of personal information in public-facing records, to
+    help mitigate the risks associated with the exposure of sensitive information.'
 dns:
-  - name: "{{FQDN}}"
-    type: PTR
-    matchers:
-      - type: regex
-        part: answer
-        regex:
-          - "IN\tPTR\\t(.+)$"
-
-    extractors:
-      - type: regex
-        group: 1
-        regex:
-          - "IN\tPTR\t(.+)"
-# digest: 4a0a00473045022027a6c832dc230b202a1b5bea244368b9dd52bce8a3093ea68bde4c2d1f7aa1b1022100840ac44bbb98cf511bab413bf6c96239fba295f31e274999ad0059e51d9e9cfc:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: PTR
+  matchers:
+  - type: regex
+    part: answer
+    regex:
+    - "IN\tPTR\\t(.+)$"
+  extractors:
+  - type: regex
+    group: 1
+    regex:
+    - "IN\tPTR\t(.+)"

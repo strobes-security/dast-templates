@@ -1,59 +1,103 @@
 id: cookie-injection
-
 info:
   name: Parameter based cookie injection
   author: pdteam
   severity: info
   reference:
-    - https://www.invicti.com/blog/web-security/understanding-cookie-poisoning-attacks/
-    - https://docs.imperva.com/bundle/on-premises-knowledgebase-reference-guide/page/cookie_injection.htm
+  - https://www.invicti.com/blog/web-security/understanding-cookie-poisoning-attacks/
+  - https://docs.imperva.com/bundle/on-premises-knowledgebase-reference-guide/page/cookie_injection.htm
   metadata:
     max-request: 1
   tags: reflected,dast,cookie,injection
+  description: Parameter-based cookie injection is a security vulnerability that occurs
+    when a web application fails to properly sanitize user input before incorporating
+    it into the generation of cookies. Attackers can exploit this vulnerability by
+    manipulating the parameters in the URL or form data, allowing them to inject malicious
+    code into the cookie. This can lead to the exposure of sensitive information,
+    such as session IDs or user credentials, enabling unauthorized access to the system.
+    Furthermore, the injected code can be executed by the web server, potentially
+    allowing the attacker to gain control of the server or perform other malicious
+    actions. This vulnerability is particularly concerning as it can compromise the
+    overall security of the web application and the data it processes, making it a
+    crucial issue to address in order to protect the confidentiality, integrity, and
+    availability of the system.
+  impact: '- Attackers can inject malicious code into the cookie, allowing them to
+    execute arbitrary code on the web server.
 
+    - Sensitive information, such as session IDs or user credentials, can be exposed,
+    enabling unauthorized access to the system.
+
+    - Attackers can gain control of the web server, potentially leading to a complete
+    compromise of the system.
+
+    - The vulnerability can be exploited to perform a wide range of malicious actions,
+    including data theft, system takeover, and further attacks on the organization''s
+    infrastructure.
+
+    - The impact of this vulnerability is significant, as it can undermine the overall
+    security of the web application and the data it processes, compromising the confidentiality,
+    integrity, and availability of the system.'
+  remediation: 'To address the "Parameter based cookie injection" vulnerability, developers
+    should implement robust input validation and sanitization measures to ensure that
+    all user input is properly handled before being incorporated into cookie generation.
+    This will prevent the injection of malicious code and protect the integrity of
+    the cookies, thereby mitigating the risk of unauthorized access and system compromise.
+
+
+    Specifically, developers should:
+
+
+    - Implement strict input validation on all user-supplied parameters, including
+    those used in cookie generation. This includes validating the length, character
+    set, and format of the input to ensure it conforms to expected values.
+
+    - Use a whitelist-based approach to sanitize user input, removing or encoding
+    any potentially dangerous characters or constructs before incorporating the input
+    into the cookie.
+
+    - Implement server-side validation of cookie values to detect and reject any malformed
+    or suspicious cookies, preventing their use in the application''s logic.
+
+    - Regularly review and update the application''s input validation and sanitization
+    processes to address emerging threats and changing security best practices.
+
+    - Implement secure coding practices, such as the use of input validation libraries
+    and secure coding frameworks, to ensure that the application''s handling of user
+    input is robust and consistent across all areas of the codebase.'
 variables:
-  first: "cookie_injection"
-
+  first: cookie_injection
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      reflection:
-        - "{{first}}"
-
-    fuzzing:
-      - part: query
-        type: postfix
-        fuzz:
-          - "{{reflection}}"
-
-      - part: body
-        type: postfix
-        fuzz:
-          - "{{reflection}}"
-
-      - part: cookie
-        type: postfix
-        fuzz:
-          - "{{reflection}}"
-
-      - part: header
-        type: postfix
-        fuzz:
-          - "{{reflection}}"
-
-      - part: path
-        type: postfix
-        fuzz:
-          - "{{reflection}}"
-
-    matchers:
-      - type: regex
-        part: header
-        regex:
-          - '(?m)(?i)(^set-cookie.*cookie_injection.*)'
-# digest: 4b0a004830460221008d176a937df3a060c869460001cd09392d40a6b967ff6e96f370720d962326d4022100d97bad09822dfe1eb276af89d02ed901100fe7b826d4acd9b4d9a363c899f74b:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    reflection:
+    - '{{first}}'
+  fuzzing:
+  - part: query
+    type: postfix
+    fuzz:
+    - '{{reflection}}'
+  - part: body
+    type: postfix
+    fuzz:
+    - '{{reflection}}'
+  - part: cookie
+    type: postfix
+    fuzz:
+    - '{{reflection}}'
+  - part: header
+    type: postfix
+    fuzz:
+    - '{{reflection}}'
+  - part: path
+    type: postfix
+    fuzz:
+    - '{{reflection}}'
+  matchers:
+  - type: regex
+    part: header
+    regex:
+    - (?m)(?i)(^set-cookie.*cookie_injection.*)

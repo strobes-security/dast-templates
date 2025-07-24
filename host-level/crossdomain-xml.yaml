@@ -1,28 +1,79 @@
 id: insecure-crossdomain
-
 info:
   name: Insecure cross-domain.xml file
   author: Borna Nematzadeh,nadino
   severity: info
   reference:
-    - https://www.acunetix.com/vulnerabilities/web/insecure-crossdomain-xml-file
+  - https://www.acunetix.com/vulnerabilities/web/insecure-crossdomain-xml-file
   metadata:
     max-request: 1
   tags: exposure,generic,files
+  description: The "Insecure cross-domain.xml file" vulnerability refers to the improper
+    configuration or presence of the cross-domain.xml file on a web server. This file
+    is used to specify which domains are allowed to access content hosted on the server,
+    typically in the context of cross-domain web applications or Flash applications.
+    If the cross-domain.xml file is misconfigured or lacks proper access controls,
+    it can allow unauthorized access to sensitive data or functionality on the server,
+    potentially leading to data breaches, cross-site scripting (XSS) attacks, or other
+    security issues. This vulnerability is particularly concerning as it can enable
+    attackers to bypass same-origin policy restrictions and gain access to resources
+    that should be restricted to specific domains, thereby undermining the security
+    measures in place and exposing the system to further exploitation. Addressing
+    this vulnerability by properly configuring or removing the cross-domain.xml file
+    is crucial to maintain the overall security of the web application and protect
+    against unauthorized access and data leakage.
+  impact: '- Gain unauthorized access to sensitive data or functionality on the server
+    by bypassing same-origin policy restrictions
 
+    - Perform cross-site scripting (XSS) attacks and inject malicious code into the
+    application, potentially leading to further exploitation
+
+    - Retrieve and exfiltrate confidential information, such as user data, authentication
+    credentials, or other sensitive assets
+
+    - Escalate privileges and access resources that should be restricted to specific
+    domains, compromising the overall security of the system
+
+    - Leverage the vulnerability to launch other attacks, such as distributed denial-of-service
+    (DDoS) or man-in-the-middle attacks, further jeopardizing the security and availability
+    of the web application'
+  remediation: 'To address the "Insecure cross-domain.xml file" vulnerability, it
+    is crucial to review and properly configure the cross-domain.xml file to ensure
+    that only the necessary and authorized domains are granted access to the content
+    hosted on the web server. This includes carefully evaluating the existing configuration,
+    applying the principle of least privilege, and implementing robust access controls
+    to mitigate the risk of unauthorized access and potential security breaches.
+
+
+    - Carefully review the existing cross-domain.xml file and ensure that it only
+    grants access to the necessary and authorized domains. Remove any overly permissive
+    or unnecessary rules that could allow unauthorized access.
+
+    - Implement the principle of least privilege by limiting the number of domains
+    granted access to the minimum required for the application''s functionality. Avoid
+    using wildcard (*) or overly broad domain specifications.
+
+    - Ensure that the cross-domain.xml file is properly secured and not accessible
+    to the public. Consider disabling direct access to the file or implementing server-side
+    access controls to prevent unauthorized retrieval of the file.
+
+    - Regularly review and update the cross-domain.xml file as part of your application''s
+    security maintenance process, accounting for changes in the application''s requirements,
+    infrastructure, and security best practices.
+
+    - Consider removing the cross-domain.xml file altogether if it is not required
+    for your application''s functionality, as this can eliminate the risk associated
+    with this vulnerability.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/crossdomain.xml"
-
-    matchers-condition: and
-    matchers:
-      - type: status
-        status:
-          - 200
-
-      - type: word
-        part: body
-        words:
-          - '<allow-access-from domain="*"/>'
-# digest: 4a0a0047304502210084cd8a15f2ffea8c34f16daee5f3f18ea5160988dbfb766ea46835a51d3e5287022039795b03b604dc012cd57d4a167123f2de21ea45e124c577cd0f1e58f0fadb74:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/crossdomain.xml'
+  matchers-condition: and
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: word
+    part: body
+    words:
+    - <allow-access-from domain="*"/>

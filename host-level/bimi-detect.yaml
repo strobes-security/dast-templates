@@ -1,26 +1,64 @@
 id: bimi-record-detect
-
 info:
   name: BIMI Record - Detection
   author: rxerium
   severity: info
-  description: |
-    A BIMI record was detected
+  description: 'A BIMI record was detected
+
+    '
   reference:
-    - https://postmarkapp.com/blog/what-the-heck-is-bimi
+  - https://postmarkapp.com/blog/what-the-heck-is-bimi
   metadata:
     max-request: 1
   tags: dns,bimi
-dns:
-  - name: "{{FQDN}}"
-    type: TXT
-    matchers:
-      - type: word
-        words:
-          - "v=BIMI1"
+  impact: '- An attacker could leverage the BIMI record to conduct phishing and email
+    spoofing attacks, potentially deceiving recipients into believing that the emails
+    originate from a trusted and legitimate source.
 
-    extractors:
-      - type: regex
-        regex:
-          - "v=BIMI1(.+)"
-# digest: 4b0a00483046022100eda130309b46c8f5ba471bc90b2e2e59eab696dadaeb30a06ca057e518f17d55022100db51cd3a20417f24e2aef52693c597733f4d276c287d2d92565110196383af4a:922c64590222798bb761d5b6d8e72950
+    - The attacker could use the BIMI record to enhance the credibility of malicious
+    emails, making them more likely to bypass security measures and be accepted by
+    users.
+
+    - By exploiting the BIMI record, the attacker could gain unauthorized access to
+    sensitive information, such as login credentials or financial data, from victims
+    who fall for the phishing attempts.
+
+    - The attacker could use the BIMI record to distribute malware or other malicious
+    payloads through the spoofed emails, compromising the security of the targeted
+    systems and networks.
+
+    - The presence of the BIMI record could undermine the overall trust and reputation
+    of the affected organization, potentially leading to reputational damage and loss
+    of customer confidence.'
+  remediation: 'To address the "BIMI Record - Detection" vulnerability, organizations
+    should take the following steps:
+
+
+    - Verify the legitimacy and ownership of the BIMI record. Ensure that the record
+    is properly configured and authorized by the organization, and that it is not
+    being used for unauthorized or malicious purposes.
+
+    - Review the content and branding of the BIMI record to ensure that it accurately
+    represents the organization and does not contain any misleading or deceptive elements.
+
+    - Implement robust email authentication protocols, such as DKIM, SPF, and DMARC,
+    to prevent email spoofing and increase the overall security of the organization''s
+    email infrastructure.
+
+    - Educate employees on the risks associated with BIMI records and the potential
+    for phishing and email spoofing attacks. Provide training on how to identify and
+    report suspicious emails.
+
+    - Regularly monitor and review the organization''s email security posture, including
+    the BIMI record, to quickly detect and address any changes or suspicious activities.'
+dns:
+- name: '{{FQDN}}'
+  type: TXT
+  matchers:
+  - type: word
+    words:
+    - v=BIMI1
+  extractors:
+  - type: regex
+    regex:
+    - v=BIMI1(.+)

@@ -1,12 +1,11 @@
 id: wamp-xdebug-detect
-
 info:
   name: WAMP Xdebug - Detect
   author: e_schultze_
   severity: info
   description: WAMP Xdebug was detected.
   reference:
-    - https://github.com/random-robbie/My-Shodan-Scripts/blob/1b01bceecc9be0b74b202f445874920eee48bba5/wamp-xdebug/wamp-xdebug.py
+  - https://github.com/random-robbie/My-Shodan-Scripts/blob/1b01bceecc9be0b74b202f445874920eee48bba5/wamp-xdebug/wamp-xdebug.py
   classification:
     cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
     cvss-score: 0
@@ -14,15 +13,49 @@ info:
   metadata:
     max-request: 1
   tags: debug,config,wamp,misconfig
+  impact: '- Potential unauthorized access to sensitive system information, such as
+    server configurations, application source code, and database details.
 
+    - Increased risk of further exploitation, as Xdebug can provide a foothold for
+    an attacker to launch more advanced attacks.
+
+    - Possibility of remote code execution, allowing an attacker to gain control of
+    the system and potentially escalate privileges.
+
+    - Exposure of potentially confidential data to the attacker, which could be used
+    for financial gain or other malicious purposes.
+
+    - Increased likelihood of the system being targeted for additional attacks, as
+    the presence of Xdebug may indicate other vulnerabilities or misconfigurations.'
+  remediation: 'To address the "WAMP Xdebug - Detect" vulnerability, it is crucial
+    to disable the Xdebug functionality on the WAMP (Windows, Apache, MySQL, PHP)
+    server. Xdebug is a powerful debugging tool, but if left enabled in a production
+    environment, it can pose significant security risks by exposing sensitive system
+    information and potentially allowing unauthorized access or remote code execution.
+
+
+    - Verify the Xdebug extension is enabled in the PHP configuration file (php.ini)
+    and disable it by removing or commenting out the relevant line(s).
+
+    - Ensure that the Xdebug extension is not loaded automatically on startup by checking
+    the system''s startup scripts or services.
+
+    - Review the Apache configuration files and remove any references to Xdebug or
+    debug-related directives.
+
+    - Implement strict access control measures, such as firewall rules or network
+    policies, to restrict access to the WAMP server and limit the exposure of the
+    system to potential attackers.
+
+    - Regularly monitor the system for any signs of unauthorized access or suspicious
+    activity, and implement robust logging and incident response procedures to promptly
+    identify and address any security incidents.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/?phpinfo=-1"
-
-    matchers:
-      - type: word
-        words:
-          - 'xdebug.remote_connect_back</td><td class="v">On</td><td class="v">On</td>'
-        part: body
-# digest: 490a00463044022100b3612a48f8654ad02d30dfe3067d74dbe445bebe09e6c954be206aadf729da0f021f7b66a53cd48c3d41ef4f9835e0756190877f21f968b6b2f914d7d3c736a92d:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/?phpinfo=-1'
+  matchers:
+  - type: word
+    words:
+    - xdebug.remote_connect_back</td><td class="v">On</td><td class="v">On</td>
+    part: body

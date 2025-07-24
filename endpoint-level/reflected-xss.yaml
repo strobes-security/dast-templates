@@ -1,5 +1,4 @@
 id: reflected-xss
-
 info:
   name: Reflected Cross-Site Scripting
   author: pdteam,0xKayala,AmirHossein Raeisi
@@ -7,64 +6,107 @@ info:
   metadata:
     max-request: 1
   tags: xss,rxss,dast
+  description: Reflected Cross-Site Scripting (XSS) is a type of web application vulnerability
+    that occurs when user input is directly incorporated into the application's output
+    without proper validation or sanitization. This allows an attacker to inject malicious
+    scripts into the application's pages, which are then executed by the victim's
+    web browser. When a user interacts with a link, form, or other input field that
+    is vulnerable to Reflected XSS, the malicious script included in the input is
+    immediately executed, potentially leading to the theft of sensitive user data,
+    the hijacking of user sessions, or the delivery of malware to the victim's system.
+    Reflected XSS vulnerabilities are dangerous as they can be easily exploited and
+    can have severe consequences for both the application and its users, making them
+    a critical security concern that should be addressed promptly.
+  impact: '- Steal sensitive user data, such as login credentials, payment information,
+    or personal details, by injecting a script that sends this data to the attacker''s
+    server.
 
+    - Hijack user sessions and impersonate legitimate users, allowing the attacker
+    to perform unauthorized actions on behalf of the victims.
+
+    - Deliver malware or other malicious payloads to the victim''s system, compromising
+    the user''s device and potentially gaining further access to the organization''s
+    network.
+
+    - Conduct phishing attacks by injecting a script that redirects users to a malicious
+    site controlled by the attacker, allowing the attacker to steal sensitive information.
+
+    - Disrupt the normal operation of the application by injecting scripts that can
+    alter the page''s content, functionality, or appearance, leading to a degradation
+    of the user experience.'
+  remediation: 'To address the Reflected Cross-Site Scripting (XSS) vulnerability,
+    it is crucial to implement robust input validation and output encoding mechanisms
+    throughout the application. This involves carefully sanitizing and validating
+    all user input before it is incorporated into the application''s output, and ensuring
+    that any potentially dangerous characters or scripts are properly encoded or filtered.
+
+
+    - Implement server-side input validation: Thoroughly validate and sanitize all
+    user input, including parameters, form fields, and URL query strings, to remove
+    or escape any potentially malicious characters or scripts.
+
+    - Utilize output encoding: Ensure that all user-supplied data is properly encoded
+    when displayed on the page, using techniques such as HTML entity encoding, to
+    prevent the execution of any injected scripts.
+
+    - Implement Content Security Policy (CSP): Deploy a Content Security Policy to
+    restrict the sources from which resources (such as scripts, images, and stylesheets)
+    can be loaded, effectively mitigating the impact of Reflected XSS attacks.
+
+    - Educate developers: Provide comprehensive training to your development team
+    on secure coding practices, the importance of input validation and output encoding,
+    and the risks associated with Reflected XSS vulnerabilities.
+
+    - Regularly review and test: Conduct periodic security assessments and penetration
+    testing to identify and address any remaining Reflected XSS vulnerabilities within
+    the application.'
 variables:
-  first: "{{rand_int(10000, 99999)}}"
-
+  first: '{{rand_int(10000, 99999)}}'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      reflection:
-        - "'\"><{{first}}>"
-        - "'><{{first}}>"
-        - "\"><{{first}}>"
-
-    fuzzing:
-      - part: body
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{reflection}}"
-
-      - part: query
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{reflection}}"
-
-      - part: header
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{reflection}}"
-
-      - part: cookie
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{reflection}}"
-
-      - part: path
-        type: postfix
-        mode: single
-        fuzz:
-          - "{{reflection}}"
-
-    stop-at-first-match: true
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "{{reflection}}"
-
-      - type: word
-        part: header
-        words:
-          - "text/html"
-# digest: 4a0a00473045022100b946e6f2777bc795532ee437c3d501e3a0dda1c5bb31838576a7ae90d9862af102203bce6702443ca30f8c1fd96869c24c442f0d920e8b2db0bab68413c30b9756c9:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    reflection:
+    - '''"><{{first}}>'
+    - '''><{{first}}>'
+    - '"><{{first}}>'
+  fuzzing:
+  - part: body
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{reflection}}'
+  - part: query
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{reflection}}'
+  - part: header
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{reflection}}'
+  - part: cookie
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{reflection}}'
+  - part: path
+    type: postfix
+    mode: single
+    fuzz:
+    - '{{reflection}}'
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - '{{reflection}}'
+  - type: word
+    part: header
+    words:
+    - text/html

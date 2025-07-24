@@ -1,84 +1,106 @@
 id: mx-service-detector
-
 info:
   name: Email Service Detector
   author: binaryfigments
   severity: info
-  description: An email service was detected. Check the email service or spam filter that is used for a domain.
+  description: An email service was detected. Check the email service or spam filter
+    that is used for a domain.
   classification:
     cwe-id: CWE-200
   metadata:
     max-request: 1
   tags: dns,service
+  impact: '- The attacker could potentially gain access to sensitive email communications
+    and information exchanged through the vulnerable email service.
 
+    - The attacker could leverage the email service to launch phishing attacks or
+    distribute malware to the organization''s employees.
+
+    - The attacker could potentially disrupt the organization''s email operations
+    by tampering with or denying access to the email service.
+
+    - The attacker could gather intelligence about the organization''s email infrastructure,
+    which could be used to plan further attacks.
+
+    - The attacker could potentially gain unauthorized access to the email service''s
+    administrative interface, allowing them to control and misuse the system.'
+  remediation: 'To address the "Email Service Detector" vulnerability, the organization
+    should take the following steps:
+
+
+    - Conduct a thorough review of the organization''s email service and spam filter
+    configurations to ensure they are properly secured and configured according to
+    best practices.
+
+    - Implement robust access controls and authentication mechanisms to restrict unauthorized
+    access to the email service''s administrative interface.
+
+    - Regularly monitor and audit the email service''s logs and activities to detect
+    any suspicious or unauthorized access attempts.
+
+    - Ensure that the email service and associated software are kept up-to-date with
+    the latest security patches and updates to address any known vulnerabilities.
+
+    - Implement email security best practices, such as email encryption, email authentication
+    protocols (e.g., SPF, DKIM, DMARC), and spam/malware filtering, to enhance the
+    overall security of the organization''s email communications.'
 dns:
-  - name: "{{FQDN}}"
-    type: MX
-
-    matchers-condition: or
-    matchers:
-      - type: word
-        name: "Office 365"
-        words:
-          - "mail.protection.outlook.com"
-
-      - type: word
-        name: "Google Apps"
-        words:
-          - "aspmx2.googlemail.com"
-          - "aspmx3.googlemail.com"
-          - "alt1.aspmx.l.google.com"
-          - "alt2.aspmx.l.google.com"
-          - "aspmx.l.google.com"
-
-      - type: word
-        name: "ProtonMail"
-        words:
-          - "mail.protonmail.ch"
-          - "mailsec.protonmail.ch"
-
-      - type: word
-        name: "Zoho Mail"
-        words:
-          - "mx.zoho.eu"
-          - "mx2.zoho.eu"
-          - "mx3.zoho.eu"
-
-      - type: word
-        name: "ForcePoint Email Security"
-        words:
-          - "in.mailcontrol.com"
-
-      - type: word
-        name: "E-Zorg NL"
-        words:
-          - "spamfilter02.ezorg.nl"
-          - "spamfilter01.ezorg.nl"
-          - "spamfilter.ezorg.nl"
-          - "spamfilter03.ezorg.nl"
-
-      - type: word
-        name: "Kerio Cloud EU"
-        words:
-          - "mx1.eu1.kerio.cloud"
-          - "mx2.eu1.kerio.cloud"
-
-      - type: word
-        name: "Kerio Cloud US"
-        words:
-          - "mx1.us1.kerio.cloud"
-          - "mx2.us1.kerio.cloud"
-          - "mx3.us1.kerio.cloud"
-
-      - type: word
-        name: "Proofpoint EU"
-        words:
-          - "mx1-eu1.ppe-hosted.com"
-          - "mx2-eu1.ppe-hosted.com"
-
-      - type: word
-        name: "Proofpoint US"
-        words:
-          - "mx1-us1.ppe-hosted.com"
-          - "mx2-us1.ppe-hosted.com"
-# digest: 490a004630440220653773085ed30afcfbc112fb6e5051441e49c562c8f20582ce27e4d80623ab060220156359a09c9cb231a96a25b2d9d5a4fce9de95573cd48e28590f8cf2a07eacee:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: MX
+  matchers-condition: or
+  matchers:
+  - type: word
+    name: Office 365
+    words:
+    - mail.protection.outlook.com
+  - type: word
+    name: Google Apps
+    words:
+    - aspmx2.googlemail.com
+    - aspmx3.googlemail.com
+    - alt1.aspmx.l.google.com
+    - alt2.aspmx.l.google.com
+    - aspmx.l.google.com
+  - type: word
+    name: ProtonMail
+    words:
+    - mail.protonmail.ch
+    - mailsec.protonmail.ch
+  - type: word
+    name: Zoho Mail
+    words:
+    - mx.zoho.eu
+    - mx2.zoho.eu
+    - mx3.zoho.eu
+  - type: word
+    name: ForcePoint Email Security
+    words:
+    - in.mailcontrol.com
+  - type: word
+    name: E-Zorg NL
+    words:
+    - spamfilter02.ezorg.nl
+    - spamfilter01.ezorg.nl
+    - spamfilter.ezorg.nl
+    - spamfilter03.ezorg.nl
+  - type: word
+    name: Kerio Cloud EU
+    words:
+    - mx1.eu1.kerio.cloud
+    - mx2.eu1.kerio.cloud
+  - type: word
+    name: Kerio Cloud US
+    words:
+    - mx1.us1.kerio.cloud
+    - mx2.us1.kerio.cloud
+    - mx3.us1.kerio.cloud
+  - type: word
+    name: Proofpoint EU
+    words:
+    - mx1-eu1.ppe-hosted.com
+    - mx2-eu1.ppe-hosted.com
+  - type: word
+    name: Proofpoint US
+    words:
+    - mx1-us1.ppe-hosted.com
+    - mx2-us1.ppe-hosted.com

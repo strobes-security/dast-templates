@@ -1,12 +1,12 @@
 id: browserless-debugger
-
 info:
   name: Exposed Browserless debugger
   author: ggranjus
   severity: medium
-  description: Browserless instance can be used to make web requests. May worth checking /workspace for juicy files.
+  description: Browserless instance can be used to make web requests. May worth checking
+    /workspace for juicy files.
   reference:
-    - https://docs.browserless.io/docs/docker.html#securing-your-instance
+  - https://docs.browserless.io/docs/docker.html#securing-your-instance
   classification:
     cpe: cpe:2.3:a:browserless:chrome:*:*:*:*:node.js:*:*:*
   metadata:
@@ -15,22 +15,59 @@ info:
     product: chrome
     shodan-query: http.title:"browserless debugger"
   tags: browserless,unauth,debug,misconfig
+  impact: '- An attacker could leverage the exposed Browserless debugger to make unauthorized
+    web requests, potentially accessing sensitive data or functionality on the targeted
+    system.
 
+    - The attacker could attempt to locate and retrieve potentially sensitive files
+    or documents stored in the /workspace directory of the Browserless instance.
+
+    - With the ability to make web requests through the Browserless debugger, an attacker
+    could attempt to exploit other vulnerabilities on the system or network, potentially
+    leading to further compromise.
+
+    - The Browserless debugger could be used as an entry point for an attacker to
+    gain a foothold on the system and potentially escalate privileges or move laterally
+    within the network.
+
+    - The exposed Browserless debugger could allow an attacker to bypass security
+    controls and bypass authentication, potentially leading to unauthorized access
+    or data exfiltration.'
+  remediation: 'To address the "Exposed Browserless debugger" vulnerability, the following
+    remediation steps should be taken:
+
+
+    - Restrict access to the Browserless debugger by implementing strong authentication
+    and authorization mechanisms. Ensure that only authorized personnel can access
+    the debugger interface.
+
+    - Disable the Browserless debugger if it is not required for the application''s
+    functionality. If the debugger is necessary, limit its usage to development and
+    testing environments, and ensure it is not exposed to the public internet.
+
+    - Review the contents of the /workspace directory and remove or secure any sensitive
+    files or documents that may be accessible through the debugger. Regularly audit
+    the /workspace directory to ensure no sensitive information is stored in an exposed
+    manner.
+
+    - Implement network-level controls, such as firewalls or access control lists,
+    to restrict access to the Browserless debugger from unauthorized IP addresses
+    or networks.
+
+    - Regularly monitor and review logs for any suspicious activity or unauthorized
+    access attempts to the Browserless debugger.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "<title>browserless debugger</title>"
-          - "<code>Click the ► button to run your code.</code>"
-        condition: or
-
-      - type: status
-        status:
-          - 200
-# digest: 490a004630440220608079abff15319c244b70860ddabfe73e5657b7d31af7cc83c05ab4aabc2aa002201f4c016d61c1019acc06bf1046e38e9b36d8f3f1b38c6d2a05bb2d8a1c6b2012:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - <title>browserless debugger</title>
+    - "<code>Click the \u25BA button to run your code.</code>"
+    condition: or
+  - type: status
+    status:
+    - 200

@@ -1,47 +1,101 @@
 id: elasticbeanstalk-takeover
-
 info:
   name: ElasticBeanstalk Subdomain Takeover Detection
   author: philippedelteil,rotemreiss,zy9ard3,joaonevess
   severity: high
-  description: ElasticBeanstalk subdomain takeover detected. A subdomain takeover occurs when an attacker gains control over a subdomain of a target domain. Typically, this happens when the subdomain has a canonical name (CNAME) in the Domain Name System (DNS), but no host is providing content for it.
+  description: ElasticBeanstalk subdomain takeover detected. A subdomain takeover
+    occurs when an attacker gains control over a subdomain of a target domain. Typically,
+    this happens when the subdomain has a canonical name (CNAME) in the Domain Name
+    System (DNS), but no host is providing content for it.
   reference:
-    - https://github.com/EdOverflow/can-i-take-over-xyz/issues/147
-    - https://twitter.com/payloadartist/status/1362035009863880711
-    - https://www.youtube.com/watch?v=srKIqhj_ki8
+  - https://github.com/EdOverflow/can-i-take-over-xyz/issues/147
+  - https://twitter.com/payloadartist/status/1362035009863880711
+  - https://www.youtube.com/watch?v=srKIqhj_ki8
   classification:
     cvss-metrics: CVSS:3.0/AV:N/AC:L/PR:N/UI:N/S:C/C:L/I:L/A:N
     cvss-score: 7.2
     cwe-id: CWE-404
   metadata:
     max-request: 1
-    comments: |
-      Only CNAMEs with region specification are hijackable.
-      You need to claim the CNAME in AWS portal (https://aws.amazon.com/) or via AWS CLI to confirm the takeover.
+    comments: 'Only CNAMEs with region specification are hijackable.
+
+      You need to claim the CNAME in AWS portal (https://aws.amazon.com/) or via AWS
+      CLI to confirm the takeover.
+
       Do not report this without claiming the CNAME.
+
       CLI command to verify the availability of the environment:
-      aws elasticbeanstalk check-dns-availability --region {AWS_REGION} --cname-prefix {CNAME_PREFIX}
+
+      aws elasticbeanstalk check-dns-availability --region {AWS_REGION} --cname-prefix
+      {CNAME_PREFIX}
+
       For example:
+
       CNAME - 2rs3c.eu-west-1.elasticbeanstalk.com
-      Command - aws elasticbeanstalk check-dns-availability --region eu-west-1 --cname-prefix 2rs3c
+
+      Command - aws elasticbeanstalk check-dns-availability --region eu-west-1 --cname-prefix
+      2rs3c
+
+      '
   tags: dns,takeover,aws,elasticbeanstalk
+  impact: '- An attacker could potentially take control of the vulnerable subdomain,
+    allowing them to host their own content and impersonate the target organization.
 
+    - The attacker could use the hijacked subdomain to conduct phishing attacks, distribute
+    malware, or carry out other malicious activities that appear to originate from
+    the target organization.
+
+    - The attacker could gain access to sensitive information or systems that are
+    accessible through the vulnerable subdomain, potentially leading to further compromise
+    of the target organization''s infrastructure.
+
+    - The attacker could leverage the hijacked subdomain to launch attacks against
+    other systems or users, such as cross-site scripting (XSS) or cross-site request
+    forgery (CSRF) attacks.
+
+    - The attacker''s control over the vulnerable subdomain could enable them to intercept
+    and manipulate communication between the target organization and its customers
+    or partners, compromising the confidentiality, integrity, and availability of
+    data.'
+  remediation: 'To address the "ElasticBeanstalk Subdomain Takeover Detection" vulnerability,
+    organizations should ensure that all subdomains are properly configured and actively
+    managed. This includes regularly reviewing DNS records, ensuring that each subdomain
+    has a valid host providing content, and promptly addressing any instances of unclaimed
+    or unmanaged subdomains to prevent potential takeover attempts.
+
+
+    - Review all DNS records associated with the organization''s ElasticBeanstalk
+    instances and ensure that each subdomain has an active host providing content.
+    Identify any subdomains that do not have a valid host and take immediate action
+    to resolve the issue.
+
+    - Implement continuous monitoring and detection mechanisms to identify any changes
+    or new subdomains that may be created or modified without authorization. This
+    can help detect potential subdomain takeover attempts in a timely manner.
+
+    - Establish a clear process for managing and updating DNS records, including designating
+    responsibilities and ensuring that any changes are properly documented and communicated
+    to relevant teams.
+
+    - Provide training and guidance to developers on the importance of properly configuring
+    and maintaining subdomains, as well as the potential risks associated with subdomain
+    takeover attacks.
+
+    - Consider implementing security controls, such as content security policies (CSP)
+    and strict transport security (HSTS), to mitigate the impact of successful subdomain
+    takeover attempts and reduce the risk of further compromise.'
 dns:
-  - name: "{{FQDN}}"
-    type: A
-
-    matchers-condition: and
-    matchers:
-      - type: regex
-        regex:
-          - CNAME\t[a-z0-9_-]*\.(us|af|ap|ca|eu|me|sa|il)\-(north|east|west|south|northeast|southeast|central)\-[1-9]+\.elasticbeanstalk\.com
-
-      - type: word
-        words:
-          - NXDOMAIN
-
-    extractors:
-      - type: dsl
-        dsl:
-          - cname
-# digest: 490a00463044022065e172ebfcfc4aa8868bb6edd30e1b2a790366eaebf33b8956e760564f8a5ae402205ed5bd9be6c5cf5f6f76338561b3480c32564ea539074f753dfd7bd5d9766cc8:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: A
+  matchers-condition: and
+  matchers:
+  - type: regex
+    regex:
+    - CNAME\t[a-z0-9_-]*\.(us|af|ap|ca|eu|me|sa|il)\-(north|east|west|south|northeast|southeast|central)\-[1-9]+\.elasticbeanstalk\.com
+  - type: word
+    words:
+    - NXDOMAIN
+  extractors:
+  - type: dsl
+    dsl:
+    - cname

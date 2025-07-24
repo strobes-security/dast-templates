@@ -1,53 +1,89 @@
 id: mixed-passive-content
-
 info:
   name: Mixed Passive Content
   author: Liwermor
   severity: info
-  description: |
-    This check detects if there are any passive content being loaded over HTTP instead of HTTPS.
+  description: 'This check detects if there are any passive content being loaded over
+    HTTP instead of HTTPS.
+
+    '
   reference:
-    - https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
-    - https://portswigger.net/kb/issues/01000400_mixed-content
-    - https://resources.infosecinstitute.com/topics/vulnerabilities/https-mixed-content-vulnerability/
-    - https://docs.gitlab.com/ee/user/application_security/dast/checks/319.1.html
+  - https://developer.mozilla.org/en-US/docs/Web/Security/Mixed_content
+  - https://portswigger.net/kb/issues/01000400_mixed-content
+  - https://resources.infosecinstitute.com/topics/vulnerabilities/https-mixed-content-vulnerability/
+  - https://docs.gitlab.com/ee/user/application_security/dast/checks/319.1.html
   metadata:
     max-request: 1
   tags: misconfig
+  impact: '- An attacker could potentially intercept and modify the passive content
+    being loaded, such as images, scripts, or stylesheets, leading to the injection
+    of malicious content.
 
+    - The attacker could leverage the mixed passive content vulnerability to perform
+    a man-in-the-middle attack, gaining the ability to monitor and manipulate the
+    user''s browsing activity.
+
+    - The mixed passive content vulnerability could expose the user''s sensitive information,
+    such as authentication cookies or session tokens, to the attacker, compromising
+    the user''s privacy and security.
+
+    - The attacker could exploit the mixed passive content vulnerability to launch
+    further attacks, such as cross-site scripting (XSS) or content spoofing, which
+    could lead to more severe consequences for the user or the application.
+
+    - The presence of mixed passive content could reduce the overall security of the
+    application, making it more susceptible to other types of attacks, such as downgrade
+    attacks or SSL/TLS vulnerabilities.'
+  remediation: 'To address the "Mixed Passive Content" vulnerability, it is crucial
+    to ensure that all passive content, such as images, scripts, and stylesheets,
+    are loaded over HTTPS. This will prevent an attacker from intercepting and modifying
+    the content, reducing the risk of man-in-the-middle attacks, data leakage, and
+    other security threats.
+
+
+    - Identify all instances of passive content being loaded over HTTP and update
+    the code to use HTTPS instead.
+
+    - Perform a comprehensive review of the application''s codebase to ensure that
+    no passive content is being loaded over an insecure connection.
+
+    - Implement a Content Security Policy (CSP) to further restrict the sources from
+    which passive content can be loaded, and enforce the use of HTTPS.
+
+    - Regularly monitor the application for any new instances of mixed passive content
+    and address them promptly.
+
+    - Consider using a service or tool that can automatically detect and report mixed
+    passive content issues, simplifying the ongoing maintenance and security of the
+    application.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-
-    host-redirects: true
-    max-redirects: 3
-    matchers-condition: or
-    matchers:
-      - type: regex
-        part: body
-        name: img
-        regex:
-          - "<img[^>]*src=['\"]http://[^'\">]+['\"]"
-
-      - type: regex
-        part: body
-        name: audio
-        regex:
-          - "<audio[^>]*src=['\"]http://[^'\">]+['\"]"
-
-      - type: regex
-        part: body
-        name: video
-        regex:
-          - "<video[^>]*src=['\"]http://[^'\">]+['\"]"
-
-    extractors:
-      - type: regex
-        group: 1
-        part: body
-        regex:
-          - "<img[^>]*src=['\"](http[^s'\">][^'\">]*)['\"]"
-          - "<audio[^>]*src=['\"](http[^s'\">][^'\">]*)['\"]"
-          - "<video[^>]*src=['\"](http[^s'\">][^'\">]*)['\"]"
-# digest: 490a004630440220153ae7ea039ff6f25704864569661bef3606155b89b15cdb33f83d0f4b842a6d02201ba93516a995369335dd8e40a1675c7d04c04b418a209f1cd940b1983ac28521:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 3
+  matchers-condition: or
+  matchers:
+  - type: regex
+    part: body
+    name: img
+    regex:
+    - <img[^>]*src=['"]http://[^'">]+['"]
+  - type: regex
+    part: body
+    name: audio
+    regex:
+    - <audio[^>]*src=['"]http://[^'">]+['"]
+  - type: regex
+    part: body
+    name: video
+    regex:
+    - <video[^>]*src=['"]http://[^'">]+['"]
+  extractors:
+  - type: regex
+    group: 1
+    part: body
+    regex:
+    - <img[^>]*src=['"](http[^s'">][^'">]*)['"]
+    - <audio[^>]*src=['"](http[^s'">][^'">]*)['"]
+    - <video[^>]*src=['"](http[^s'">][^'">]*)['"]

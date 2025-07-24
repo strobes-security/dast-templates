@@ -1,31 +1,69 @@
 id: tomcat-cookie-exposed
-
 info:
   name: Tomcat Cookie Exposed
   author: tess,dk999
   severity: low
   description: Tomcat Cookie is exposed.
   reference:
-    - https://medium.com/bugbountywriteup/apache-example-servlet-leads-to-61a2720cac20
+  - https://medium.com/bugbountywriteup/apache-example-servlet-leads-to-61a2720cac20
   metadata:
     verified: true
     max-request: 1
   tags: misconfig,apache,tomcat,exposure
+  impact: '- Attacker could obtain sensitive information stored in the Tomcat cookie,
+    such as session identifiers, user credentials, or other potentially confidential
+    data.
 
+    - Attacker could potentially hijack an authenticated user''s session by using
+    the exposed Tomcat cookie, allowing them to access and manipulate the victim''s
+    account.
+
+    - Attacker could leverage the exposed Tomcat cookie to escalate their privileges
+    and gain unauthorized access to the Tomcat server or other connected systems.
+
+    - If the Tomcat cookie contains sensitive information, the attacker could use
+    it to launch further attacks, such as phishing or targeted malware distribution,
+    against the affected users or organization.
+
+    - The exposed Tomcat cookie could allow the attacker to gather intelligence about
+    the system''s architecture, configuration, or other valuable information that
+    could be used in subsequent attacks.'
+  remediation: 'To address the "Tomcat Cookie Exposed" vulnerability, it is essential
+    to ensure that Tomcat cookies are properly secured and do not expose sensitive
+    information. This can be achieved by implementing the following measures:
+
+
+    - Encrypt the Tomcat cookies: Ensure that all Tomcat cookies are encrypted using
+    a strong encryption algorithm, such as AES, to protect the confidentiality of
+    the data they contain.
+
+    - Implement secure cookie settings: Configure the Tomcat application to set the
+    "HttpOnly" and "Secure" flags on the cookies, which prevent the cookies from being
+    accessible by client-side scripts and ensure that they are only transmitted over
+    secure (HTTPS) connections.
+
+    - Limit the cookie''s lifespan: Reduce the expiration time of the Tomcat cookies
+    to the minimum necessary, ensuring that they are valid only for the duration of
+    the user''s session.
+
+    - Implement session management best practices: Review and implement best practices
+    for session management, such as generating unique session IDs for each user, invalidating
+    sessions when the user logs out, and enforcing session timeouts.
+
+    - Regularly review and update Tomcat configurations: Continuously monitor and
+    update the Tomcat configuration to ensure that it remains secure and aligned with
+    the latest security best practices.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/examples/servlets/servlet/CookieExample"
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        words:
-          - "Cookies Example"
-          - "Your browser is sending the following cookies:"
-        condition: and
-
-      - type: status
-        status:
-          - 200
-# digest: 4a0a004730450221009d079a66ab3fecab49d136d930846ff9e8f5b229e40f8e238a05f674c08036ac022000f6b6eda90792bd5c297daa62d2cc89666700a540b2d76dfa2fd03b7f4ac55b:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/examples/servlets/servlet/CookieExample'
+  matchers-condition: and
+  matchers:
+  - type: word
+    words:
+    - Cookies Example
+    - 'Your browser is sending the following cookies:'
+    condition: and
+  - type: status
+    status:
+    - 200

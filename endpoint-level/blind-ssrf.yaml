@@ -1,5 +1,4 @@
 id: blind-ssrf
-
 info:
   name: Blind SSRF OAST Detection
   author: pdteam,AmirHossein Raeisi
@@ -7,67 +6,119 @@ info:
   metadata:
     max-request: 3
   tags: ssrf,dast,oast
+  description: The "Blind SSRF OAST Detection" vulnerability refers to a security
+    flaw that allows an attacker to indirectly interact with and extract information
+    from internal systems by exploiting a Server-Side Request Forgery (SSRF) vulnerability.
+    In this scenario, the attacker leverages an Out-of-Band (OOB) or Out-of-Band Application
+    Security Testing (OAST) technique to detect the presence of the vulnerability.
+    Rather than directly accessing the internal systems, the attacker prompts the
+    vulnerable application to make a request to an external server controlled by the
+    attacker, which then provides confirmation of the SSRF vulnerability. This type
+    of blind SSRF vulnerability is particularly concerning as it can be difficult
+    to detect and may allow the attacker to bypass security controls and gain unauthorized
+    access to sensitive internal resources without leaving a direct trace within the
+    application's logs or network traffic.
+  impact: '- Gain access to sensitive internal systems and resources that the application
+    should not be able to reach, potentially including databases, internal web services,
+    or other critical infrastructure.
 
+    - Bypass security controls and network segmentation, as the attacker can leverage
+    the vulnerable application to make requests on their behalf and circumvent firewalls
+    or access restrictions.
+
+    - Conduct further attacks or reconnaissance within the internal network, using
+    the initial SSRF vulnerability as a foothold to map the internal network and identify
+    additional targets.
+
+    - Exfiltrate sensitive data or information from the internal systems, such as
+    user credentials, financial data, or other confidential information.
+
+    - Potentially execute arbitrary code or commands on the server hosting the vulnerable
+    application, depending on the specific implementation and the level of control
+    the attacker can achieve through the SSRF vulnerability.'
+  remediation: 'To address the "Blind SSRF OAST Detection" vulnerability, it is essential
+    to implement robust input validation and output sanitization measures throughout
+    the application. This will help prevent the application from making unintended
+    requests to external systems and reduce the risk of sensitive information being
+    leaked or unauthorized access being granted to internal resources.
+
+
+    - Implement strict URL validation and normalization: Thoroughly validate and sanitize
+    all user-supplied URLs, ensuring they conform to a predefined whitelist of trusted,
+    expected domains and patterns. Normalize the URLs to remove any potentially malicious
+    elements before making any outbound requests.
+
+    - Restrict access to internal network resources: Limit the ability of the application
+    to make requests to internal network resources, such as databases, web services,
+    or other sensitive systems. This can be achieved through the use of firewalls,
+    network segmentation, or other access control mechanisms.
+
+    - Enable comprehensive logging and monitoring: Implement robust logging and monitoring
+    capabilities to detect and alert on any suspicious activity, such as attempts
+    to reach external domains or internal network resources. Regularly review these
+    logs for any signs of potential SSRF attacks.
+
+    - Implement Out-of-Band (OOB) detection: Leverage OOB or OAST techniques to detect
+    the presence of SSRF vulnerabilities proactively. This may involve setting up
+    external monitoring services or servers to detect any incoming requests from the
+    application and provide immediate notification of potential SSRF activity.
+
+    - Educate developers on SSRF best practices: Ensure that all developers are aware
+    of the risks associated with SSRF vulnerabilities and are trained on the proper
+    techniques for input validation, output sanitization, and secure coding practices
+    to prevent the introduction of such vulnerabilities.'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      ssrf:
-        - "{{interactsh-url}}"
-        - "{{FQDN}}.{{interactsh-url}}"
-        - "{{RDN}}.{{interactsh-url}}"
-        - "{{FQDN}}@{{interactsh-url}}"
-        - "{{RDN}}@{{interactsh-url}}"
-
-    fuzzing:
-      - part: query
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-          - "\\./.*" # Replace path parameters with ssrf payloads
-        fuzz:
-          - "https://{{ssrf}}"
-
-      - part: body
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-          - "\\./.*" # Replace path parameters with ssrf payloads
-        fuzz:
-          - "https://{{ssrf}}"
-
-      - part: path
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-          - "\\./.*" # Replace path parameters with ssrf payloads
-        fuzz:
-          - "https://{{ssrf}}"
-
-      - part: cookie
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-          - "\\./.*" # Replace path parameters with ssrf payloads
-        fuzz:
-          - "https://{{ssrf}}"
-
-      - part: header
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-          - "\\./.*" # Replace path parameters with ssrf payloads
-        fuzz:
-          - "https://{{ssrf}}"
-
-    stop-at-first-match: true
-    matchers:
-      - type: word
-        part: interactsh_protocol  # Confirms the HTTP Interaction
-        words:
-          - "http"
-# digest: 490a0046304402200f4fac59ac544b53062c8903e3fc14f94b56e7ae95d1d9deef2d81d30a71e0be022075d19be0c973cbe8ec8120eaaeb45568dbb4c1992f19ece89e567949cfaeb658:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    ssrf:
+    - '{{interactsh-url}}'
+    - '{{FQDN}}.{{interactsh-url}}'
+    - '{{RDN}}.{{interactsh-url}}'
+    - '{{FQDN}}@{{interactsh-url}}'
+    - '{{RDN}}@{{interactsh-url}}'
+  fuzzing:
+  - part: query
+    mode: single
+    values:
+    - https?://
+    - \./.*
+    fuzz:
+    - https://{{ssrf}}
+  - part: body
+    mode: single
+    values:
+    - https?://
+    - \./.*
+    fuzz:
+    - https://{{ssrf}}
+  - part: path
+    mode: single
+    values:
+    - https?://
+    - \./.*
+    fuzz:
+    - https://{{ssrf}}
+  - part: cookie
+    mode: single
+    values:
+    - https?://
+    - \./.*
+    fuzz:
+    - https://{{ssrf}}
+  - part: header
+    mode: single
+    values:
+    - https?://
+    - \./.*
+    fuzz:
+    - https://{{ssrf}}
+  stop-at-first-match: true
+  matchers:
+  - type: word
+    part: interactsh_protocol
+    words:
+    - http

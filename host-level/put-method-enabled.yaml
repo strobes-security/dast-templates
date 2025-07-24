@@ -1,31 +1,80 @@
 id: put-method-enabled
-
 info:
   name: PUT Method Enabled
   author: xElkomy
   severity: high
-  description: The HTTP PUT method is normally used to upload data that is saved on the server at a user-supplied URL. If enabled, an attacker may be able to place arbitrary, and potentially malicious, content into the application. Depending on the server's configuration, this may lead to compromise of other users (by uploading client-executable scripts), compromise of the server (by uploading server-executable code), or other attacks.
+  description: The HTTP PUT method is normally used to upload data that is saved on
+    the server at a user-supplied URL. If enabled, an attacker may be able to place
+    arbitrary, and potentially malicious, content into the application. Depending
+    on the server's configuration, this may lead to compromise of other users (by
+    uploading client-executable scripts), compromise of the server (by uploading server-executable
+    code), or other attacks.
   reference:
-    - https://portswigger.net/kb/issues/00100900_http-put-method-is-enabled
+  - https://portswigger.net/kb/issues/00100900_http-put-method-is-enabled
   metadata:
     max-request: 2
   tags: injection,misconfig,intrusive
+  impact: '- An attacker could potentially upload malicious code, such as a shell
+    script or executable, to the server by using the PUT method.
 
+    - Depending on the server''s configuration, the attacker could use the uploaded
+    content to compromise other users by serving client-executable scripts, or to
+    compromise the server itself by executing server-side code.
+
+    - The attacker could overwrite existing files on the server by using the PUT method
+    to upload content to known file paths, potentially disrupting the application''s
+    functionality or even gaining unauthorized access.
+
+    - If the server is configured to execute the uploaded content, the attacker could
+    potentially gain full control over the server and use it to launch further attacks
+    or compromise other systems on the network.
+
+    - The ability to upload arbitrary content to the server using the PUT method could
+    also be used to bypass other security controls, such as input validation or access
+    restrictions, leading to additional vulnerabilities or attack vectors.'
+  remediation: 'To address the "PUT Method Enabled" vulnerability, the PUT method
+    should be disabled or strictly controlled on the server. This can be done by implementing
+    the following remediation steps:
+
+
+    - Review the server''s configuration and identify all locations where the PUT
+    method is enabled. This may include web server settings, application-specific
+    configurations, or other infrastructure components.
+
+    - Disable the PUT method globally on the server, either by modifying the web server
+    configuration or applying a web application firewall (WAF) rule to block PUT requests.
+
+    - If the PUT method is required for specific functionality, ensure that it is
+    only enabled for the necessary endpoints and that strict access controls and input
+    validation are in place to prevent the upload of malicious content.
+
+    - Implement a robust logging and monitoring solution to detect and alert on any
+    attempts to use the PUT method, as this can help identify potential attacks or
+    misuse.
+
+    - Regularly review and audit the server''s configuration to ensure that the PUT
+    method remains disabled or appropriately controlled, and that no unexpected changes
+    have been made.'
 http:
-  - raw:
-      - |
-        PUT /testing-put.txt HTTP/1.1
-        Host: {{Hostname}}
-        Content-Type: text/plain
+- raw:
+  - 'PUT /testing-put.txt HTTP/1.1
 
-        {{randstr}}
-      - |
-        GET /testing-put.txt HTTP/1.1
-        Host: {{Hostname}}
-        Content-Type: text/plain
+    Host: {{Hostname}}
 
-    matchers:
-      - type: dsl
-        dsl:
-          - 'contains(body_2, "{{randstr}}")'
-# digest: 4a0a00473045022100d0c90949f6355a15052c1a899a767261ac0da16ade7f6d65f5d8077cc76dab160220565d57490e54a5c98341992102167d9aa551a0f9fb18a74e1b077b77d393f926:922c64590222798bb761d5b6d8e72950
+    Content-Type: text/plain
+
+
+    {{randstr}}
+
+    '
+  - 'GET /testing-put.txt HTTP/1.1
+
+    Host: {{Hostname}}
+
+    Content-Type: text/plain
+
+    '
+  matchers:
+  - type: dsl
+    dsl:
+    - contains(body_2, "{{randstr}}")

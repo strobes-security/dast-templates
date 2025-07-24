@@ -1,34 +1,68 @@
 id: backup-directory-listing
-
 info:
   name: Backup Directory Listing - Detect
   author: DhiyaneshDK
   severity: low
-  description: |
-    Backup Directory Listing folder was detected.
+  description: 'Backup Directory Listing folder was detected.
+
+    '
   reference:
-    - https://www.invicti.com/learn/directory-listing/
-    - https://hackerone.com/reports/684838
+  - https://www.invicti.com/learn/directory-listing/
+  - https://hackerone.com/reports/684838
   metadata:
     verified: true
     max-request: 1
   tags: hackerone,backups,exposure
+  impact: '- Gain access to sensitive files and data stored in the backup directory,
+    potentially including configuration files, source code, or other proprietary information.
 
+    - Obtain information about the web application''s architecture, infrastructure,
+    or other sensitive details that could be leveraged in further attacks.
+
+    - Discover and exploit other vulnerabilities that may be present in the web application
+    or associated systems by analyzing the contents of the backup directory.
+
+    - Expand the attack surface and increase the likelihood of successful exploitation
+    by identifying additional attack vectors through the backup directory.
+
+    - Potentially achieve remote code execution or other high-impact compromises if
+    the backup directory contains sensitive or exploitable files.'
+  remediation: 'The presence of a backup directory listing poses a significant risk
+    to the security of the web application and the underlying system. This issue should
+    be addressed promptly to prevent unauthorized access to sensitive files and data,
+    and to mitigate the potential for further attacks.
+
+
+    - Identify and secure the backup directory: Ensure that the backup directory is
+    not accessible from the web and that appropriate access controls are in place.
+    Restrict access to the directory to only authorized personnel or processes.
+
+    - Implement proper directory permissions: Verify that the backup directory and
+    its contents have the appropriate permissions set, limiting read and write access
+    to only the necessary users or processes.
+
+    - Disable directory listing: Configure the web server to disable directory listing
+    for the backup directory, preventing the exposure of its contents and structure.
+
+    - Encrypt backup data: Implement encryption for the backup data stored in the
+    directory to protect sensitive information, even if the directory is inadvertently
+    exposed.
+
+    - Review the backup process: Evaluate the backup strategy and procedures to ensure
+    that sensitive data is properly secured and that the backup directory is not exposed
+    to potential attackers.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/backup/"
-      - "{{BaseURL}}/php/backup/"
-
-    stop-at-first-match: true
-    matchers-condition: and
-    matchers:
-      - type: regex
-        part: body
-        regex:
-          - "Index of .*/backup"
-
-      - type: status
-        status:
-          - 200
-# digest: 4a0a004730450221008e1ccb7671d97324f687a02d7edc8ac703d71656ab3ed0b497b8e6d0061b780602204e120fbf8bae1c861e6ddf099820793baa0fdfd14c9060cb935d32b52e110168:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/backup/'
+  - '{{BaseURL}}/php/backup/'
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: regex
+    part: body
+    regex:
+    - Index of .*/backup
+  - type: status
+    status:
+    - 200

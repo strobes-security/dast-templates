@@ -1,5 +1,4 @@
 id: sitecore-debug-page
-
 info:
   name: SiteCore Debug Page
   author: dhiyaneshDK
@@ -9,19 +8,54 @@ info:
     max-request: 1
     shodan-query: http.title:"Welcome to Sitecore"
   tags: debug,sitecore,misconfig
+  impact: '- Attackers could access sensitive system information, such as server configuration
+    details, software versions, and potentially even database connection details.
 
+    - Attackers could potentially execute arbitrary code on the server by exploiting
+    weaknesses in the SiteCore debug page, leading to a complete compromise of the
+    system.
+
+    - Unauthorized users could gain access to the SiteCore administration interface,
+    allowing them to modify website content, user accounts, and other critical system
+    settings.
+
+    - Attackers could use the exposed debug page to map out the internal network infrastructure
+    and identify other potentially vulnerable systems within the organization.
+
+    - The exposure of the SiteCore debug page could lead to a significant breach of
+    data confidentiality, as it may provide access to sensitive business information
+    or customer data stored within the system.'
+  remediation: 'The SiteCore debug page should be disabled or secured to prevent unauthorized
+    access and potential exploitation. This can be achieved by implementing the following
+    measures:
+
+
+    - Disable the debug page in the SiteCore configuration settings, ensuring that
+    it is not accessible to any users, including administrators, unless absolutely
+    necessary.
+
+    - If the debug page must remain enabled for debugging purposes, implement strict
+    access controls, such as IP address restrictions or multi-factor authentication,
+    to limit access to authorized personnel only.
+
+    - Review and remove any unnecessary debug settings or features that may be exposing
+    additional sensitive information or functionality.
+
+    - Ensure that the SiteCore application and all associated components are kept
+    up-to-date with the latest security patches and updates to address potential vulnerabilities.
+
+    - Implement robust logging and monitoring mechanisms to detect and alert on any
+    unauthorized access attempts or suspicious activity related to the SiteCore debug
+    page.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/sitecore/'"
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        words:
-          - 'extranet\Anonymous'
-
-      - type: status
-        status:
-          - 404
-# digest: 4b0a0048304602210094dddf9d0418c7b0eef27f6f9d253bb1caf5c636d8b98cd7882f4d5d07705b21022100feb93304ae495cddf82e449c22cb7cfef398687df2d0b91884aa32876ad09a52:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/sitecore/'''
+  matchers-condition: and
+  matchers:
+  - type: word
+    words:
+    - extranet\Anonymous
+  - type: status
+    status:
+    - 404

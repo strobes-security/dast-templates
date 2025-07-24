@@ -1,48 +1,95 @@
 id: missing-sri
-
 info:
   name: Missing Subresource Integrity
   author: lucky0x0d,PulseSecurity.co.nz,sullo amarsct
   severity: info
-  description: |
-    Checks if external script and stylesheet tags in the HTML response are missing the Subresource Integrity (SRI) attribute.
+  description: 'Checks if external script and stylesheet tags in the HTML response
+    are missing the Subresource Integrity (SRI) attribute.
+
+    '
   reference:
-    - https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html#subresource-integrity
-    - https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
+  - https://cheatsheetseries.owasp.org/cheatsheets/Third_Party_Javascript_Management_Cheat_Sheet.html#subresource-integrity
+  - https://developer.mozilla.org/en-US/docs/Web/Security/Subresource_Integrity
   metadata:
     max-request: 1
   tags: compliance,js,css,sri,misconfig
+  impact: '- Potential for code injection: An attacker could potentially inject malicious
+    code into the external script or stylesheet, which could then be executed by the
+    victim''s browser.
 
+    - Sensitive data exposure: Malicious code injected by the attacker could be used
+    to steal sensitive information from the victim, such as login credentials or personal
+    data.
+
+    - Targeted attacks: The vulnerability could be exploited to target specific users
+    or groups, leading to more sophisticated and targeted attacks.
+
+    - Bypass of security controls: The lack of SRI could allow the attacker to bypass
+    certain security controls, such as Content Security Policy (CSP) or other web
+    application security measures.
+
+    - Persistent threats: If the external script or stylesheet is frequently loaded,
+    the vulnerability could be exploited repeatedly, leading to persistent threats
+    and ongoing security compromises.'
+  remediation: 'To address the "Missing Subresource Integrity" vulnerability, developers
+    should implement Subresource Integrity (SRI) to ensure the integrity of external
+    script and stylesheet resources. SRI allows the browser to verify that the resources
+    being loaded have not been tampered with, reducing the risk of code injection
+    and other potential security issues.
+
+
+    Specifically, developers should:
+
+
+    - Identify all external script and stylesheet tags in the HTML response and add
+    the appropriate SRI attributes.
+
+    - Generate the SRI hash for each external resource by calculating the SHA-256
+    or SHA-384 hash of the resource''s content.
+
+    - Include the SRI hash in the `integrity` attribute of the corresponding `<script>`
+    or `<link>` tag.
+
+    - Regularly update the SRI hashes as the external resources are updated to maintain
+    the integrity of the application.
+
+    - Implement a process to monitor and update the SRI hashes in a timely manner
+    to ensure the application remains secure.
+
+    - Consider implementing Content Security Policy (CSP) in addition to SRI to further
+    strengthen the application''s security.'
 http:
-  - raw:
-      - |
-        GET / HTTP/1.1
-        Host: {{Hostname}}
+- raw:
+  - 'GET / HTTP/1.1
 
-    redirects: true
-    max-redirects: 5
+    Host: {{Hostname}}
 
-    matchers:
-      - type: xpath
-        part: body
-        xpath:
-          - "//script[contains(@src,'//') and not(matches(translate(@integrity,'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=','abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-'))]"
-          - "//script[contains(@src, '//') and (not(@integrity) or not(matches(translate(@integrity, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]"
-          - "//link[@rel='stylesheet' and contains(@href, '//') and (not(@integrity) or not(matches(translate(@integrity, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]"
-
-    extractors:
-      - type: xpath
-        attribute: src
-        xpath:
-          - "//script[contains(@src,'//') and not(matches(translate(@integrity,'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=','abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-'))]"
-
-      - type: xpath
-        attribute: src
-        xpath:
-          - "//script[contains(@src, '//') and (not(@integrity) or not(matches(translate(@integrity, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]"
-
-      - type: xpath
-        attribute: href
-        xpath:
-          - "//link[@rel='stylesheet' and contains(@href, '//') and (not(@integrity) or not(matches(translate(@integrity, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]"
-# digest: 490a00463044022031f313335362cb36c4ab1933c436612399398a22ef3f7429d2cb48c5137f610602204bbfc1ef856a4de2d36455d9967d7d95076f3f6a0e22e7e1b02612f2a687afdb:922c64590222798bb761d5b6d8e72950
+    '
+  redirects: true
+  max-redirects: 5
+  matchers:
+  - type: xpath
+    part: body
+    xpath:
+    - //script[contains(@src,'//') and not(matches(translate(@integrity,'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=','abcdefghijklmnopqrstuvwxyz+/-='),
+      '^sha(256|384|512)-'))]
+    - //script[contains(@src, '//') and (not(@integrity) or not(matches(translate(@integrity,
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]
+    - //link[@rel='stylesheet' and contains(@href, '//') and (not(@integrity) or not(matches(translate(@integrity,
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]
+  extractors:
+  - type: xpath
+    attribute: src
+    xpath:
+    - //script[contains(@src,'//') and not(matches(translate(@integrity,'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=','abcdefghijklmnopqrstuvwxyz+/-='),
+      '^sha(256|384|512)-'))]
+  - type: xpath
+    attribute: src
+    xpath:
+    - //script[contains(@src, '//') and (not(@integrity) or not(matches(translate(@integrity,
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]
+  - type: xpath
+    attribute: href
+    xpath:
+    - //link[@rel='stylesheet' and contains(@href, '//') and (not(@integrity) or not(matches(translate(@integrity,
+      'ABCDEFGHIJKLMNOPQRSTUVWXYZ+/-=', 'abcdefghijklmnopqrstuvwxyz+/-='), '^sha(256|384|512)-')))]

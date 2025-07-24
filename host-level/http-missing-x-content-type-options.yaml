@@ -1,23 +1,69 @@
 id: http-missing-x-content-type-options
-
 info:
   name: Missing X-Content-Type-Options Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'X-Content-Type-Options' header is missing. This prevents MIME-type sniffing.
+  description: The 'X-Content-Type-Options' header is missing. This prevents MIME-type
+    sniffing.
   metadata:
     max-request: 1
   tags: misconfig,headers,x-content-type-options
+  impact: '- An attacker could trick the victim''s browser into executing malicious
+    content, such as cross-site scripting (XSS) attacks, by manipulating the Content-Type
+    header.
 
+    - Lack of the ''X-Content-Type-Options'' header allows the browser to perform
+    MIME-type sniffing, which can lead to the execution of unintended content.
+
+    - Successful exploitation of this vulnerability could result in the attacker gaining
+    unauthorized access to sensitive information or taking control of the affected
+    system.
+
+    - The absence of the ''X-Content-Type-Options'' header increases the risk of content
+    injection attacks, allowing an attacker to inject and execute malicious code on
+    the target system.
+
+    - This vulnerability may enable the attacker to bypass security controls and gain
+    a foothold within the target environment, potentially leading to further attacks
+    or data breaches.'
+  remediation: 'To address the "Missing X-Content-Type-Options Header" vulnerability,
+    the following remediation steps should be taken:
+
+
+    The ''X-Content-Type-Options'' header should be implemented on all web pages and
+    web applications to prevent MIME-type sniffing and mitigate the risk of content
+    injection attacks, such as cross-site scripting (XSS). This header instructs the
+    browser to trust the declared Content-Type of the resource, rather than attempting
+    to guess or sniff the content type, which can lead to the execution of unintended
+    content.
+
+
+    Specific steps for developers to follow:
+
+
+    - Implement the ''X-Content-Type-Options'' header with the value ''nosniff'' on
+    all web pages and web applications.
+
+    - Ensure that the appropriate Content-Type header is set for all responses, accurately
+    reflecting the type of content being served.
+
+    - Review and update all server configurations to include the ''X-Content-Type-Options''
+    header.
+
+    - Conduct comprehensive testing to validate that the ''X-Content-Type-Options''
+    header is properly implemented and effectively preventing MIME-type sniffing.
+
+    - Implement ongoing monitoring and auditing processes to ensure the ''X-Content-Type-Options''
+    header remains in place and continues to protect the application from this vulnerability.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-    host-redirects: true
-    max-redirects: 3
-    matchers:
-      - type: dsl
-        dsl:
-          - "!regex('(?i)x-content-type-options', header)"
-          - "status_code != 301 && status_code != 302"
-        condition: and
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 3
+  matchers:
+  - type: dsl
+    dsl:
+    - '!regex(''(?i)x-content-type-options'', header)'
+    - status_code != 301 && status_code != 302
+    condition: and

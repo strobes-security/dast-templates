@@ -1,28 +1,62 @@
 id: nameserver-fingerprint
-
 info:
   name: NS Record Detection
   author: pdteam
   severity: info
-  description: An NS record was detected. An NS record delegates a subdomain to a set of name servers.
+  description: An NS record was detected. An NS record delegates a subdomain to a
+    set of name servers.
   classification:
     cwe-id: CWE-200
   metadata:
     max-request: 1
   tags: dns,ns
+  impact: '- Attackers could potentially hijack the targeted domain by modifying the
+    NS record to point to their own malicious name servers.
 
+    - Attackers could intercept and monitor all traffic to the targeted domain, potentially
+    gaining access to sensitive information.
+
+    - Attackers could set up their own web servers on the delegated subdomains and
+    use them to host malicious content or conduct phishing attacks.
+
+    - Attackers could use the compromised domain to launch further attacks, such as
+    distributing malware or launching denial-of-service (DoS) attacks.
+
+    - The compromised domain could be used as a stepping stone for deeper network
+    intrusion and lateral movement within the target organization.'
+  remediation: 'To address the "NS Record Detection" vulnerability, it is crucial
+    to review and properly manage your domain''s DNS configuration. Misconfigured
+    or unauthorized changes to NS records can lead to significant security risks,
+    such as domain hijacking, traffic interception, and the potential for further
+    attacks.
+
+
+    - Thoroughly audit your domain''s DNS settings to identify any unauthorized or
+    unexpected NS records. Verify that all NS records are legitimate and managed by
+    your organization.
+
+    - Implement strict access controls and multi-factor authentication for making
+    changes to your domain''s DNS configuration. Ensure that only authorized personnel
+    can modify NS records.
+
+    - Consider implementing domain protection services or registry locks to prevent
+    unauthorized changes to your domain''s NS records.
+
+    - Regularly monitor your domain''s DNS records and set up alerts to notify you
+    of any changes, enabling you to respond promptly to potential threats.
+
+    - Educate your team on the importance of maintaining a secure DNS configuration
+    and the risks associated with NS record vulnerabilities.'
 dns:
-  - name: "{{FQDN}}"
-    type: NS
-    matchers:
-      - type: regex
-        part: answer
-        regex:
-          - "IN\tNS\\t(.+)$"
-
-    extractors:
-      - type: regex
-        group: 1
-        regex:
-          - "IN\tNS\t(.+)"
-# digest: 490a0046304402204c8549e5c2a45732f218c404c2f4d49ed740bb91f27dab259f710952fc089496022058f7dc0d477f9b990d5fac516e5aba8552b222b9b4a1dd17491a4011ffa4ad34:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: NS
+  matchers:
+  - type: regex
+    part: answer
+    regex:
+    - "IN\tNS\\t(.+)$"
+  extractors:
+  - type: regex
+    group: 1
+    regex:
+    - "IN\tNS\t(.+)"

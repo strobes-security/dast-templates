@@ -1,29 +1,90 @@
 id: aspx-debug-mode
-
 info:
   name: ASP.NET Debugging Enabled
   author: dhiyaneshDk
   severity: info
   reference:
-    - https://portswigger.net/kb/issues/00100800_asp-net-debugging-enabled
+  - https://portswigger.net/kb/issues/00100800_asp-net-debugging-enabled
   metadata:
     max-request: 1
   tags: debug,misconfig
+  description: The "ASP.NET Debugging Enabled" vulnerability occurs when the ASP.NET
+    web application has debugging features enabled in a production environment. This
+    allows potential attackers to access detailed error messages, stack traces, and
+    other sensitive information that can be used to gain a deeper understanding of
+    the application's inner workings and potential security weaknesses. Leaving debugging
+    enabled can also lead to the disclosure of sensitive data, such as connection
+    strings, database schemas, and user information, which can be exploited by malicious
+    actors to launch more sophisticated attacks, such as SQL injection or privilege
+    escalation. This vulnerability significantly increases the risk of unauthorized
+    access, data breaches, and system compromises, and it is critical that developers
+    ensure debugging features are disabled in all production deployments of the ASP.NET
+    web application.
+  impact: '- An attacker could gain access to detailed error messages and stack traces,
+    which could provide valuable information about the application''s inner workings
+    and potential security vulnerabilities.
 
+    - Sensitive data, such as connection strings, database schemas, and user information,
+    could be disclosed, which could be used to launch more sophisticated attacks like
+    SQL injection or privilege escalation.
+
+    - Attackers could exploit the vulnerability to obtain unauthorized access to the
+    system, potentially leading to data breaches or other forms of system compromise.
+
+    - The disclosure of sensitive information could enable attackers to gain a deeper
+    understanding of the application''s architecture and identify potential entry
+    points for further attacks.
+
+    - The vulnerability significantly increases the risk of unauthorized access and
+    system compromise, making it critical to ensure that debugging features are disabled
+    in all production deployments of the ASP.NET web application.'
+  remediation: 'To address the "ASP.NET Debugging Enabled" vulnerability, it is crucial
+    to ensure that debugging features are disabled in the production environment of
+    the ASP.NET web application. Leaving debugging enabled can lead to the disclosure
+    of sensitive information, such as detailed error messages, stack traces, connection
+    strings, database schemas, and user data, which can be exploited by attackers
+    to launch more sophisticated attacks, such as SQL injection or privilege escalation.
+    Disabling debugging in production is a critical step in mitigating the risks associated
+    with this vulnerability and enhancing the overall security of the application.
+
+
+    To remediate this issue, developers should follow these steps:
+
+
+    - Review the web.config file and ensure that the <system.web> section has the
+    following setting: <compilation debug="false" />. This will disable debugging
+    in the production environment.
+
+    - Verify that any custom error handling pages or error logging mechanisms do not
+    disclose sensitive information that could aid attackers.
+
+    - Ensure that the deployment process for the ASP.NET web application includes
+    a step to verify that debugging is disabled before the application is pushed to
+    the production environment.
+
+    - Implement a regular review process to periodically check that debugging remains
+    disabled in the production environment and that no sensitive information is being
+    exposed.
+
+    - Consider implementing a web application firewall (WAF) or other security measures
+    to further protect the application from potential exploitation of this vulnerability.'
 http:
-  - raw:
-      - |
-        DEBUG /Foobar-debug.aspx HTTP/1.1
-        Host: {{Hostname}}
-        Command: stop-debug
-        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
-        Content-Length: 2
+- raw:
+  - 'DEBUG /Foobar-debug.aspx HTTP/1.1
 
-    matchers:
-      - type: dsl
-        dsl:
-          - 'len(body) == 2'
-          - 'regex("^OK$", body)'
-          - 'status_code == 200'
-        condition: and
-# digest: 4a0a0047304502202880306ee18861412e3d5f8be76d637fb08e329d5afe079f63b90753112bd038022100911d39f9b504e6bb71621b7f563a1dc1ea4a3cb8947eb7f62a0b5bc8e25535cb:922c64590222798bb761d5b6d8e72950
+    Host: {{Hostname}}
+
+    Command: stop-debug
+
+    Accept: text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8
+
+    Content-Length: 2
+
+    '
+  matchers:
+  - type: dsl
+    dsl:
+    - len(body) == 2
+    - regex("^OK$", body)
+    - status_code == 200
+    condition: and

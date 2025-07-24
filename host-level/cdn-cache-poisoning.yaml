@@ -1,36 +1,83 @@
 id: cdn-cache-poisoning
-
 info:
   name: Misconfigured CDN Cache Poisoning via X-Amz-Server-Side-Encryption Header
   author: 0xcharan
   severity: unknown
-  description: |
-    When the X-Amz-Server-Side-Encryption header is sent with user controlled value, it can lead to a misconfigured CDN cache response with a 400 status code, making the page inaccessible.
+  description: 'When the X-Amz-Server-Side-Encryption header is sent with user controlled
+    value, it can lead to a misconfigured CDN cache response with a 400 status code,
+    making the page inaccessible.
+
+    '
   reference:
-    - https://portswigger.net/web-security/web-cache-poisoning
+  - https://portswigger.net/web-security/web-cache-poisoning
   metadata:
     verified: true
     max-request: 2
     shodan-query: X-Amz-Server-Side-Encryption
   tags: cache,aws,poisoning,cdn,misconfig
+  impact: '- Attacker could inject malicious content into the CDN cache, leading to
+    the delivery of malicious payloads to all subsequent visitors.
+
+    - Attacker could cause a denial of service by poisoning the CDN cache with invalid
+    responses, making the website inaccessible to legitimate users.
+
+    - Attacker could potentially bypass security controls and gain unauthorized access
+    to sensitive information stored in the CDN cache.
+
+    - Attacker could leverage the vulnerability to launch further attacks, such as
+    cross-site scripting (XSS) or other web application exploits, due to the compromised
+    CDN cache.
+
+    - Attacker could gain a foothold within the target''s infrastructure by exploiting
+    the misconfigured CDN cache, potentially leading to further compromise of the
+    system or network.'
+  remediation: 'To address the "Misconfigured CDN Cache Poisoning via X-Amz-Server-Side-Encryption
+    Header" vulnerability, the following remediation steps should be implemented:
+
+
+    Ensure that the CDN is properly configured to validate and sanitize the X-Amz-Server-Side-Encryption
+    header, preventing user-controlled values from being accepted and cached. This
+    will mitigate the risk of cache poisoning and the potential delivery of malicious
+    content to subsequent visitors.
+
+
+    Specific steps for developers to follow:
+
+
+    - Implement strict validation and sanitization of the X-Amz-Server-Side-Encryption
+    header at the CDN level to ensure that only valid, predefined values are accepted.
+
+    - Configure the CDN to cache only responses with valid X-Amz-Server-Side-Encryption
+    headers, rejecting any responses with user-controlled or unexpected values.
+
+    - Implement monitoring and alerting mechanisms to detect and respond to any attempts
+    to exploit the vulnerability, allowing for timely mitigation and incident response.
+
+    - Review and update the CDN configuration regularly to ensure that the validation
+    and sanitization measures remain effective and up-to-date.
+
+    - Provide comprehensive training to the development and operations teams on the
+    importance of properly configuring and securing CDN-related components to prevent
+    similar vulnerabilities in the future.'
 variables:
-  string: "{{to_lower(rand_base(8))}}={{to_lower(rand_base(8))}}"
-
+  string: '{{to_lower(rand_base(8))}}={{to_lower(rand_base(8))}}'
 http:
-  - raw:
-      - |
-        GET /?{{string}} HTTP/1.1
-        Host: {{Hostname}}
-        X-Amz-Server-Side-Encryption: {{randstr}}
+- raw:
+  - 'GET /?{{string}} HTTP/1.1
 
-      - |
-        GET /?{{string}} HTTP/1.1
-        Host: {{Hostname}}
+    Host: {{Hostname}}
 
-    matchers:
-      - type: dsl
-        dsl:
-          - 'contains(body_2, "{{randstr}}")'
-          - 'status_code_2==400'
-        condition: and
-# digest: 4a0a0047304502203a67ffa44993964079a182bcd558ce1a04b26f229bef1e667b7ed3e846465d490221009569c1170ba8bb03588e36fbe85e19d27a89ada68a82c5731e745b9de88e4633:922c64590222798bb761d5b6d8e72950
+    X-Amz-Server-Side-Encryption: {{randstr}}
+
+    '
+  - 'GET /?{{string}} HTTP/1.1
+
+    Host: {{Hostname}}
+
+    '
+  matchers:
+  - type: dsl
+    dsl:
+    - contains(body_2, "{{randstr}}")
+    - status_code_2==400
+    condition: and

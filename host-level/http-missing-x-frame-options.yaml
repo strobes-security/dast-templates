@@ -1,23 +1,53 @@
 id: http-missing-x-frame-options
-
 info:
   name: Missing X-Frame-Options Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'X-Frame-Options' header is missing. This prevents clickjacking attacks by restricting framing.
+  description: The 'X-Frame-Options' header is missing. This prevents clickjacking
+    attacks by restricting framing.
   metadata:
     max-request: 1
   tags: misconfig,headers,x-frame-options
+  impact: '- The lack of the X-Frame-Options header allows the website to be embedded
+    within an attacker''s website, enabling clickjacking attacks.
 
+    - Attackers can trick users into performing unintended actions, such as clicking
+    on buttons or links, by overlaying the legitimate website with their own content.
+
+    - Sensitive information displayed on the vulnerable website, including login forms,
+    could be exposed to the attacker''s website, leading to potential data theft.
+
+    - Unauthorized actions, like making purchases or transferring funds, could be
+    performed on the user''s behalf without their knowledge or consent.
+
+    - The vulnerability could be exploited to launch social engineering attacks, where
+    users are manipulated into divulging sensitive information or granting access
+    to restricted resources.'
+  remediation: "To address the \"Missing X-Frame-Options Header\" vulnerability, the\
+    \ recommended remediation is to implement the X-Frame-Options header on the affected\
+    \ web application. This header is a critical security mechanism that helps prevent\
+    \ clickjacking attacks by restricting the ability to embed the website within\
+    \ an attacker's website.\n\nDevelopers should follow these steps to resolve the\
+    \ issue:\n\n- Identify all the affected web pages or resources where the X-Frame-Options\
+    \ header is missing.\n- Add the X-Frame-Options header to the affected pages or\
+    \ resources, specifying the appropriate directive based on the application's requirements.\n\
+    - The most common directives are:\n  - `X-Frame-Options: DENY` - This completely\
+    \ disallows the website from being embedded in a frame, providing the highest\
+    \ level of protection.\n  - `X-Frame-Options: SAMEORIGIN` - This allows the website\
+    \ to be embedded only within pages served from the same origin (domain).\n- Ensure\
+    \ that the X-Frame-Options header is set consistently across the entire web application\
+    \ to maintain a robust and effective clickjacking protection mechanism.\n- Test\
+    \ the changes thoroughly to verify that the X-Frame-Options header is correctly\
+    \ implemented and that the website is no longer vulnerable to clickjacking attacks."
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-    host-redirects: true
-    max-redirects: 3
-    matchers:
-      - type: dsl
-        dsl:
-          - "!regex('(?i)x-frame-options', header)"
-          - "status_code != 301 && status_code != 302"
-        condition: and
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 3
+  matchers:
+  - type: dsl
+    dsl:
+    - '!regex(''(?i)x-frame-options'', header)'
+    - status_code != 301 && status_code != 302
+    condition: and

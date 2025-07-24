@@ -1,35 +1,75 @@
 id: host-header-injection
-
 info:
   name: Host Header Injection
   author: princechaddha
   severity: info
-  description: HTTP header injection is a general class of web application security vulnerability which occurs when Hypertext Transfer Protocol headers are dynamically generated based on user input.
+  description: HTTP header injection is a general class of web application security
+    vulnerability which occurs when Hypertext Transfer Protocol headers are dynamically
+    generated based on user input.
   reference:
-    - https://portswigger.net/web-security/host-header
-    - https://portswigger.net/web-security/host-header/exploiting
-    - https://www.acunetix.com/blog/articles/automated-detection-of-host-header-attacks/
+  - https://portswigger.net/web-security/host-header
+  - https://portswigger.net/web-security/host-header/exploiting
+  - https://www.acunetix.com/blog/articles/automated-detection-of-host-header-attacks/
   metadata:
     max-request: 1
   tags: hostheader-injection,generic
+  impact: '- An attacker could leverage Host Header Injection to conduct server-side
+    request forgery (SSRF) attacks, allowing them to access internal resources and
+    networks.
 
+    - Attackers could manipulate the Host header to bypass security controls, such
+    as domain whitelisting or access restrictions, and redirect users to malicious
+    websites.
+
+    - By injecting malicious content into the Host header, an attacker could perform
+    phishing attacks, tricking users into believing they are on a legitimate website
+    and disclosing sensitive information.
+
+    - Successful exploitation of Host Header Injection could enable an attacker to
+    gain unauthorized access to administrative interfaces or other sensitive areas
+    of the web application.
+
+    - An attacker could potentially use Host Header Injection to bypass authentication
+    mechanisms and gain elevated privileges within the web application.'
+  remediation: 'Host Header Injection is a critical security vulnerability that must
+    be addressed promptly to protect web applications and their users. The issue stems
+    from the dynamic generation of HTTP headers based on user input, which can be
+    manipulated by attackers to conduct a variety of malicious activities, such as
+    server-side request forgery (SSRF), bypassing security controls, phishing, and
+    gaining unauthorized access to sensitive areas of the application.
+
+
+    To address this vulnerability, developers should:
+
+
+    - Validate and sanitize all user input, including the Host header, to ensure it
+    does not contain any malicious content or injection attempts.
+
+    - Implement strict URL validation and whitelisting to prevent attackers from manipulating
+    the Host header to bypass security controls or redirect users to malicious websites.
+
+    - Use secure, server-side generated Host headers that do not rely on user input,
+    and ensure that any dynamically generated headers are properly validated and escaped.
+
+    - Implement robust authentication and authorization mechanisms to prevent attackers
+    from leveraging Host Header Injection to gain elevated privileges within the web
+    application.
+
+    - Regularly review and update the application''s security measures to stay ahead
+    of evolving threat actors and their techniques.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-
-    headers:
-      Host: "{{randstr}}.tld"
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        words:
-          - '{{randstr}}.tld'
-        part: body
-        condition: and
-
-      - type: status
-        status:
-          - 200
-# digest: 4a0a00473045022100de7ae93d70b1412d8a5a45afab68b57c023ea75f7c202d38f888d857e179640702200ccb5a4307c3300b6e657eb8f62bd00174efcc9f90f2fcff5f7f98daa7cddcd8:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  headers:
+    Host: '{{randstr}}.tld'
+  matchers-condition: and
+  matchers:
+  - type: word
+    words:
+    - '{{randstr}}.tld'
+    part: body
+    condition: and
+  - type: status
+    status:
+    - 200

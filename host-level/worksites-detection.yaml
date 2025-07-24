@@ -1,23 +1,59 @@
 id: detect-worksites
-
 info:
   name: Worksites.net Service Detection
   author: melbadry9
   severity: info
   description: A worksites.net service was detected.
   reference:
-    - https://blog.melbadry9.xyz/dangling-dns/xyz-services/ddns-worksites
+  - https://blog.melbadry9.xyz/dangling-dns/xyz-services/ddns-worksites
   classification:
     cwe-id: CWE-200
   metadata:
     max-request: 1
   tags: dns,service
+  impact: '- Attackers could potentially gather information about the target organization''s
+    infrastructure, including internal network infrastructure, services, and applications.
 
+    - Attackers could potentially use the information gathered from the worksites.net
+    service detection to identify potential attack vectors and plan more targeted
+    attacks.
+
+    - Attackers could potentially leverage the knowledge of the worksites.net service
+    to bypass security controls and gain unauthorized access to the target organization''s
+    systems or data.
+
+    - Attackers could potentially use the worksites.net service as an entry point
+    to launch further attacks, such as privilege escalation or lateral movement within
+    the target organization''s network.
+
+    - Attackers could potentially use the information gathered from the worksites.net
+    service detection to create more sophisticated social engineering attacks, targeting
+    specific individuals or departments within the organization.'
+  remediation: 'To address the "Worksites.net Service Detection" vulnerability, it
+    is essential to remove or block access to the worksites.net service from the organization''s
+    network. This will prevent attackers from gathering sensitive information about
+    the organization''s infrastructure, which could be used to plan and execute more
+    targeted attacks.
+
+
+    - Identify and locate all instances of the worksites.net service within the organization''s
+    network.
+
+    - Disable or remove the worksites.net service from all affected systems and devices.
+
+    - Review firewall and access control rules to ensure that incoming and outgoing
+    traffic to the worksites.net service is blocked at the network perimeter.
+
+    - Implement network monitoring and intrusion detection systems to quickly identify
+    and alert on any attempts to access the worksites.net service in the future.
+
+    - Provide security awareness training to employees to educate them on the risks
+    associated with the worksites.net service and the importance of reporting any
+    suspicious activity.'
 dns:
-  - name: "{{FQDN}}"
-    type: A
-    matchers:
-      - type: word
-        words:
-          - "69.164.223.206"
-# digest: 4a0a0047304502206f1d69edc61a00493a4e9228339de95b5c081cc3f997bdc28f784c9719de70b1022100f2b09e254a96166ed72130fc3ad13401d5e75cb6c2146ae8d8ad6aa8d18438c2:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: A
+  matchers:
+  - type: word
+    words:
+    - 69.164.223.206

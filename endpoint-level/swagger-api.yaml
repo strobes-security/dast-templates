@@ -1,5 +1,4 @@
 id: swagger-api
-
 info:
   name: Public Swagger API - Detect
   author: pdteam,c-sh0,AmirHossein Raeisi
@@ -12,103 +11,138 @@ info:
   metadata:
     verified: true
     max-request: 59
-    shodan-query: "http.title:\"swagger\""
+    shodan-query: http.title:"swagger"
   tags: exposure,api,swagger
+  impact: '- An attacker could enumerate and gather sensitive information about the
+    web application''s API endpoints, parameters, and data structures.
 
+    - The attacker could potentially discover and exploit vulnerabilities within the
+    API, such as improper input validation, authorization flaws, or exposed sensitive
+    data.
+
+    - The availability of the Swagger API documentation could allow the attacker to
+    craft more sophisticated and targeted attack vectors against the web application.
+
+    - An attacker with access to the Swagger API could automate their testing and
+    streamline the exploitation process, increasing the likelihood of successful attacks.
+
+    - The public exposure of the Swagger API could enable the attacker to bypass any
+    intended access controls or security measures implemented for the web application.'
+  remediation: 'The public exposure of the Swagger API documentation poses a significant
+    security risk to the web application. To address this issue, the Swagger API should
+    be properly secured or removed from public access. First, consider implementing
+    strong access controls, such as authentication and authorization mechanisms, to
+    restrict access to the Swagger API only to authorized users or roles. Additionally,
+    review the API endpoints and sensitive data exposed through the Swagger documentation,
+    and consider removing or obfuscating any sensitive information. Finally, ensure
+    that the web application''s input validation and security measures are robust
+    and effectively protect against potential vulnerabilities that may be discovered
+    through the Swagger API.
+
+
+    - Implement strong access controls, such as authentication and authorization mechanisms,
+    to restrict access to the Swagger API.
+
+    - Review the API endpoints and sensitive data exposed through the Swagger documentation,
+    and remove or obfuscate any sensitive information.
+
+    - Ensure that the web application''s input validation and security measures are
+    robust and effectively protect against potential vulnerabilities that may be discovered
+    through the Swagger API.
+
+    - Continuously monitor the Swagger API for any changes or updates, and update
+    the access controls and security measures accordingly.
+
+    - Consider removing the Swagger API from public access if the risks cannot be
+    effectively mitigated.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}{{paths}}"
-
-    payloads:
-      paths:
-        - "/swagger-ui/swagger-ui.js"
-        - "/swagger/swagger-ui.js"
-        - "/swagger-ui.js"
-        - "/swagger/ui/swagger-ui.js"
-        - "/swagger/ui/index"
-        - "/swagger/index.html"
-        - "/swagger-ui.html"
-        - "/swagger/swagger-ui.html"
-        - "/api/swagger-ui.html"
-        - "/api-docs/swagger.json"
-        - "/api-docs/swagger.yaml"
-        - "/api_docs"
-        - "/swagger.json"
-        - "/swagger.yaml"
-        - "/swagger/v1/swagger.json"
-        - "/swagger/v1/swagger.yaml"
-        - "/api/index.html"
-        - "/api/doc"
-        - "/api/docs/"
-        - "/api/swagger.json"
-        - "/api/swagger.yaml"
-        - "/api/swagger.yml"
-        - "/api/swagger/index.html"
-        - "/api/swagger/swagger-ui.html"
-        - "/api/api-docs/swagger.json"
-        - "/api/api-docs/swagger.yaml"
-        - "/api/swagger-ui/swagger.json"
-        - "/api/swagger-ui/swagger.yaml"
-        - "/api/apidocs/swagger.json"
-        - "/api/apidocs/swagger.yaml"
-        - "/api/swagger-ui/api-docs"
-        - "/api/doc.json"
-        - "/api/api-docs"
-        - "/api/apidocs"
-        - "/api/swagger"
-        - "/api/swagger/static/index.html"
-        - "/api/swagger-resources"
-        - "/api/swagger-resources/restservices/v2/api-docs"
-        - "/api/__swagger__/"
-        - "/api/_swagger_/"
-        - "/api/spec/swagger.json"
-        - "/api/spec/swagger.yaml"
-        - "/api/swagger/ui/index"
-        - "/__swagger__/"
-        - "/_swagger_/"
-        - "/api/v1/swagger-ui/swagger.json"
-        - "/api/v1/swagger-ui/swagger.yaml"
-        - "/swagger-resources/restservices/v2/api-docs"
-        - "/api/swagger_doc.json"
-        - "/docu"
-        - "/docs"
-        - "/docs/"
-        - "/swagger"
-        - "/api-doc"
-        - "/doc/"
-        - "/swagger-ui/springfox.js"
-        - "/swagger-ui/swagger-ui-standalone-preset.js"
-        - "/swagger-ui/swagger-ui/swagger-ui-bundle.js"
-        - "/webjars/swagger-ui/swagger-ui-bundle.js"
-        - "/webjars/swagger-ui/index.html"
-        - "/developers/documentation"
-
-    headers:
-      Accept: text/html
-    stop-at-first-match: true
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        words:
-          - "swagger:"
-          - "Swagger 2.0"
-          - "\"swagger\":"
-          - "Swagger UI"
-          - "loadSwaggerUI"
-          - "**token**:"
-          - "id=\"swagger-ui"
-        condition: or
-
-      - type: status
-        status:
-          - 200
-
-    extractors:
-      - type: regex
-        part: body
-        group: 1
-        regex:
-          - " @version (v[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3})"
-# digest: 4b0a0048304602210095a4834ec31895a52b0c814fa17fdac702318ba7ca965cfeea4313bcf77ed13c022100d870aba06c4a196abce487aa3c78679d12020abe12da4938e85a0d26e07bb5fa:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}{{paths}}'
+  payloads:
+    paths:
+    - /swagger-ui/swagger-ui.js
+    - /swagger/swagger-ui.js
+    - /swagger-ui.js
+    - /swagger/ui/swagger-ui.js
+    - /swagger/ui/index
+    - /swagger/index.html
+    - /swagger-ui.html
+    - /swagger/swagger-ui.html
+    - /api/swagger-ui.html
+    - /api-docs/swagger.json
+    - /api-docs/swagger.yaml
+    - /api_docs
+    - /swagger.json
+    - /swagger.yaml
+    - /swagger/v1/swagger.json
+    - /swagger/v1/swagger.yaml
+    - /api/index.html
+    - /api/doc
+    - /api/docs/
+    - /api/swagger.json
+    - /api/swagger.yaml
+    - /api/swagger.yml
+    - /api/swagger/index.html
+    - /api/swagger/swagger-ui.html
+    - /api/api-docs/swagger.json
+    - /api/api-docs/swagger.yaml
+    - /api/swagger-ui/swagger.json
+    - /api/swagger-ui/swagger.yaml
+    - /api/apidocs/swagger.json
+    - /api/apidocs/swagger.yaml
+    - /api/swagger-ui/api-docs
+    - /api/doc.json
+    - /api/api-docs
+    - /api/apidocs
+    - /api/swagger
+    - /api/swagger/static/index.html
+    - /api/swagger-resources
+    - /api/swagger-resources/restservices/v2/api-docs
+    - /api/__swagger__/
+    - /api/_swagger_/
+    - /api/spec/swagger.json
+    - /api/spec/swagger.yaml
+    - /api/swagger/ui/index
+    - /__swagger__/
+    - /_swagger_/
+    - /api/v1/swagger-ui/swagger.json
+    - /api/v1/swagger-ui/swagger.yaml
+    - /swagger-resources/restservices/v2/api-docs
+    - /api/swagger_doc.json
+    - /docu
+    - /docs
+    - /docs/
+    - /swagger
+    - /api-doc
+    - /doc/
+    - /swagger-ui/springfox.js
+    - /swagger-ui/swagger-ui-standalone-preset.js
+    - /swagger-ui/swagger-ui/swagger-ui-bundle.js
+    - /webjars/swagger-ui/swagger-ui-bundle.js
+    - /webjars/swagger-ui/index.html
+    - /developers/documentation
+  headers:
+    Accept: text/html
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: word
+    words:
+    - 'swagger:'
+    - Swagger 2.0
+    - '"swagger":'
+    - Swagger UI
+    - loadSwaggerUI
+    - '**token**:'
+    - id="swagger-ui
+    condition: or
+  - type: status
+    status:
+    - 200
+  extractors:
+  - type: regex
+    part: body
+    group: 1
+    regex:
+    - ' @version (v[0-9]{1,3}.[0-9]{1,3}.[0-9]{1,3})'

@@ -1,35 +1,90 @@
 id: http-trace
-
 info:
   name: HTTP TRACE method enabled
   author: nodauf
   severity: info
   reference:
-    - https://www.blackhillsinfosec.com/three-minutes-with-the-http-trace-method/
+  - https://www.blackhillsinfosec.com/three-minutes-with-the-http-trace-method/
   metadata:
     max-request: 2
   tags: miscellaneous,misc,generic
+  description: The HTTP TRACE method is a diagnostic tool that allows a client to
+    send a request to the server and receive the exact same request back. While this
+    can be useful for troubleshooting purposes, it poses a security risk if left enabled
+    on production web servers. An attacker can exploit the TRACE method to perform
+    cross-site tracing (XST) attacks, which can lead to the disclosure of sensitive
+    information, such as session cookies or other potentially sensitive data, that
+    may be reflected in the server's response. This vulnerability can occur if the
+    web server is configured to allow the use of the TRACE method, and it is considered
+    a serious security concern as it can enable further attacks and compromise the
+    confidentiality of user data.
+  impact: '- An attacker could use the TRACE method to perform cross-site tracing
+    (XST) attacks, which can lead to the disclosure of sensitive information such
+    as session cookies or other potentially sensitive data that may be reflected in
+    the server''s response.
 
+    - The attacker could exploit the TRACE method to gain access to sensitive user
+    information, potentially compromising the confidentiality and integrity of the
+    system.
+
+    - The TRACE method can be used to bypass certain security controls, such as cross-site
+    scripting (XSS) protection, allowing the attacker to execute malicious code on
+    the victim''s browser.
+
+    - If the server is configured to allow the use of the TRACE method, an attacker
+    could leverage this vulnerability to perform further attacks, such as privilege
+    escalation or lateral movement within the network.
+
+    - The disclosure of sensitive information, such as session cookies or other user
+    data, could enable the attacker to impersonate legitimate users, leading to unauthorized
+    access to the system and its resources.'
+  remediation: 'To address the "HTTP TRACE method enabled" vulnerability, the following
+    remediation steps should be taken:
+
+
+    The TRACE method should be disabled on the web server to mitigate the risk of
+    cross-site tracing (XST) attacks and the potential disclosure of sensitive information.
+    This can be achieved by configuring the web server to restrict the use of the
+    TRACE method, ensuring that it is not accessible to clients. By removing the ability
+    to use the TRACE method, the attack surface is reduced, and the risk of exploitation
+    is significantly diminished.
+
+
+    Specific steps for developers to follow:
+
+
+    - Review the web server configuration and identify any settings that allow the
+    use of the TRACE method.
+
+    - Update the web server configuration to disable or restrict the TRACE method,
+    following the guidelines and best practices provided by the web server vendor.
+
+    - Implement strict input validation and output encoding to prevent the potential
+    disclosure of sensitive information, even if the TRACE method is accidentally
+    enabled in the future.
+
+    - Regularly review and update the web server configuration to ensure that the
+    TRACE method remains disabled and that the application is not vulnerable to related
+    attacks.
+
+    - Consider implementing a web application firewall (WAF) or other security controls
+    to provide an additional layer of protection against TRACE method-related attacks.'
 http:
-  - method: TRACE
-    path:
-      - "{{BaseURL}}"
-
-    matchers:
-      - type: word
-        name: trace-request
-        part: body
-        words:
-          - "TRACE / HTTP"
-
-  - method: OPTIONS
-    path:
-      - "{{BaseURL}}"
-
-    matchers:
-      - type: regex
-        name: options-request
-        part: header
-        regex:
-          - "(?i)Allow: [A-Z,]*TRACE"
-# digest: 4b0a00483046022100f9c42bf24e52d5c2931151045443dab9c60868bbc296777a74f7d21be18a2395022100faff47f82942b010ec7c2296ac7e7b7dec44cc809fb24354686bbaa5729add90:922c64590222798bb761d5b6d8e72950
+- method: TRACE
+  path:
+  - '{{BaseURL}}'
+  matchers:
+  - type: word
+    name: trace-request
+    part: body
+    words:
+    - TRACE / HTTP
+- method: OPTIONS
+  path:
+  - '{{BaseURL}}'
+  matchers:
+  - type: regex
+    name: options-request
+    part: header
+    regex:
+    - '(?i)Allow: [A-Z,]*TRACE'

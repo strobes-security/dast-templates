@@ -1,5 +1,4 @@
 id: typo3-debug-mode
-
 info:
   name: TYPO3 Debug Mode Enabled
   author: tess,FLX
@@ -14,22 +13,55 @@ info:
     product: typo3
     shodan-query: http.title:"TYPO3 Exception"
   tags: typo3,debug,misconfig
+  impact: '- Gain access to sensitive information, such as database credentials, server
+    configurations, and error messages that can be exploited for further attacks.
 
+    - Potentially execute arbitrary code on the server, leading to a complete compromise
+    of the system.
+
+    - Bypass authentication mechanisms and gain unauthorized access to administrative
+    functions within the TYPO3 application.
+
+    - Gather intelligence about the server''s architecture, software versions, and
+    other valuable information that can be used in subsequent attacks.
+
+    - Disrupt the normal operation of the TYPO3 application, causing denial of service
+    or other disruptions to the web application.'
+  remediation: 'The TYPO3 Debug Mode should be disabled in production environments
+    to prevent the disclosure of sensitive information and potential exploitation
+    by attackers. Leaving the debug mode enabled can lead to serious security risks,
+    such as unauthorized access, arbitrary code execution, and denial of service.
+    To address this issue, developers should follow these steps:
+
+
+    - Locate the TYPO3 configuration file (typically named "LocalConfiguration.php")
+    and ensure that the debug mode is set to "false" or "0" for the production environment.
+
+    - Review the application''s configuration settings and ensure that no other debug-related
+    options are enabled, such as displaying error messages or enabling detailed logging.
+
+    - Implement a process to regularly review and validate the TYPO3 configuration
+    to ensure that the debug mode remains disabled in the production environment.
+
+    - Consider implementing server-level controls, such as web application firewalls
+    or intrusion detection/prevention systems, to detect and block attempts to access
+    the TYPO3 debug mode.
+
+    - Provide training and guidance to developers and operational staff to ensure
+    they understand the security implications of leaving the debug mode enabled and
+    the importance of properly configuring the TYPO3 application for production use.'
 http:
-  - method: GET
-    path:
-      - '{{BaseURL}}'
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "TYPO3 Exception"
-          - "Uncaught TYPO3 Exception"
-        condition: or
-
-      - type: dsl
-        dsl:
-          - "status_code >= 500 && status_code < 600"
-# digest: 4b0a00483046022100be7d261453dad5efa215015692d66f7039411e338242cebcd0e3df0700926ee4022100b5ef6f58ca9dd70050fb2460c5346c98b318a24cef5d99e0bb2edf4e8033f251:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - TYPO3 Exception
+    - Uncaught TYPO3 Exception
+    condition: or
+  - type: dsl
+    dsl:
+    - status_code >= 500 && status_code < 600

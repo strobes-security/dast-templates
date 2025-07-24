@@ -1,12 +1,11 @@
 id: aem-cached-pages
-
 info:
   name: Invalidate / Flush Cached Pages on AEM
   author: hetroublemakr
   severity: low
   description: Cached Pages on AEM can be Flushed.
   reference:
-    - https://twitter.com/AEMSecurity/status/1244965623689609217
+  - https://twitter.com/AEMSecurity/status/1244965623689609217
   classification:
     cpe: cpe:2.3:a:adobe:experience_manager:*:*:*:*:*:*:*:*
   metadata:
@@ -15,24 +14,67 @@ info:
     product: experience_manager
     shodan-query: http.component:"Adobe Experience Manager"
   tags: aem,misconfig
+  impact: '- An attacker could leverage this vulnerability to invalidate and flush
+    cached pages on the AEM server, potentially exposing sensitive or confidential
+    information that was previously cached.
 
+    - By flushing the cached pages, an attacker could force the server to generate
+    and serve fresh content, which could reveal vulnerabilities or other sensitive
+    information that was not previously accessible.
+
+    - The ability to flush cached pages could allow an attacker to disrupt the normal
+    operation of the AEM server, leading to potential denial-of-service (DoS) attacks
+    or other service disruptions.
+
+    - An attacker could exploit this vulnerability to gain deeper insights into the
+    AEM server''s configuration, potentially uncovering additional vulnerabilities
+    or weaknesses that could be exploited for further nefarious activities.
+
+    - The impact of this vulnerability could be amplified if the attacker has knowledge
+    of the specific content or data that is being cached, as they could selectively
+    flush the relevant pages to achieve their desired goals.'
+  remediation: 'To address the vulnerability of being able to invalidate or flush
+    cached pages on the AEM server, developers should implement appropriate access
+    controls and caching policies. A multi-layered approach to caching and cache management
+    is recommended to mitigate the potential risks associated with this vulnerability.
+
+
+    - Implement strict access controls: Ensure that the ability to invalidate or flush
+    cached pages is restricted to only authorized and authenticated users or processes.
+    Implement role-based access controls to limit this functionality to specific user
+    groups or roles.
+
+    - Enforce caching policies: Develop and enforce comprehensive caching policies
+    that define the appropriate caching duration, expiration, and invalidation rules
+    for different types of content and data. Regularly review and update these policies
+    to align with the organization''s security requirements.
+
+    - Utilize cache segmentation: Consider implementing cache segmentation strategies,
+    where cached content is organized and stored based on sensitivity or confidentiality
+    levels. This can help mitigate the potential impact of a cache flushing attack
+    by limiting the exposure of sensitive information.
+
+    - Implement monitoring and alerting: Establish monitoring and alerting mechanisms
+    to detect and notify administrators of any unauthorized or suspicious attempts
+    to invalidate or flush cached pages. This can help in early detection and response
+    to potential attacks.
+
+    - Review and update caching configurations: Regularly review and update the caching
+    configurations in the AEM server to ensure that the caching mechanisms are aligned
+    with the organization''s security best practices and requirements.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/dispatcher/invalidate.cache"
-
-    headers:
-      CQ-Handle: /content
-      CQ-Path: /content
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "<H1>OK</H1>"
-
-      - type: status
-        status:
-          - 200
-# digest: 490a0046304402204e0cbd831afbebcda5232535849dea2e39ea0697711d5cb75022174225c1446c0220256381d3db7bc371fff21182f097b8123d49e3bd002c6445e18e705b30989957:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/dispatcher/invalidate.cache'
+  headers:
+    CQ-Handle: /content
+    CQ-Path: /content
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - <H1>OK</H1>
+  - type: status
+    status:
+    - 200

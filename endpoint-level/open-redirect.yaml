@@ -1,5 +1,4 @@
 id: open-redirect
-
 info:
   name: Open Redirect Detection
   author: princechaddha,AmirHossein Raeisi
@@ -7,208 +6,250 @@ info:
   metadata:
     max-request: 1
   tags: redirect,dast
+  description: Open Redirect Detection is a security vulnerability that occurs when
+    a web application fails to properly validate user input, allowing an attacker
+    to redirect users to a malicious website. This vulnerability arises when a web
+    application uses user-supplied data, such as a URL parameter, to redirect users
+    to other pages. If the application does not properly sanitize this input, an attacker
+    can manipulate the parameter to point to a malicious site, effectively tricking
+    users into believing they are being redirected to a legitimate destination. This
+    vulnerability is concerning as it can be exploited to conduct phishing attacks,
+    spread malware, or steal sensitive information from unsuspecting users. Proper
+    input validation and secure redirection mechanisms are crucial to mitigate the
+    risks associated with Open Redirect Detection vulnerabilities and protect users
+    from potential harm.
+  impact: '- Attackers can exploit the open redirect vulnerability to conduct phishing
+    attacks by redirecting users to a malicious website that appears to be legitimate,
+    tricking them into revealing sensitive information such as login credentials.
 
+    - The open redirect vulnerability can be leveraged to spread malware by redirecting
+    users to a website hosting malicious content, potentially infecting their devices
+    and compromising their systems.
+
+    - Attackers can use the open redirect vulnerability to steal sensitive user data,
+    such as session tokens or other sensitive information, by redirecting users to
+    a malicious site that mimics the legitimate one and capturing the data entered
+    by the unsuspecting users.
+
+    - The open redirect vulnerability can be used to bypass security controls, such
+    as content filtering or access restrictions, by redirecting users to a malicious
+    site that is not subject to these controls.
+
+    - Attackers can leverage the open redirect vulnerability to launch other types
+    of attacks, such as cross-site scripting (XSS) or cross-site request forgery (CSRF),
+    by embedding malicious code in the redirect URL.'
+  remediation: 'Addressing Open Redirect Detection vulnerabilities is crucial to protect
+    users from potential phishing attacks, malware distribution, and data theft. To
+    mitigate this vulnerability, developers should implement robust input validation
+    and secure redirection mechanisms that ensure user safety and maintain the integrity
+    of the application.
+
+
+    - Thoroughly validate and sanitize all user-supplied input, including URL parameters,
+    before using them in redirection logic. Implement whitelisting of trusted, legitimate
+    domains to ensure that users are only redirected to authorized destinations.
+
+    - Avoid using user-supplied data directly in redirection URLs. Instead, use a
+    secure, internal mapping or lookup mechanism to determine the appropriate redirection
+    target based on validated input.
+
+    - Implement additional security controls, such as CSRF protection and session
+    management, to further mitigate the risks associated with open redirect vulnerabilities.
+
+    - Regularly review the application''s redirection logic and update it as needed
+    to address any newly discovered vulnerabilities or changes in the threat landscape.
+
+    - Educate users on the risks of open redirects and encourage them to be cautious
+    when interacting with links or redirections, particularly from untrusted sources.'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      redirect:
-        - "oast.me"
-
-    fuzzing:
-      - part: query
-        mode: single
-        keys:
-          - AuthState
-          - URL
-          - _url
-          - callback
-          - checkout
-          - checkout_url
-          - content
-          - continue
-          - continueTo
-          - counturl
-          - data
-          - dest
-          - dest_url
-          - destination
-          - dir
-          - document
-          - domain
-          - done
-          - download
-          - feed
-          - file
-          - file_name
-          - file_url
-          - folder
-          - folder_url
-          - forward
-          - from_url
-          - go
-          - goto
-          - host
-          - html
-          - http
-          - https
-          - image
-          - image_src
-          - image_url
-          - imageurl
-          - img
-          - img_url
-          - include
-          - langTo
-          - load_file
-          - load_url
-          - login_to
-          - login_url
-          - logout
-          - media
-          - navigation
-          - next
-          - next_page
-          - open
-          - out
-          - page
-          - page_url
-          - pageurl
-          - path
-          - picture
-          - port
-          - proxy
-          - r
-          - r2
-          - redir
-          - redirect
-          - redirectUri
-          - redirectUrl
-          - redirect_to
-          - redirect_uri
-          - redirect_url
-          - reference
-          - referrer
-          - req
-          - request
-          - ret
-          - retUrl
-          - return
-          - returnTo
-          - return_path
-          - return_to
-          - return_url
-          - rt
-          - rurl
-          - show
-          - site
-          - source
-          - src
-          - target
-          - to
-          - u
-          - uri
-          - url
-          - val
-          - validate
-          - view
-          - window
-          - back
-          - cgi
-          - follow
-          - home
-          - jump
-          - link
-          - location
-          - menu
-          - move
-          - nav
-          - orig_url
-          - out_url
-          - query
-          - auth
-          - callback_url
-          - confirm_url
-          - destination_url
-          - domain_url
-          - entry
-          - exit
-          - forward_url
-          - go_to
-          - goto_url
-          - home_url
-          - image_link
-          - load
-          - logout_url
-          - nav_to
-          - origin
-          - page_link
-          - redirect_link
-          - ref
-          - referrer_url
-          - return_link
-          - return_to_url
-          - source_url
-          - target_url
-          - to_url
-          - validate_url
-          - DirectTo
-          - relay
-
-        fuzz:
-          - "https://{{redirect}}"
-
-      - part: query
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-        fuzz:
-          - "https://{{redirect}}"
-    
-      - part: path
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-        fuzz:
-          - "https://{{redirect}}"
-  
-      - part: body
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-        fuzz:
-          - "https://{{redirect}}"
-
-      - part: header
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-        fuzz:
-          - "https://{{redirect}}"
-
-      - part: cookie
-        mode: single
-        values:
-          - "https?://" # Replace HTTP URLs with alternatives
-        fuzz:
-          - "https://{{redirect}}"
-
-
-    stop-at-first-match: true
-    matchers-condition: and
-    matchers:
-      - type: regex
-        part: header
-        regex:
-          - '(?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)oast\.me\/?(\/|[^.].*)?$' # https://regex101.com/r/idfD2e/1
-
-      - type: status
-        status:
-          - 301
-          - 302
-          - 307
-# digest: 4b0a00483046022100c12ad470d721d0006f75b2024d67345962945cb5b36915ef144972832cc1c372022100f96113abf35c9e3152f9c5206c81279681182d51d3877178aaf6c20dca6bb492:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    redirect:
+    - oast.me
+  fuzzing:
+  - part: query
+    mode: single
+    keys:
+    - AuthState
+    - URL
+    - _url
+    - callback
+    - checkout
+    - checkout_url
+    - content
+    - continue
+    - continueTo
+    - counturl
+    - data
+    - dest
+    - dest_url
+    - destination
+    - dir
+    - document
+    - domain
+    - done
+    - download
+    - feed
+    - file
+    - file_name
+    - file_url
+    - folder
+    - folder_url
+    - forward
+    - from_url
+    - go
+    - goto
+    - host
+    - html
+    - http
+    - https
+    - image
+    - image_src
+    - image_url
+    - imageurl
+    - img
+    - img_url
+    - include
+    - langTo
+    - load_file
+    - load_url
+    - login_to
+    - login_url
+    - logout
+    - media
+    - navigation
+    - next
+    - next_page
+    - open
+    - out
+    - page
+    - page_url
+    - pageurl
+    - path
+    - picture
+    - port
+    - proxy
+    - r
+    - r2
+    - redir
+    - redirect
+    - redirectUri
+    - redirectUrl
+    - redirect_to
+    - redirect_uri
+    - redirect_url
+    - reference
+    - referrer
+    - req
+    - request
+    - ret
+    - retUrl
+    - return
+    - returnTo
+    - return_path
+    - return_to
+    - return_url
+    - rt
+    - rurl
+    - show
+    - site
+    - source
+    - src
+    - target
+    - to
+    - u
+    - uri
+    - url
+    - val
+    - validate
+    - view
+    - window
+    - back
+    - cgi
+    - follow
+    - home
+    - jump
+    - link
+    - location
+    - menu
+    - move
+    - nav
+    - orig_url
+    - out_url
+    - query
+    - auth
+    - callback_url
+    - confirm_url
+    - destination_url
+    - domain_url
+    - entry
+    - exit
+    - forward_url
+    - go_to
+    - goto_url
+    - home_url
+    - image_link
+    - load
+    - logout_url
+    - nav_to
+    - origin
+    - page_link
+    - redirect_link
+    - ref
+    - referrer_url
+    - return_link
+    - return_to_url
+    - source_url
+    - target_url
+    - to_url
+    - validate_url
+    - DirectTo
+    - relay
+    fuzz:
+    - https://{{redirect}}
+  - part: query
+    mode: single
+    values:
+    - https?://
+    fuzz:
+    - https://{{redirect}}
+  - part: path
+    mode: single
+    values:
+    - https?://
+    fuzz:
+    - https://{{redirect}}
+  - part: body
+    mode: single
+    values:
+    - https?://
+    fuzz:
+    - https://{{redirect}}
+  - part: header
+    mode: single
+    values:
+    - https?://
+    fuzz:
+    - https://{{redirect}}
+  - part: cookie
+    mode: single
+    values:
+    - https?://
+    fuzz:
+    - https://{{redirect}}
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: regex
+    part: header
+    regex:
+    - (?m)^(?:Location\s*?:\s*?)(?:https?:\/\/|\/\/|\/\\\\|\/\\)(?:[a-zA-Z0-9\-_\.@]*)oast\.me\/?(\/|[^.].*)?$
+  - type: status
+    status:
+    - 301
+    - 302
+    - 307

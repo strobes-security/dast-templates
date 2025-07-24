@@ -1,11 +1,12 @@
 id: fbi-seized-nameserver
-
 info:
   name: FBI Seized Nameserver - Detect
   author: rxerium
   severity: info
-  description: |
-    Detected domains whose nameservers have been seized by law enforcement (e.g., FBI), often indicating involvement in malicious or criminal activity.
+  description: 'Detected domains whose nameservers have been seized by law enforcement
+    (e.g., FBI), often indicating involvement in malicious or criminal activity.
+
+    '
   classification:
     cwe-id: CWE-200
   metadata:
@@ -13,26 +14,64 @@ info:
     shodan-query: title:"THIS WEBSITE HAS BEEN SEIZED"
     fofa-query: title="THIS WEBSITE HAS BEEN SEIZED"
   tags: dns,ns,darkweb,fbi,seized
+  impact: '- Attacker could identify and target domains associated with potential
+    criminal or malicious activities, enabling further exploitation or disruption.
 
+    - Attacker could gather intelligence on law enforcement''s actions and mitigation
+    strategies, potentially informing future attacks or evading detection.
+
+    - Attacker could leverage the seized nameservers to carry out man-in-the-middle
+    attacks, intercepting or modifying traffic to the affected domains.
+
+    - Attacker could attempt to gain control of the seized nameservers, potentially
+    regaining access to the targeted domains and their associated infrastructure.
+
+    - Attacker could use the information about seized nameservers to build a more
+    comprehensive understanding of the threat landscape, aiding in the development
+    of new attack tactics and techniques.'
+  remediation: 'To address the "FBI Seized Nameserver - Detect" vulnerability, organizations
+    should proactively monitor their domain infrastructure and respond swiftly to
+    any indications of law enforcement seizure. This includes regularly checking for
+    changes to their domain''s nameserver configurations and investigating any suspicious
+    activity or unexpected nameserver updates.
+
+
+    - Implement robust monitoring and alerting mechanisms to detect changes to your
+    organization''s domain nameserver configurations. This can include setting up
+    automated monitoring tools or integrating with external threat intelligence services
+    to receive timely notifications of potential seizures.
+
+    - Establish clear incident response and communication protocols to quickly identify,
+    assess, and mitigate the impact of a seized nameserver. This may involve coordination
+    with law enforcement, domain registrars, and other relevant stakeholders.
+
+    - Review and update your domain management and transfer procedures to ensure that
+    appropriate security measures and access controls are in place to prevent unauthorized
+    changes or transfers of your organization''s domains.
+
+    - Consider implementing alternative or redundant nameserver configurations, such
+    as using multiple independent nameservers or leveraging cloud-based DNS providers,
+    to reduce the impact of a single point of failure or seizure.
+
+    - Educate your employees on the risks associated with seized nameservers and the
+    importance of promptly reporting any suspicious activities or changes to your
+    organization''s domain infrastructure.'
 dns:
-  - name: "{{FQDN}}"
-    type: NS
-
-    matchers:
-      - type: word
-        words:
-          - "ns1.fbi.seized.gov"
-          - "ns2.fbi.seized.gov"
-          - "ns3.fbi.seized.gov"
-          - "jocelyn.ns.cloudflare.com"
-          - "plato.ns.cloudflare.com"
-          - "ns1.usssdomainseizure.com"
-          - "ns2.usssdomainseizure.com"
-        condition: or
-
-    extractors:
-      - type: regex
-        group: 1
-        regex:
-          - "IN\\tNS\\t(.+)"
-# digest: 4b0a00483046022100f3b1477e36dc35e5aad8f5c4d52f195b041590976d6011668baeba8bd4d440a5022100c662e3ed1752e276e905fa418822207d4cb5caf20fbf764e4676f072f2d43786:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: NS
+  matchers:
+  - type: word
+    words:
+    - ns1.fbi.seized.gov
+    - ns2.fbi.seized.gov
+    - ns3.fbi.seized.gov
+    - jocelyn.ns.cloudflare.com
+    - plato.ns.cloudflare.com
+    - ns1.usssdomainseizure.com
+    - ns2.usssdomainseizure.com
+    condition: or
+  extractors:
+  - type: regex
+    group: 1
+    regex:
+    - IN\tNS\t(.+)

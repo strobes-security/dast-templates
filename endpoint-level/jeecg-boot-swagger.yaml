@@ -1,5 +1,4 @@
 id: jeecg-boot-swagger
-
 info:
   name: Jeecg Boot Swagger Bootstrap UI - Detect
   author: ritikchaddha
@@ -13,17 +12,57 @@ info:
     vendor: jeecg
     product: jeecg-boot
     shodan-query: title:"Jeecg-Boot"
-    fofa-query: title="JeecgBoot 企业级低代码平台"
+    fofa-query: "title=\"JeecgBoot \u4F01\u4E1A\u7EA7\u4F4E\u4EE3\u7801\u5E73\u53F0\
+      \""
   tags: jeecg,swagger,detect,exposure
+  impact: '- Attacker can access the Swagger UI interface, which provides detailed
+    information about the API endpoints, request/response structures, and other sensitive
+    details.
 
+    - Attacker can exploit vulnerabilities in the API endpoints, potentially leading
+    to unauthorized access, data disclosure, or even remote code execution.
+
+    - Attacker can use the Swagger UI to perform unauthorized actions, such as modifying
+    or deleting data, based on the permissions and functionality exposed through the
+    API.
+
+    - Attacker can use the information gathered from the Swagger UI to craft more
+    targeted attacks, such as credential guessing or method tampering, against the
+    application.
+
+    - Attacker can potentially discover and exploit other vulnerabilities in the application
+    or related components through the information provided in the Swagger UI.'
+  remediation: 'To address the "Jeecg Boot Swagger Bootstrap UI - Detect" vulnerability,
+    the Swagger UI interface should be secured or disabled. This can be achieved by
+    restricting access to the Swagger UI or by configuring the application to only
+    expose the necessary API documentation. By taking these measures, you can reduce
+    the risk of unauthorized access, data disclosure, and potential exploitation of
+    vulnerabilities.
+
+
+    - Disable the Swagger UI in the production environment, unless it is required
+    for legitimate purposes. If it is necessary to keep the Swagger UI, ensure that
+    access to it is restricted to authorized users or IP addresses.
+
+    - Implement authentication and authorization mechanisms to control access to the
+    Swagger UI and the underlying API endpoints.
+
+    - Review the API documentation and endpoints exposed through the Swagger UI, and
+    remove or restrict access to any sensitive or unnecessary information.
+
+    - Regularly review and update the Swagger UI configuration to ensure that it aligns
+    with the application''s security requirements and does not expose unnecessary
+    information.
+
+    - Consider implementing rate-limiting or other security controls to mitigate the
+    risk of automated attacks or brute-force attempts against the Swagger UI and API
+    endpoints.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/jeecg-boot/"
-
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "<title>Swagger-Bootstrap-UI</title>"
-# digest: 4b0a00483046022100851e97dfb96c90edcab7f27757551a8100de139a71b40e579bb57edb3274ae200221009db963f2cda0b3b20fcfc8ddd4ce8d3159d7263b7ae69c4187111371a223aae9:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/jeecg-boot/'
+  matchers:
+  - type: word
+    part: body
+    words:
+    - <title>Swagger-Bootstrap-UI</title>

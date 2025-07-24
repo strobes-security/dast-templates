@@ -1,23 +1,56 @@
 id: http-missing-strict-transport-security
-
 info:
   name: Missing Strict-Transport-Security Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'Strict-Transport-Security' header is missing. This header enforces HTTPS and protects against downgrade attacks.
+  description: The 'Strict-Transport-Security' header is missing. This header enforces
+    HTTPS and protects against downgrade attacks.
   metadata:
     max-request: 1
   tags: misconfig,headers,strict-transport-security
+  impact: '- Attacker could intercept and tamper with user''s traffic, potentially
+    gaining access to sensitive information or credentials.
 
+    - Attacker could perform a man-in-the-middle attack, impersonating the legitimate
+    website and stealing user data.
+
+    - Attacker could conduct downgrade attacks, forcing the user to connect over an
+    insecure HTTP connection.
+
+    - Attacker could potentially perform session hijacking and take over user sessions.
+
+    - Attacker could enable eavesdropping on the user''s communication with the website.'
+  remediation: 'To address the "Missing Strict-Transport-Security Header" vulnerability,
+    the website should implement the Strict-Transport-Security (HSTS) header to enforce
+    HTTPS and protect against downgrade attacks. This will ensure that all communication
+    between the user''s browser and the website is encrypted, preventing attackers
+    from intercepting and tampering with the user''s traffic.
+
+
+    - Configure the web server to add the Strict-Transport-Security header to all
+    responses, with a minimum duration of 6 months (e.g., `Strict-Transport-Security:
+    max-age=15768000; includeSubDomains`).
+
+    - Ensure that all internal and external links are using the HTTPS protocol to
+    avoid downgrade attacks.
+
+    - Implement a redirect mechanism to automatically redirect all HTTP requests to
+    the HTTPS version of the website.
+
+    - Consider enabling the `includeSubDomains` directive in the HSTS header to enforce
+    HTTPS on all subdomains.
+
+    - Regularly review and update the HSTS header configuration to ensure it is up-to-date
+    and providing the desired level of protection.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-    host-redirects: true
-    max-redirects: 3
-    matchers:
-      - type: dsl
-        dsl:
-          - "!regex('(?i)strict-transport-security', header)"
-          - "status_code != 301 && status_code != 302"
-        condition: and
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 3
+  matchers:
+  - type: dsl
+    dsl:
+    - '!regex(''(?i)strict-transport-security'', header)'
+    - status_code != 301 && status_code != 302
+    condition: and

@@ -1,5 +1,4 @@
 id: php-backup-files
-
 info:
   name: PHP Source - Backup File Information Disclosure
   author: StreetOfHackerR007,pwnhxl,mastercho,0xpugal
@@ -8,138 +7,166 @@ info:
   metadata:
     max-request: 1512
   tags: exposure,backup,php,disclosure,fuzz
+  impact: '- An attacker could gain access to sensitive source code, potentially exposing
+    business logic, API keys, or other confidential information.
 
+    - With access to the source code, the attacker could identify and exploit additional
+    vulnerabilities within the application.
+
+    - The attacker could use the disclosed information to launch more targeted attacks,
+    such as code injection or privilege escalation.
+
+    - The exposure of the source code could lead to a loss of intellectual property
+    and undermine the application''s security.
+
+    - The attacker could utilize the information to bypass intended access controls
+    and gain unauthorized access to the system.'
+  remediation: 'To address the "PHP Source - Backup File Information Disclosure" vulnerability,
+    developers should ensure that all PHP source files and any associated backup files
+    are properly secured and not accessible to unauthorized users. This can be achieved
+    by implementing the following measures:
+
+
+    - Ensure that all PHP source files, including any backup files, are stored outside
+    of the web root directory or any other publicly accessible locations.
+
+    - Implement server-side configuration settings to prevent the direct access or
+    listing of PHP source files and backup files.
+
+    - Regularly review and update the server''s web configuration files (e.g., .htaccess,
+    nginx.conf) to include appropriate directives that deny direct access to these
+    sensitive files.
+
+    - Consider using a secure file storage solution, such as a content management
+    system or a cloud-based storage service, to manage and control access to the PHP
+    source files.
+
+    - Educate developers on the importance of properly securing PHP source files and
+    backup files to prevent unintended disclosure of sensitive information.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}{{filepath}}{{bakext}}"
-
-    attack: clusterbomb
-    payloads:
-      filepath:
-        - /wp-config.php # wordpress
-        - /wp-config # wordpress
-        - /site/default/settings.php # drupal
-        - /installation/configuration.php # joomla
-        - /app/etc/env.php # magento 2
-        - /app/etc/local.xml # magento 1
-        - /Application/Common/Conf/config.php # thinkphp
-        - /environments/dev/common/config/main-local.php # yii
-        - /environments/prod/common/config/main-local.php # yii
-        - /common/config/main-local.php # yii
-        - /system/config/default.php # opencart
-        - /typo3conf/localconf.php # typo3
-        - /config/config_global.php # discuz
-        - /config/config_ucenter.php # discuz
-        - /textpattern/config.php # textpattern
-        - /data/common.inc.php # dedecms
-        - /caches/configs/database.php # phpcms
-        - /caches/configs/system.php # phpcms
-        - /include/config.inc.php # phpcms
-        - /include/config.php # xbtit
-        - /includes/config.php # vbulletin
-        - /includes/config # vbulletin
-        - /phpsso_server/caches/configs/database.php # phpcms
-        - /phpsso_server/caches/configs/system.php # phpcms
-        - /zb_users/c_option.php # zblog
-        - /e/class/config.php # empirecms
-        - /e/config/config.php # empirecms
-        - /data/sql_config.php # phpwind
-        - /data/bbscache/config.php # phpwind
-        - /app/config/parameters.yml # prestashop 1.7,1.8
-        - /app/config/parameters.php # prestashop 1.7,1.8
-        - /config/settings.inc.php # prestashop  > 1.5,1.6
-        - /config/settings.old.php # prestashop  > 1.5,1.6
-        - /manager/includes/config.inc.php # MODX CMS
-        - /app/config/parameters.ini # Symfony
-        - /phinx.yml # CS-Cart
-        - /db.php
-        - /conn.php
-        - /database.php
-        - /db_config.php
-        - /config.inc.php
-        - /data/config.php
-        - /config/config.php
-        - /index.php
-        - /default.php
-        - /main.php
-        - /settings.php
-        - /header.php
-        - /footer.php
-        - /login.php
-        - /404.php
-        - /wp-login.php
-        - /config.php
-        - /config
-        - /const.DB.php.bak
-        - /const.DB.php
-
-      bakext:
-        - ".~"
-        - ".bk"
-        - ".bak"
-        - ".bkp"
-        - ".BAK"
-        - ".blank"
-        - ".swp"
-        - ".swo"
-        - ".swn"
-        - ".tmp"
-        - ".save"
-        - ".old"
-        - ".new"
-        - ".orig"
-        - ".dist"
-        - ".eski"  # Turkish word for .bak its common on file backups
-        - ".txt"
-        - ".disabled"
-        - ".original"
-        - ".backup"
-        - "_bak"
-        - "_1.bak"
-        - "~"
-        - "!"
-        - ".0"
-        - ".1"
-        - ".2"
-        - ".3"
-
-    matchers-condition: and
-    matchers:
-      - type: status
-        status:
-          - 200
-
-      - type: word
-        part: body
-        words:
-          - "<?php"
-          - "<?="
-        condition: or
-
-      - type: word
-        part: body
-        words:
-          - "?>"
-          - "($"
-          - "$_GET["
-          - "$_POST["
-          - "$_REQUEST["
-          - "$_SERVER["
-          - "'DB_PASSWORD'"
-          - "'DBPASS'"
-          - "'dbname'"
-          - "'database_name'"
-          - "database_type"
-          - "_DB_NAME_"
-          - "define('DB"
-          - "environments:"
-        condition: or
-
-      - type: word
-        part: header
-        words:
-          - "text/plain"
-          - "bytes"
-        condition: or
-# digest: 4a0a00473045022100da22b43b225ff93e47d3efab04ac1dcfc79134b9351058524e55679574f0c9fe02206d287ccf7a70536e2836ff395ab274196c67774f5ecf3abbc03bfc898576f6a0:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}{{filepath}}{{bakext}}'
+  attack: clusterbomb
+  payloads:
+    filepath:
+    - /wp-config.php
+    - /wp-config
+    - /site/default/settings.php
+    - /installation/configuration.php
+    - /app/etc/env.php
+    - /app/etc/local.xml
+    - /Application/Common/Conf/config.php
+    - /environments/dev/common/config/main-local.php
+    - /environments/prod/common/config/main-local.php
+    - /common/config/main-local.php
+    - /system/config/default.php
+    - /typo3conf/localconf.php
+    - /config/config_global.php
+    - /config/config_ucenter.php
+    - /textpattern/config.php
+    - /data/common.inc.php
+    - /caches/configs/database.php
+    - /caches/configs/system.php
+    - /include/config.inc.php
+    - /include/config.php
+    - /includes/config.php
+    - /includes/config
+    - /phpsso_server/caches/configs/database.php
+    - /phpsso_server/caches/configs/system.php
+    - /zb_users/c_option.php
+    - /e/class/config.php
+    - /e/config/config.php
+    - /data/sql_config.php
+    - /data/bbscache/config.php
+    - /app/config/parameters.yml
+    - /app/config/parameters.php
+    - /config/settings.inc.php
+    - /config/settings.old.php
+    - /manager/includes/config.inc.php
+    - /app/config/parameters.ini
+    - /phinx.yml
+    - /db.php
+    - /conn.php
+    - /database.php
+    - /db_config.php
+    - /config.inc.php
+    - /data/config.php
+    - /config/config.php
+    - /index.php
+    - /default.php
+    - /main.php
+    - /settings.php
+    - /header.php
+    - /footer.php
+    - /login.php
+    - /404.php
+    - /wp-login.php
+    - /config.php
+    - /config
+    - /const.DB.php.bak
+    - /const.DB.php
+    bakext:
+    - .~
+    - .bk
+    - .bak
+    - .bkp
+    - .BAK
+    - .blank
+    - .swp
+    - .swo
+    - .swn
+    - .tmp
+    - .save
+    - .old
+    - .new
+    - .orig
+    - .dist
+    - .eski
+    - .txt
+    - .disabled
+    - .original
+    - .backup
+    - _bak
+    - _1.bak
+    - '~'
+    - '!'
+    - '.0'
+    - '.1'
+    - '.2'
+    - '.3'
+  matchers-condition: and
+  matchers:
+  - type: status
+    status:
+    - 200
+  - type: word
+    part: body
+    words:
+    - <?php
+    - <?=
+    condition: or
+  - type: word
+    part: body
+    words:
+    - ?>
+    - ($
+    - $_GET[
+    - $_POST[
+    - $_REQUEST[
+    - $_SERVER[
+    - '''DB_PASSWORD'''
+    - '''DBPASS'''
+    - '''dbname'''
+    - '''database_name'''
+    - database_type
+    - _DB_NAME_
+    - define('DB
+    - 'environments:'
+    condition: or
+  - type: word
+    part: header
+    words:
+    - text/plain
+    - bytes
+    condition: or

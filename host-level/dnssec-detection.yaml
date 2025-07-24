@@ -1,25 +1,64 @@
 id: dnssec-detection
-
 info:
   name: DNSSEC Detection
   author: pdteam
   severity: info
-  description: Domain Name System Security Extensions (DNSSEC) are enabled. The Delegation of Signing (DS) record provides information about a signed zone file when DNSSEC enabled.
+  description: Domain Name System Security Extensions (DNSSEC) are enabled. The Delegation
+    of Signing (DS) record provides information about a signed zone file when DNSSEC
+    enabled.
   reference:
-    - https://www.icann.org/resources/pages/dnssec-what-is-it-why-important-2019-03-05-en
-    - https://www.cyberciti.biz/faq/unix-linux-test-and-validate-dnssec-using-dig-command-line/
+  - https://www.icann.org/resources/pages/dnssec-what-is-it-why-important-2019-03-05-en
+  - https://www.cyberciti.biz/faq/unix-linux-test-and-validate-dnssec-using-dig-command-line/
   classification:
     cwe-id: CWE-200
   metadata:
     max-request: 1
   tags: dns,dnssec
+  impact: '- An attacker could potentially gather additional information about the
+    target''s domain and DNS configuration, which could aid in further attacks.
 
+    - The attacker could potentially identify the specific DNSSEC implementation,
+    version, and configuration details, which could be used to discover and exploit
+    vulnerabilities in the DNSSEC implementation.
+
+    - The attacker could leverage the information from the DS record to attempt to
+    spoof or tamper with the target''s DNS traffic, potentially leading to man-in-the-middle
+    attacks or domain hijacking.
+
+    - The attacker could use the DNSSEC information to target the domain''s registrar
+    or DNS provider, potentially gaining access to the target''s domain management
+    capabilities.
+
+    - The attacker could attempt to exploit any weaknesses or misconfigurations in
+    the DNSSEC implementation to bypass the security protections provided by DNSSEC.'
+  remediation: 'To address the "DNSSEC Detection" vulnerability, security teams should
+    consider implementing measures to reduce the visibility of DNSSEC-related information
+    and strengthen the overall security posture. This can be achieved through the
+    following steps:
+
+
+    - Ensure that the DNSSEC implementation is up-to-date and configured securely,
+    following the best practices recommended by the DNSSEC standard and the domain
+    registrar or DNS provider.
+
+    - Consider masking or obfuscating the DNSSEC-related information in the DNS records,
+    such as the DS record, to minimize the information available to potential attackers.
+
+    - Implement strong access controls and monitoring mechanisms for the domain management
+    and DNS configuration, to detect and respond to any unauthorized access or modifications.
+
+    - Regularly review and update the DNSSEC configuration and policies to address
+    any newly discovered vulnerabilities or security concerns.
+
+    - Educate the organization''s IT and security teams on the importance of DNSSEC
+    and the potential risks associated with its detection, and ensure they are equipped
+    with the necessary knowledge and tools to manage and secure the DNSSEC implementation
+    effectively.'
 dns:
-  - name: "{{FQDN}}"
-    type: DS
-    matchers:
-      - type: regex
-        part: answer
-        regex:
-          - "IN\tDS\\t(.+)$"
-# digest: 4a0a004730450220290ab8ad56a2744d90235725b83a26a9cba804533fd7b4b022016afc1c0ac870022100b9a60da058fee3dd3ee0423ab9760ab1d11352e69b6d0afe695b77b849826f99:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: DS
+  matchers:
+  - type: regex
+    part: answer
+    regex:
+    - "IN\tDS\\t(.+)$"

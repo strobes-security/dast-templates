@@ -1,42 +1,89 @@
 id: graphql-get-method
-
 info:
   name: GraphQL CSRF / GET method
   author: Dolev Farhi
   severity: info
-  description: |
-    Cross Site Request Forgery happens when an external website gains ability to make API calls impersonating an user if he visits the website while being authenticated to your API.
-    Allowing API calls through GET requests can lead to CSRF attacks, because cookies are added automatically to GET requests by the browser.
+  description: 'Cross Site Request Forgery happens when an external website gains
+    ability to make API calls impersonating an user if he visits the website while
+    being authenticated to your API.
+
+    Allowing API calls through GET requests can lead to CSRF attacks, because cookies
+    are added automatically to GET requests by the browser.
+
+    '
   reference:
-    - https://graphql.org/learn/serving-over-http/#get-request
-    - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application
-    - https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html
-    - https://graphql.security/
+  - https://graphql.org/learn/serving-over-http/#get-request
+  - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application
+  - https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html
+  - https://graphql.security/
   metadata:
     max-request: 2
   tags: graphql,misconfig
+  impact: '- An attacker could perform unauthorized actions on behalf of the victim
+    user, such as modifying sensitive data or performing privileged operations.
 
+    - The attacker could gain access to sensitive information belonging to the victim
+    user, such as personal data, financial details, or other confidential information.
+
+    - The attacker could exploit the vulnerability to launch further attacks, such
+    as session hijacking or escalating privileges within the application.
+
+    - If the vulnerable GraphQL API is integrated with other critical systems, the
+    attacker could potentially compromise those systems as well, leading to a broader
+    impact.
+
+    - The vulnerability could be exploited by the attacker to launch denial-of-service
+    attacks, disrupting the availability of the application for legitimate users.'
+  remediation: 'To address the "GraphQL CSRF / GET method" vulnerability, it is recommended
+    to follow these remediation steps:
+
+
+    Ensure that all GraphQL API endpoints, including queries, mutations, and subscriptions,
+    are protected against CSRF attacks. This can be achieved by implementing a robust
+    CSRF protection mechanism, such as using a CSRF token or Double Submit Cookie
+    pattern, that verifies the origin of the request and validates the authenticity
+    of the user''s session.
+
+
+    Specific steps to follow:
+
+
+    - Disable the use of HTTP GET requests for GraphQL operations that can modify
+    data or perform sensitive actions. Instead, require the use of HTTP POST requests
+    for all GraphQL mutations and sensitive queries.
+
+    - Implement a CSRF token-based protection mechanism for your GraphQL API, where
+    a unique token is generated and included in the request headers for every user
+    session. Validate the presence and correctness of this token on the server-side
+    before processing the request.
+
+    - Consider using the "Double Submit Cookie" approach, where a CSRF token is stored
+    in a cookie and also included in the request headers. This provides an additional
+    layer of validation to ensure the authenticity of the request.
+
+    - Educate developers on the importance of CSRF protection and the appropriate
+    implementation techniques, and ensure that CSRF protection is consistently applied
+    across all GraphQL API endpoints.
+
+    - Regularly review and test your CSRF protection mechanisms to ensure they are
+    effective and up-to-date with the latest security best practices.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/graphql?query={__typename}"
-      - "{{BaseURL}}/api/graphql?query={__typename}"
-
-    stop-at-first-match: true
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - '"query"'
-          - '"data"'
-          - '"__typename"'
-        case-insensitive: true
-        condition: and
-
-      - type: word
-        part: header
-        words:
-          - "application/json"
-# digest: 4a0a004730450220732f0825a10fe1164e0c6437f367c90719667a9abb3cc4d158f8e04e26d8a3530221008d227947bd767557dbcd326331273cd63315acd956e8218b9dd1ddb9da04d647:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/graphql?query={__typename}'
+  - '{{BaseURL}}/api/graphql?query={__typename}'
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - '"query"'
+    - '"data"'
+    - '"__typename"'
+    case-insensitive: true
+    condition: and
+  - type: word
+    part: header
+    words:
+    - application/json

@@ -1,5 +1,4 @@
 id: dns-waf-detect
-
 info:
   name: DNS WAF Detection
   author: lu4nx
@@ -10,192 +9,201 @@ info:
   metadata:
     max-request: 2
   tags: tech,waf,dns
+  impact: '- Bypass the DNS WAF''s protection mechanisms, potentially allowing the
+    attacker to execute unauthorized DNS queries or access sensitive information.
 
+    - Evade detection and monitoring by the DNS WAF, making the attacker''s activities
+    more difficult to detect and track.
+
+    - Compromise the integrity of the DNS infrastructure, potentially enabling the
+    attacker to redirect users to malicious websites or intercept sensitive data.
+
+    - Gain further access to the target network or systems by exploiting the weaknesses
+    in the DNS WAF''s implementation or configuration.
+
+    - Disrupt the organization''s DNS services, leading to potential service interruptions
+    and impact on business operations.'
+  remediation: 'To address the "DNS WAF Detection" vulnerability, it is crucial to
+    review the DNS WAF''s configuration and implementation to identify and address
+    any weaknesses or misconfigurations that could be exploited by an attacker. This
+    may involve implementing robust security controls, regular monitoring and auditing
+    of the DNS infrastructure, and ensuring that the DNS WAF is kept up-to-date with
+    the latest security patches and threat intelligence.
+
+
+    - Conduct a comprehensive review of the DNS WAF''s configuration, including its
+    rules, policies, and filtering mechanisms, to ensure they are properly configured
+    and aligned with the organization''s security requirements.
+
+    - Implement strong authentication and access controls to limit unauthorized access
+    to the DNS WAF''s management interface and administrative functions.
+
+    - Regularly monitor and analyze DNS traffic and logs to detect any anomalous activities
+    or potential attempts to bypass the DNS WAF''s protection mechanisms.
+
+    - Ensure that the DNS WAF is updated with the latest security patches and threat
+    intelligence to address known vulnerabilities and emerging threats.
+
+    - Consider implementing additional security measures, such as network segmentation,
+    threat detection and response capabilities, and incident response planning, to
+    enhance the overall security of the organization''s DNS infrastructure.'
 dns:
-  - name: "{{FQDN}}"
-    type: CNAME
-
-  - name: "{{FQDN}}"
-    type: NS
-    matchers:
-      - type: word
-        part: answer
-        name: sanfor-shield
-        words:
-          - ".sangfordns.com"
-
-      - type: word
-        part: answer
-        name: 360panyun
-        words:
-          - ".360panyun.com"
-
-      - type: word
-        part: answer
-        name: baiduyun
-        words:
-          - ".yunjiasu-cdn.net"
-
-      - type: word
-        part: answer
-        name: chuangyudun
-        words:
-          - ".365cyd.cn"
-          - ".cyudun.net"
-
-      - type: word
-        part: answer
-        name: knownsec
-        words:
-          - ".jiashule.com"
-          - ".jiasule.org"
-
-      - type: word
-        part: answer
-        name: huaweicloud
-        words:
-          - ".huaweicloudwaf.com"
-
-      - type: word
-        part: answer
-        name: xinliuyun
-        words:
-          - ".ngaagslb.cn"
-
-      - type: word
-        part: answer
-        name: chinacache
-        words:
-          - ".chinacache.net"
-          - ".ccgslb.net"
-
-      - type: word
-        part: answer
-        name: nscloudwaf
-        words:
-          - ".nscloudwaf.com"
-
-      - type: word
-        part: answer
-        name: wangsu
-        words:
-          - ".wsssec.com"
-          - ".lxdns.com"
-          - ".wscdns.com"
-          - ".cdn20.com"
-          - ".cdn30.com"
-          - ".ourplat.net"
-          - ".wsdvs.com"
-          - ".wsglb0.com"
-          - ".wswebcdn.com"
-          - ".wswebpic.com"
-          - ".wsssec.com"
-          - ".wscloudcdn.com"
-          - ".mwcloudcdn.com"
-
-      - type: word
-        part: answer
-        name: qianxin
-        words:
-          - ".360safedns.com"
-          - ".360cloudwaf.com"
-
-      - type: word
-        part: answer
-        name: baiduyunjiasu
-        words:
-          - ".yunjiasu-cdn.net"
-
-      - type: word
-        part: answer
-        name: anquanbao
-        words:
-          - ".anquanbao.net"
-
-      - type: regex
-        name: aliyun
-        regex:
-          - '\.w\.kunlun\w{2,3}\.com'
-
-      - type: regex
-        name: aliyun-waf
-        regex:
-          - '\.aliyunddos\d+\.com'
-          - '\.aliyunwaf\.com'
-          - '\.aligaofang\.com'
-          - '\.aliyundunwaf\.com'
-
-      - type: word
-        part: answer
-        name: xuanwudun
-        words:
-          - ".saaswaf.com"
-          - ".dbappwaf.cn"
-
-      - type: word
-        part: answer
-        name: yundun
-        words:
-          - ".hwwsdns.cn"
-          - ".yunduncname.com"
-
-      - type: word
-        part: answer
-        name: knownsec-ns
-        words:
-          - ".jiasule.net"
-
-      - type: word
-        part: answer
-        name: chuangyudun
-        words:
-          - ".365cyd.net"
-
-      - type: word
-        part: answer
-        name: qianxin
-        words:
-          - ".360wzb.com"
-
-      - type: word
-        part: answer
-        name: anquanbao
-        words:
-          - ".anquanbao.com"
-
-      - type: word
-        part: answer
-        name: wangsu
-        words:
-          - ".chinanetcenter.com"
-
-      - type: word
-        part: answer
-        name: baiduyunjiasue
-        words:
-          - ".ns.yunjiasu.com"
-
-      - type: word
-        part: answer
-        name: chinacache
-        words:
-          - ".chinacache.com"
-
-      - type: word
-        part: answer
-        name: cloudflare
-        words:
-          - "ns.cloudflare.com"
-
-      - type: word
-        part: answer
-        name: edns
-        words:
-          - ".iidns.com"
-
-      - type: word
-        part: answer
-        name: ksyun
-        words:
-          - ".ksyunwaf.com"
-# digest: 4b0a00483046022100caa9f1b15fd93865f22f026ae6f3710d81056a1be3cfb9b44ff7c2f101a09cdd022100f02e073108d13e53356dfe59136d1a0c2770a93c00988479885c265ff1c45dd8:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: CNAME
+- name: '{{FQDN}}'
+  type: NS
+  matchers:
+  - type: word
+    part: answer
+    name: sanfor-shield
+    words:
+    - .sangfordns.com
+  - type: word
+    part: answer
+    name: 360panyun
+    words:
+    - .360panyun.com
+  - type: word
+    part: answer
+    name: baiduyun
+    words:
+    - .yunjiasu-cdn.net
+  - type: word
+    part: answer
+    name: chuangyudun
+    words:
+    - .365cyd.cn
+    - .cyudun.net
+  - type: word
+    part: answer
+    name: knownsec
+    words:
+    - .jiashule.com
+    - .jiasule.org
+  - type: word
+    part: answer
+    name: huaweicloud
+    words:
+    - .huaweicloudwaf.com
+  - type: word
+    part: answer
+    name: xinliuyun
+    words:
+    - .ngaagslb.cn
+  - type: word
+    part: answer
+    name: chinacache
+    words:
+    - .chinacache.net
+    - .ccgslb.net
+  - type: word
+    part: answer
+    name: nscloudwaf
+    words:
+    - .nscloudwaf.com
+  - type: word
+    part: answer
+    name: wangsu
+    words:
+    - .wsssec.com
+    - .lxdns.com
+    - .wscdns.com
+    - .cdn20.com
+    - .cdn30.com
+    - .ourplat.net
+    - .wsdvs.com
+    - .wsglb0.com
+    - .wswebcdn.com
+    - .wswebpic.com
+    - .wsssec.com
+    - .wscloudcdn.com
+    - .mwcloudcdn.com
+  - type: word
+    part: answer
+    name: qianxin
+    words:
+    - .360safedns.com
+    - .360cloudwaf.com
+  - type: word
+    part: answer
+    name: baiduyunjiasu
+    words:
+    - .yunjiasu-cdn.net
+  - type: word
+    part: answer
+    name: anquanbao
+    words:
+    - .anquanbao.net
+  - type: regex
+    name: aliyun
+    regex:
+    - \.w\.kunlun\w{2,3}\.com
+  - type: regex
+    name: aliyun-waf
+    regex:
+    - \.aliyunddos\d+\.com
+    - \.aliyunwaf\.com
+    - \.aligaofang\.com
+    - \.aliyundunwaf\.com
+  - type: word
+    part: answer
+    name: xuanwudun
+    words:
+    - .saaswaf.com
+    - .dbappwaf.cn
+  - type: word
+    part: answer
+    name: yundun
+    words:
+    - .hwwsdns.cn
+    - .yunduncname.com
+  - type: word
+    part: answer
+    name: knownsec-ns
+    words:
+    - .jiasule.net
+  - type: word
+    part: answer
+    name: chuangyudun
+    words:
+    - .365cyd.net
+  - type: word
+    part: answer
+    name: qianxin
+    words:
+    - .360wzb.com
+  - type: word
+    part: answer
+    name: anquanbao
+    words:
+    - .anquanbao.com
+  - type: word
+    part: answer
+    name: wangsu
+    words:
+    - .chinanetcenter.com
+  - type: word
+    part: answer
+    name: baiduyunjiasue
+    words:
+    - .ns.yunjiasu.com
+  - type: word
+    part: answer
+    name: chinacache
+    words:
+    - .chinacache.com
+  - type: word
+    part: answer
+    name: cloudflare
+    words:
+    - ns.cloudflare.com
+  - type: word
+    part: answer
+    name: edns
+    words:
+    - .iidns.com
+  - type: word
+    part: answer
+    name: ksyun
+    words:
+    - .ksyunwaf.com

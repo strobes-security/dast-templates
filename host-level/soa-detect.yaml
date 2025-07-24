@@ -1,84 +1,111 @@
 id: soa-detect
-
 info:
   name: SOA Record Service - Detection
   author: rxerium
   severity: info
-  description: |
-    Detects which domain provider a domain is using, detected through SOA records
+  description: 'Detects which domain provider a domain is using, detected through
+    SOA records
+
+    '
   reference:
-    - https://www.cloudflare.com/learning/dns/dns-records/dns-soa-record/
+  - https://www.cloudflare.com/learning/dns/dns-records/dns-soa-record/
   metadata:
     verified: true
     max-request: 1
   tags: dns,soa
+  impact: '- Obtain sensitive information about the target domain''s infrastructure,
+    such as the domain registrar, primary and secondary name servers, and email administrators.
 
+    - Leverage the gathered information to potentially launch more targeted attacks,
+    such as social engineering or credential guessing against key personnel.
+
+    - Gain a better understanding of the target''s network topology, which could aid
+    in the planning and execution of further penetration testing activities or malicious
+    operations.
+
+    - Increase the attacker''s overall situational awareness and contextual knowledge
+    about the target environment, potentially leading to more effective exploitation
+    of other vulnerabilities.
+
+    - Disclose sensitive details about the target organization''s domain management
+    practices, which could be used to undermine their security posture or reputation.'
+  remediation: 'To address the "SOA Record Service - Detection" vulnerability, organizations
+    should implement measures to protect sensitive information disclosed through SOA
+    records. This can be achieved by configuring domain registrations and DNS settings
+    to limit the exposure of such details, while still maintaining the necessary functionality
+    for legitimate operations.
+
+
+    - Review and configure domain registration settings to minimize the exposure of
+    sensitive information, such as registrant contact details, in the public WHOIS
+    database.
+
+    - Implement appropriate DNS zone configuration, such as using privacy-preserving
+    options or limiting the visibility of SOA records, to prevent the disclosure of
+    internal infrastructure details.
+
+    - Educate and train personnel responsible for domain and DNS management about
+    the risks associated with overly revealing SOA records and the importance of implementing
+    security best practices.
+
+    - Consider the use of domain privacy services or proxy registration options to
+    conceal sensitive information from public view, while ensuring the domain remains
+    functional and accessible.
+
+    - Regularly monitor and audit domain and DNS configurations to ensure that sensitive
+    information is not inadvertently exposed through SOA records or other means.'
 dns:
-  - name: "{{FQDN}}"
-
-    type: SOA
-
-    matchers-condition: or
-    matchers:
-      - type: word
-        name: "cloudflare"
-        words:
-          - "dns.cloudflare.com"
-
-      - type: word
-        name: "amazon-web-services"
-        words:
-          - "awsdns"
-
-      - type: word
-        name: "akamai"
-        words:
-          - "hostmaster.akamai.com"
-
-      - type: word
-        name: "azure"
-        words:
-          - "azure-dns.com"
-
-      - type: word
-        name: "ns1"
-        words:
-          - "nsone.net"
-
-      - type: word
-        name: "verizon"
-        words:
-          - "verizon.com"
-
-      - type: word
-        name: "google-cloud-platform"
-        words:
-          - "googledomains.com"
-          - "google.com"
-
-      - type: word
-        name: "alibaba"
-        words:
-          - "alibabadns.com"
-
-      - type: word
-        name: "safeway"
-        words:
-          - "safeway.com"
-
-      - type: word
-        name: "mark-monitor"
-        words:
-          - "markmonitor.com"
-          - "markmonitor.zone"
-
-      - type: word
-        name: "hetznet"
-        words:
-          - "hetzner.com"
-
-      - type: word
-        name: "edge-cast"
-        words:
-          - "edgecastdns.net"
-# digest: 4a0a00473045022100fd269e964d16c8e0c85450c9c1568ee56f1790ad0a8a242d0739f1c68dcff6cd0220162c158409c1a8d4c272cb873674be5b4bcebb5b96c040cfc5045136c454e982:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: SOA
+  matchers-condition: or
+  matchers:
+  - type: word
+    name: cloudflare
+    words:
+    - dns.cloudflare.com
+  - type: word
+    name: amazon-web-services
+    words:
+    - awsdns
+  - type: word
+    name: akamai
+    words:
+    - hostmaster.akamai.com
+  - type: word
+    name: azure
+    words:
+    - azure-dns.com
+  - type: word
+    name: ns1
+    words:
+    - nsone.net
+  - type: word
+    name: verizon
+    words:
+    - verizon.com
+  - type: word
+    name: google-cloud-platform
+    words:
+    - googledomains.com
+    - google.com
+  - type: word
+    name: alibaba
+    words:
+    - alibabadns.com
+  - type: word
+    name: safeway
+    words:
+    - safeway.com
+  - type: word
+    name: mark-monitor
+    words:
+    - markmonitor.com
+    - markmonitor.zone
+  - type: word
+    name: hetznet
+    words:
+    - hetzner.com
+  - type: word
+    name: edge-cast
+    words:
+    - edgecastdns.net

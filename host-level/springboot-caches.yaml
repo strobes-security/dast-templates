@@ -1,42 +1,72 @@
 id: springboot-caches
-
 info:
   name: Springboot Actuator Caches
   author: ELSFA7110
   severity: low
   description: The caches endpoint provides access to the application's caches.
   reference:
-    - https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/#caches
+  - https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/#caches
   metadata:
     verified: true
     max-request: 2
   tags: misconfig,springboot,exposure
+  impact: '- Retrieve sensitive information stored in the application''s caches, such
+    as authentication tokens, API keys, or other confidential data.
 
+    - Manipulate or delete the application''s caches, potentially causing service
+    disruptions or data loss.
+
+    - Exploit any vulnerabilities or misconfigurations in the caching mechanism to
+    gain unauthorized access to the application or its underlying infrastructure.
+
+    - Leverage the information obtained from the caches to launch further attacks,
+    such as privilege escalation or lateral movement within the system.
+
+    - Conduct reconnaissance on the application''s internal structure and functionality,
+    which could aid in planning and executing more sophisticated attacks.'
+  remediation: 'To address the "Springboot Actuator Caches" vulnerability, it is crucial
+    to secure the access to the caches endpoint and ensure that sensitive information
+    is not stored or exposed through this mechanism. This can be achieved by implementing
+    the following measures:
+
+
+    - Restrict access to the caches endpoint by implementing role-based access controls
+    (RBAC) or other authentication and authorization mechanisms. Ensure that only
+    authorized personnel or processes can access the caching information.
+
+    - Evaluate the data stored in the application''s caches and remove or anonymize
+    any sensitive information, such as authentication tokens, API keys, or other confidential
+    data.
+
+    - Configure the caching mechanism to follow the principle of least privilege,
+    ensuring that the application only caches the minimum amount of information required
+    for its operation.
+
+    - Implement robust logging and monitoring mechanisms to detect and respond to
+    any unauthorized access or suspicious activities related to the caching system.
+
+    - Regularly review and update the caching configuration and policies to address
+    any changes in the application''s requirements or the security landscape.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}/caches"
-      - "{{BaseURL}}/actuator/caches"
-
-    stop-at-first-match: true
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "cacheManagers"
-
-      - type: word
-        part: header
-        words:
-          - "application/json"
-          - "application/vnd.spring-boot.actuator"
-          - "application/vnd.spring-boot.actuator.v1+json"
-          - "application/vnd.spring-boot.actuator.v2+json"
-        condition: or
-
-      - type: status
-        status:
-          - 200
-# digest: 4a0a00473045022100cd50f70206f87479d4b6f01113cad3a064595033d7f2096e30886036fc7557cb02206ca3273035f2313e0ba0384475f3e838acb3c135f32f1ea0e8af1bc9941a8a67:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/caches'
+  - '{{BaseURL}}/actuator/caches'
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - cacheManagers
+  - type: word
+    part: header
+    words:
+    - application/json
+    - application/vnd.spring-boot.actuator
+    - application/vnd.spring-boot.actuator.v1+json
+    - application/vnd.spring-boot.actuator.v2+json
+    condition: or
+  - type: status
+    status:
+    - 200

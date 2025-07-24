@@ -1,56 +1,95 @@
 id: generic-rfi
-
 info:
   name: Generic Remote File Inclusion
   author: m4lwhere
   severity: high
   reference:
-    - https://www.invicti.com/learn/remote-file-inclusion-rfi/
+  - https://www.invicti.com/learn/remote-file-inclusion-rfi/
   metadata:
     max-request: 1
   tags: rfi,dast,oast
+  description: The Generic Remote File Inclusion vulnerability represents a security
+    flaw in web applications that fail to properly sanitize user-supplied input. This
+    vulnerability occurs when an application allows an attacker to include remote
+    files, typically through a malicious URL, which can lead to the execution of arbitrary
+    code on the server. This vulnerability is particularly dangerous as it can provide
+    an attacker with the ability to access sensitive data, gain unauthorized access
+    to system resources, or even completely compromise the target system. The exploitation
+    of this vulnerability can have severe consequences, including data breaches, system-level
+    compromise, and the potential for further attacks to be launched from the compromised
+    system. As such, remediating this vulnerability is of critical importance to maintain
+    the security and integrity of web-based systems.
+  impact: '- Gain remote code execution on the server by including malicious PHP,
+    ASP, or other server-side scripts
 
+    - Retrieve sensitive data stored on the server, such as configuration files, database
+    credentials, or user information
+
+    - Upload and execute malicious programs or scripts, potentially leading to a complete
+    system compromise
+
+    - Pivot to other systems on the internal network by exploiting trust relationships
+    or additional vulnerabilities
+
+    - Establish a persistent backdoor or shell, allowing the attacker to maintain
+    long-term access to the compromised system'
+  remediation: 'To address the Generic Remote File Inclusion vulnerability, it is
+    critical to properly sanitize and validate all user-supplied input before it is
+    used in file inclusion operations. This can be achieved by implementing robust
+    input validation and a defense-in-depth approach to security.
+
+
+    - Ensure that all user input is properly sanitized and validated before being
+    used in file inclusion operations. This includes checking for malicious characters,
+    directory traversal attempts, and other potential injection vectors.
+
+    - Implement a whitelist-based approach to file inclusion, where only a predefined
+    set of trusted files or directories are allowed to be included. Reject any requests
+    that attempt to include files from untrusted sources.
+
+    - Configure the web application to run with the least privileged user account
+    possible, limiting the potential damage of a successful Remote File Inclusion
+    attack.
+
+    - Regularly review and update the application''s security controls, including
+    input validation routines and file inclusion policies, to address emerging threats
+    and vulnerabilities.
+
+    - Implement comprehensive logging and monitoring mechanisms to detect and respond
+    to suspicious activity, such as attempted file inclusion attacks.'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      rfi:
-        - "https://rfi.nessus.org/rfi.txt"
-
-    fuzzing:
-      - part: query
-        mode: single
-        fuzz:
-          - "{{rfi}}"
-
-      - part: body
-        mode: single
-        fuzz:
-          - "{{rfi}}"
-
-      - part: header
-        mode: single
-        fuzz:
-          - "{{rfi}}"
-
-      - part: path
-        mode: single
-        fuzz:
-          - "{{rfi}}"
-
-      - part: cookie
-        mode: single
-        fuzz:
-          - "{{rfi}}"
-
-    stop-at-first-match: true
-    matchers:
-      - type: word
-        part: body  # Confirms the PHP was executed
-        words:
-          - "NessusCodeExecTest"
-# digest: 4a0a0047304502201defae9e491762c05f2aefe99c8489ba93fd7153248875c686f9c6420abe3dc8022100bec8f77768157cd111d564a3498dfd931718092aa5a06e68b2b0033ef765d537:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    rfi:
+    - https://rfi.nessus.org/rfi.txt
+  fuzzing:
+  - part: query
+    mode: single
+    fuzz:
+    - '{{rfi}}'
+  - part: body
+    mode: single
+    fuzz:
+    - '{{rfi}}'
+  - part: header
+    mode: single
+    fuzz:
+    - '{{rfi}}'
+  - part: path
+    mode: single
+    fuzz:
+    - '{{rfi}}'
+  - part: cookie
+    mode: single
+    fuzz:
+    - '{{rfi}}'
+  stop-at-first-match: true
+  matchers:
+  - type: word
+    part: body
+    words:
+    - NessusCodeExecTest

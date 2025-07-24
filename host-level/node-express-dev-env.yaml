@@ -1,46 +1,93 @@
 id: node-express-dev-env
-
 info:
   name: Node.js Express NODE_ENV Development Mode
   author: FLX
   severity: medium
-  description: |
-    The Node.js application runs in development mode, which can expose sensitive information, such as source code and secrets, depending on the application.
+  description: 'The Node.js application runs in development mode, which can expose
+    sensitive information, such as source code and secrets, depending on the application.
+
+    '
   reference:
-    - https://www.invicti.com/web-vulnerability-scanner/vulnerabilities/express-development-mode-is-enabled/
-    - https://www.synopsys.com/blogs/software-security/nodejs-mean-stack-vulnerabilities.html
+  - https://www.invicti.com/web-vulnerability-scanner/vulnerabilities/express-development-mode-is-enabled/
+  - https://www.synopsys.com/blogs/software-security/nodejs-mean-stack-vulnerabilities.html
   metadata:
     verified: true
     max-request: 2
-    shodan-query: "X-Powered-By: Express"
+    shodan-query: 'X-Powered-By: Express'
   tags: nodejs,express,misconfig,devops,cicd,trace
+  impact: '- An attacker could gain access to sensitive application source code and
+    configuration details, potentially revealing valuable information such as API
+    keys, database credentials, and other secrets.
+
+    - The attacker could exploit the development mode to execute arbitrary code on
+    the server, potentially allowing them to take full control of the system and access
+    any data or resources within the application.
+
+    - Sensitive debugging information and stack traces could be exposed, providing
+    the attacker with valuable insights into the application''s inner workings and
+    potential vulnerabilities.
+
+    - The development mode may also disable important security features, such as input
+    validation and output encoding, making the application more susceptible to various
+    types of injection attacks, including SQL injection and cross-site scripting (XSS).
+
+    - An attacker could leverage the exposed development environment to launch further
+    attacks, such as privilege escalation or lateral movement within the organization''s
+    infrastructure.'
+  remediation: 'To address the vulnerability caused by running a Node.js Express application
+    in development mode, the application should be configured to run in production
+    mode. Running in production mode ensures that sensitive information, such as source
+    code, configuration details, and debugging information, are not exposed to potential
+    attackers. This step is crucial to maintaining the security of the application
+    and protecting its underlying infrastructure.
+
+
+    Specific steps developers should take:
+
+
+    - Ensure the NODE_ENV environment variable is set to "production" or an appropriate
+    non-development value when deploying the application to a production environment.
+
+    - Review all configuration files and remove or obfuscate any sensitive information,
+    such as API keys, database credentials, and other secrets, that should not be
+    exposed in the production environment.
+
+    - Implement robust input validation and output encoding mechanisms to mitigate
+    potential injection-based attacks, such as SQL injection and cross-site scripting
+    (XSS).
+
+    - Enable security features, such as rate limiting, authentication, and authorization,
+    to protect the application and its resources from unauthorized access.
+
+    - Implement comprehensive logging and monitoring solutions to detect and respond
+    to any suspicious activity or potential security breaches.'
 flow: http(1) && http(2)
-
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers:
+  - type: dsl
+    internal: true
+    dsl:
+    - 'contains(tolower(all_headers), ''x-powered-by: express'')'
+- raw:
+  - 'GET / HTTP/1.1
 
-    matchers:
-      - type: dsl
-        internal: true
-        dsl:
-          - "contains(tolower(all_headers), 'x-powered-by: express')"
+    Host: {{Hostname}}
 
-  - raw:
-      - |
-        GET / HTTP/1.1
-        Host: {{Hostname}}
-        Content-Type: application/json
-        Connection: close
+    Content-Type: application/json
 
-        t
+    Connection: close
 
-    matchers:
-      - type: dsl
-        dsl:
-          - "status_code==400"
-          - "contains(body, 'SyntaxError: Unexpected token')"
-          - "contains(tolower(all_headers), 'x-powered-by: express')"
-        condition: and
-# digest: 490a0046304402204f3ddf40560941e174d400df07d0bb481cb5ec0e947be65505eed133822dcc760220564b9d7269072b52f89087a303e12a2ba8ba70cbdc33dd5592d0e0cc8d84082b:922c64590222798bb761d5b6d8e72950
+
+    t
+
+    '
+  matchers:
+  - type: dsl
+    dsl:
+    - status_code==400
+    - 'contains(body, ''SyntaxError: Unexpected token'')'
+    - 'contains(tolower(all_headers), ''x-powered-by: express'')'
+    condition: and

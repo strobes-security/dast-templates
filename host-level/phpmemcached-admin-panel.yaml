@@ -1,5 +1,4 @@
 id: phpmemcached-admin-panel
-
 info:
   name: phpMemcachedAdmin Panel
   author: tess
@@ -10,26 +9,63 @@ info:
     max-request: 1
     shodan-query: title:"phpMemcachedAdmin"
   tags: phpmemcached,exposure,misconfig
+  impact: '- An attacker could gain unauthorized access to the phpMemcachedAdmin panel,
+    which could allow them to view and manipulate sensitive information stored in
+    the Memcached server.
 
+    - The attacker could potentially execute arbitrary code on the server hosting
+    the phpMemcachedAdmin panel, leading to a complete system compromise.
+
+    - An attacker could use the exposed phpMemcachedAdmin panel to launch further
+    attacks, such as denial of service (DoS) attacks, against the Memcached server
+    or other related systems.
+
+    - The attacker could leverage the phpMemcachedAdmin panel to launch cache poisoning
+    attacks, potentially leading to the corruption or manipulation of data stored
+    in the Memcached server.
+
+    - The exposure of the phpMemcachedAdmin panel could also result in the disclosure
+    of sensitive information, such as server configurations, database credentials,
+    or other sensitive data, which could be used by the attacker in subsequent attacks.'
+  remediation: 'The exposed phpMemcachedAdmin panel poses a significant security risk
+    and should be addressed immediately. To mitigate this vulnerability, the following
+    steps should be taken:
+
+
+    - Restrict access to the phpMemcachedAdmin panel by implementing strong authentication
+    mechanisms, such as two-factor authentication or role-based access control.
+
+    - Limit the exposure of the phpMemcachedAdmin panel by placing it behind a secure,
+    access-controlled web server or proxy, ensuring that it is not directly accessible
+    from the internet.
+
+    - Review and update the configuration of the Memcached server to ensure that it
+    is properly secured, with appropriate access controls and logging mechanisms in
+    place.
+
+    - Ensure that all software components, including the phpMemcachedAdmin panel and
+    the Memcached server, are kept up-to-date with the latest security patches and
+    updates.
+
+    - Implement comprehensive monitoring and logging mechanisms to detect and alert
+    on any unauthorized access attempts or suspicious activities related to the phpMemcachedAdmin
+    panel or the Memcached server.'
 http:
-  - method: GET
-    path:
-      - '{{BaseURL}}'
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "phpMemcachedAdmin"
-          - "Execute Commands on Servers"
-        condition: and
-        case-insensitive: true
-
-    extractors:
-      - type: regex
-        part: body
-        group: 1
-        regex:
-          - "MemcachedAdmin ([0-9.]+)"
-# digest: 4a0a0047304502201785f5ba4d5285dd642ed2d3d3c515999d1ea5470b6c0c582f897f36e518e2be022100c254a6776ecb77983a0c66af58d7e14654a07eb3828364ee213cf7422a8312c2:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - phpMemcachedAdmin
+    - Execute Commands on Servers
+    condition: and
+    case-insensitive: true
+  extractors:
+  - type: regex
+    part: body
+    group: 1
+    regex:
+    - MemcachedAdmin ([0-9.]+)

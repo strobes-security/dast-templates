@@ -1,5 +1,4 @@
 id: laravel-debug-error
-
 info:
   name: Larvel Debug Method Enabled
   author: dhiyaneshDK
@@ -8,18 +7,57 @@ info:
   metadata:
     max-request: 1
   tags: debug,laravel,misconfig
+  impact: '- An attacker could gain access to sensitive information, such as database
+    credentials, API keys, and other confidential details, which could be used to
+    launch further attacks or compromise the system.
 
+    - The attacker could potentially execute arbitrary PHP code on the server, potentially
+    leading to remote code execution (RCE) and complete control of the system.
+
+    - The attacker could bypass authentication mechanisms and access restricted areas
+    of the application, potentially compromising user accounts and data.
+
+    - The attacker could dump the application''s entire database, including user information,
+    orders, and other sensitive data, leading to a significant data breach.
+
+    - The attacker could modify the application''s code, inject malicious content,
+    or deface the website, potentially causing reputational damage and service disruption.'
+  remediation: 'The Larvel Debug method should be disabled in production environments,
+    as it poses a significant security risk. This feature is intended for development
+    and debugging purposes only and should never be enabled in a live environment.
+    Leaving the debug mode active can expose sensitive information and allow attackers
+    to exploit the system, potentially leading to data breaches, remote code execution,
+    and complete system compromise.
+
+
+    - Ensure that the Larvel Debug mode is disabled in the production environment.
+    This can typically be done by setting the `APP_DEBUG` environment variable to
+    `false` or by removing the debug-related configuration from the application''s
+    environment files.
+
+    - Review the application''s code and configuration to identify any other debug-related
+    features or settings that may be enabled in production and ensure they are properly
+    secured or disabled.
+
+    - Implement proper access controls and authentication mechanisms to restrict access
+    to sensitive areas of the application and prevent unauthorized access to debug
+    or administrative functionality.
+
+    - Regularly review the application''s logs and monitor for any suspicious activity,
+    such as attempted access to debug endpoints or unusual database queries, that
+    may indicate an ongoing attack.
+
+    - Ensure that the application is regularly updated with the latest security patches
+    and that any known vulnerabilities are addressed in a timely manner.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-      - "{{BaseURL}}///////this-should-not-exist,.<>!@#$%^&*()_+"
-      - "{{BaseURL}}/%00"
-
-    stop-at-first-match: true
-    matchers-condition: and
-    matchers:
-      - type: word
-        words:
-          - <title>Whoops! There was an error
-# digest: 4b0a00483046022100af28baa3d7985a8b9ea40ed42c351a17a27abc5aac00f445b87dc598f769a002022100fd6a01f967063e8f99c97f7d91cae3c05b816112dbfe0cc53ba76f6be009fde7:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  - '{{BaseURL}}///////this-should-not-exist,.<>!@#$%^&*()_+'
+  - '{{BaseURL}}/%00'
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: word
+    words:
+    - <title>Whoops! There was an error

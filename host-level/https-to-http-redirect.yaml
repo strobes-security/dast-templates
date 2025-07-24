@@ -1,34 +1,71 @@
 id: https-to-http-redirect
-
 info:
   name: HTTPS to HTTP redirect Misconfiguration
   author: kazet,idealphase
   severity: info
-  description: |
-    Detects whether there is a redirect from https:// to http://
+  description: 'Detects whether there is a redirect from https:// to http://
+
+    '
   metadata:
     verified: true
     max-request: 1
   tags: misconfig,http,https
+  impact: '- An attacker could intercept and eavesdrop on the user''s traffic, exposing
+    sensitive information such as login credentials, personal data, or financial transactions.
 
+    - The attacker could perform man-in-the-middle attacks, allowing them to modify
+    the content of the website or even inject malicious code into the user''s browser.
+
+    - The attacker could bypass any security measures or protections that are in place
+    for the HTTPS connection, such as SSL/TLS encryption and website authentication.
+
+    - The attacker could gain unauthorized access to restricted resources or services
+    that should only be accessible over a secure HTTPS connection.
+
+    - The attacker could exploit the lack of end-to-end encryption to launch further
+    attacks, such as session hijacking or cookie theft, compromising the user''s session
+    and potentially gaining full control over their account.'
+  remediation: 'To address the "HTTPS to HTTP redirect Misconfiguration" vulnerability,
+    it is crucial to ensure that all communication between the client and the server
+    is encrypted using HTTPS. This will prevent any potential eavesdropping, man-in-the-middle
+    attacks, and the exposure of sensitive information. Developers should follow these
+    steps to remediate the issue:
+
+
+    - Implement a permanent 301 redirect from all HTTP URLs to their corresponding
+    HTTPS counterparts. This ensures that users are automatically redirected to the
+    secure version of the website.
+
+    - Ensure that all internal links, references, and resources (e.g., images, scripts,
+    stylesheets) are served over HTTPS. This includes any third-party resources that
+    are included in the web application.
+
+    - Configure the web server and application settings to enforce HTTPS and prevent
+    any HTTP traffic. This may involve setting appropriate headers, such as "Strict-Transport-Security"
+    (HSTS), to further strengthen the security of the HTTPS connection.
+
+    - Test the website thoroughly to verify that all pages and resources are accessible
+    only over HTTPS, and that there are no instances of HTTP-to-HTTP or HTTP-to-HTTPS
+    redirects.
+
+    - Consider implementing additional security measures, such as Certificate Transparency
+    (CT) logs or HTTPS preloading, to further enhance the security of the HTTPS implementation.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-
-    matchers-condition: or
-    matchers:
-      - type: dsl
-        dsl:
-          - 'startswith(tolower(location), "http://")'
-          - 'startswith(tostring(BaseURL), "https://")'
-          - '(status_code == 300 || status_code == 301 || status_code == 302 || status_code == 303 || status_code == 307 || status_code == 308)'
-        condition: and
-
-      - type: dsl
-        dsl:
-          - 'startswith(tostring(BaseURL), "https://")'
-          - 'status_code == 200'
-          - 'contains(tolower(body), "<meta http-equiv=\"refresh\" content=\"0; url=http://")'
-        condition: and
-# digest: 4a0a004730450221008ed60e60f3342274751ed977a185dabdf33677fb493ce8239fcc0d02594ea7510220515524b9f723e914abc402696c0444daf4cfb1030c792d7bc77c93d3ff606b73:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  matchers-condition: or
+  matchers:
+  - type: dsl
+    dsl:
+    - startswith(tolower(location), "http://")
+    - startswith(tostring(BaseURL), "https://")
+    - (status_code == 300 || status_code == 301 || status_code == 302 || status_code
+      == 303 || status_code == 307 || status_code == 308)
+    condition: and
+  - type: dsl
+    dsl:
+    - startswith(tostring(BaseURL), "https://")
+    - status_code == 200
+    - contains(tolower(body), "<meta http-equiv=\"refresh\" content=\"0; url=http://")
+    condition: and

@@ -1,30 +1,62 @@
 id: java-melody-exposed
-
 info:
   name: JavaMelody Monitoring Exposed
   author: dhiyaneshDK,thomas_from_offensity
   severity: medium
-  description: JavaMelody is a tool used to monitor Java or Java EE applications in QA and production environments. JavaMelody was detected on this web application. One option in the dashboard is to "View http sessions". This can be used by an attacker to steal a user's session.
+  description: JavaMelody is a tool used to monitor Java or Java EE applications in
+    QA and production environments. JavaMelody was detected on this web application.
+    One option in the dashboard is to "View http sessions". This can be used by an
+    attacker to steal a user's session.
   reference:
-    - https://www.acunetix.com/vulnerabilities/web/javamelody-publicly-accessible/
-    - https://github.com/javamelody/javamelody/wiki/UserGuide#16-security
+  - https://www.acunetix.com/vulnerabilities/web/javamelody-publicly-accessible/
+  - https://github.com/javamelody/javamelody/wiki/UserGuide#16-security
   metadata:
     max-request: 2
   tags: config,java,javamelody,misconfig
+  impact: '- An attacker could steal a user''s active session by navigating to the
+    "View http sessions" option in the JavaMelody dashboard.
 
+    - The attacker could then use the stolen session to impersonate the legitimate
+    user and gain unauthorized access to the web application.
+
+    - With the stolen session, the attacker could perform any actions the legitimate
+    user is authorized to perform, such as viewing, modifying, or deleting sensitive
+    data.
+
+    - The attacker could potentially escalate their privileges and gain elevated access
+    to the web application or the underlying system.
+
+    - The exposure of active user sessions could also lead to a broader compromise
+    of the web application and its data.'
+  remediation: 'To address the "JavaMelody Monitoring Exposed" vulnerability, the
+    recommended remediation is to properly secure and restrict access to the JavaMelody
+    monitoring interface. This can be achieved by implementing the following measures:
+
+
+    - Limit access to the JavaMelody dashboard by configuring role-based access controls,
+    ensuring only authorized personnel can access the monitoring interface.
+
+    - Disable or remove the "View http sessions" option from the JavaMelody dashboard
+    to prevent the exposure of active user sessions.
+
+    - Ensure that the JavaMelody monitoring interface is not accessible from the internet
+    and is only accessible from trusted internal networks or IP addresses.
+
+    - Review and update the application''s security policies and practices to align
+    with industry best practices for secure monitoring and logging.
+
+    - Regularly review and update the access controls and configurations to maintain
+    the security of the JavaMelody monitoring interface.'
 http:
-  - method: GET
-    path:
-      - '{{BaseURL}}/monitoring'
-      - '{{BaseURL}}/..%3B/monitoring'
-
-    matchers-condition: and
-    matchers:
-      - type: word
-        words:
-          - 'Monitoring JavaMelody on'
-
-      - type: status
-        status:
-          - 200
-# digest: 490a00463044022038f17a00939e5e6f80c80619d2ac4b18ecf97263aba19c9088673c29da8b2b6c02203db1bea34a5a1bb8aeac1c30732bcb8ed9025e5789802b25fa600ad01e480535:922c64590222798bb761d5b6d8e72950
+- method: GET
+  path:
+  - '{{BaseURL}}/monitoring'
+  - '{{BaseURL}}/..%3B/monitoring'
+  matchers-condition: and
+  matchers:
+  - type: word
+    words:
+    - Monitoring JavaMelody on
+  - type: status
+    status:
+    - 200

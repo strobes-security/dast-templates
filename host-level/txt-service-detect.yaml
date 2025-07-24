@@ -1,221 +1,224 @@
 id: txt-service-detect
-
 info:
   name: DNS TXT Service - Detect
   author: rxerium
   severity: info
-  description: |
-    Finding the services companies use via their TXT records.
+  description: 'Finding the services companies use via their TXT records.
+
+    '
   reference:
-    - https://www.abenezer.ca/blog/services-companies-use-txt-records
+  - https://www.abenezer.ca/blog/services-companies-use-txt-records
   metadata:
     verified: true
     max-request: 1
   tags: dns,txt
+  impact: '- Gather sensitive information about the target organization, such as email
+    server configuration, domain registration details, and other organizational data.
 
+    - Potentially identify subdomains and services that are not publicly known, providing
+    an attacker with additional attack surfaces.
+
+    - Obtain information that could be used in social engineering attacks, such as
+    employee email addresses or other company-specific details.
+
+    - Gain a better understanding of the target''s infrastructure and services, potentially
+    assisting in the planning and execution of more sophisticated attacks.
+
+    - The information gathered through the TXT record analysis could be used to enhance
+    the attacker''s knowledge of the target, increasing the effectiveness of subsequent
+    phases of the attack.'
+  remediation: 'To address the "DNS TXT Service - Detect" vulnerability, organizations
+    should implement the following remediation measures:
+
+
+    The organization should review all TXT records associated with their domain and
+    assess the risk of any sensitive information being exposed. Any TXT records that
+    contain confidential data, such as email server configurations, domain registration
+    details, or other organizational information, should be removed or modified to
+    remove the sensitive information. Regular monitoring and review of TXT records
+    should be implemented to ensure that no new sensitive information is inadvertently
+    added.
+
+
+    Specific steps for developers to follow:
+
+    - Conduct a comprehensive review of all TXT records associated with the organization''s
+    domain(s).
+
+    - Identify any TXT records that contain sensitive information and remove or modify
+    the records to remove the sensitive data.
+
+    - Implement a process to regularly monitor and review TXT records to ensure that
+    no new sensitive information is added.
+
+    - Consider implementing access controls or other security measures to restrict
+    modifications to TXT records, ensuring that only authorized personnel can make
+    changes.
+
+    - Educate employees on the importance of maintaining the privacy and security
+    of organizational information, including the appropriate use of TXT records.'
 dns:
-  - name: "{{FQDN}}"
-    type: TXT
-
-    matchers-condition: or
-    matchers:
-      - type: word
-        name: "keybase"
-        words:
-          - "keybase-site-verification"
-
-      - type: word
-        name: "proton-mail"
-        words:
-          - "protonmail-verification"
-
-      - type: word
-        name: "webex"
-        words:
-          - "webexdomainverification"
-
-      - type: word
-        name: "apple"
-        words:
-          - "apple-domain-verification"
-
-      - type: word
-        name: "facebook"
-        words:
-          - "facebook-domain-verification"
-
-      - type: word
-        name: "autodesk"
-        words:
-          - "autodesk-domain-verification"
-
-      - type: word
-        name: "stripe"
-        words:
-          - "stripe-verification"
-
-      - type: word
-        name: "atlassian"
-        words:
-          - "atlassian-domain-verification"
-
-      - type: word
-        name: "adobe-sign"
-        words:
-          - "adobe-sign-verification"
-
-      - type: word
-        name: "zoho"
-        words:
-          - "zoho-verification"
-
-      - type: word
-        name: "have-i-been-pwned"
-        words:
-          - "have-i-been-pwned-verification"
-
-      - type: word
-        name: "knowbe4"
-        words:
-          - "knowbe4-site-verification"
-
-      - type: word
-        name: "jamf"
-        words:
-          - "jamf-site-verification"
-
-      - type: word
-        name: "parallels"
-        words:
-          - "parallels-domain-verification"
-
-      - type: word
-        name: "dropbox"
-        words:
-          - "dropbox-domain-verification"
-
-      - type: word
-        name: "vmware-cloud"
-        words:
-          - "vmware-cloud-verification"
-
-      - type: word
-        name: "canva"
-        words:
-          - "canva-site-verification"
-
-      - type: word
-        name: "mongodb"
-        words:
-          - "mongodb-site-verification"
-
-      - type: word
-        name: "slack"
-        words:
-          - "slack-domain-verification"
-
-      - type: word
-        name: "teamViewer"
-        words:
-          - "teamviewer-sso-verification"
-
-      - type: word
-        name: "bugcrowd"
-        words:
-          - "bugcrowd-verification"
-
-      - type: word
-        name: "cisco"
-        words:
-          - "cisco-site-verification"
-
-      - type: word
-        name: "palo-alto-networks"
-        words:
-          - "paloaltonetworks-site-verification"
-
-      - type: word
-        name: "twilio"
-        words:
-          - "twilio-domain-verification"
-
-      - type: word
-        name: "dell-technologies"
-        words:
-          - "dell-technologies-domain-verification"
-
-      - type: word
-        name: "1password"
-        words:
-          - "1password-site-verification"
-
-      - type: word
-        name: "duo"
-        words:
-          - "duo_sso_verification"
-
-      - type: word
-        name: "sophos"
-        words:
-          - "sophos-domain-verification"
-
-      - type: word
-        name: "pinterest"
-        words:
-          - "pinterest-site-verification"
-
-      - type: word
-        name: "citrix"
-        words:
-          - "citrix-verification-code"
-
-      - type: word
-        name: "zapier"
-        words:
-          - "zapier-domain-verification-challenge"
-
-      - type: word
-        name: "uber"
-        words:
-          - "uber-domain-verification"
-
-      - type: word
-        name: "zoom"
-        words:
-          - "zoom-domain-verification"
-
-      - type: word
-        name: "lastpass"
-        words:
-          - "lastpass-verification-code"
-
-      - type: word
-        name: "google-workspace"
-        words:
-          - "google-site-verification"
-
-      - type: word
-        name: "flexera"
-        words:
-          - "flexera-domain-verification"
-
-      - type: word
-        name: "yandex"
-        words:
-          - "yandex-verification"
-
-      - type: word
-        name: "calendly"
-        words:
-          - "calendly-site-verification"
-
-      - type: word
-        name: "docusign"
-        words:
-          - "docusign"
-
-      - type: word
-        name: "whimsical"
-        words:
-          - "whimsical"
-# digest: 4b0a004830460221009e325ac8c4420a3014895a0707afbd51e2da774c89e37c3e0dc115dac94cbeda022100c55096b12bf19681b8e8566e10fc2b1307ac7c52c806d2abfa295b1f307eb3e9:922c64590222798bb761d5b6d8e72950
+- name: '{{FQDN}}'
+  type: TXT
+  matchers-condition: or
+  matchers:
+  - type: word
+    name: keybase
+    words:
+    - keybase-site-verification
+  - type: word
+    name: proton-mail
+    words:
+    - protonmail-verification
+  - type: word
+    name: webex
+    words:
+    - webexdomainverification
+  - type: word
+    name: apple
+    words:
+    - apple-domain-verification
+  - type: word
+    name: facebook
+    words:
+    - facebook-domain-verification
+  - type: word
+    name: autodesk
+    words:
+    - autodesk-domain-verification
+  - type: word
+    name: stripe
+    words:
+    - stripe-verification
+  - type: word
+    name: atlassian
+    words:
+    - atlassian-domain-verification
+  - type: word
+    name: adobe-sign
+    words:
+    - adobe-sign-verification
+  - type: word
+    name: zoho
+    words:
+    - zoho-verification
+  - type: word
+    name: have-i-been-pwned
+    words:
+    - have-i-been-pwned-verification
+  - type: word
+    name: knowbe4
+    words:
+    - knowbe4-site-verification
+  - type: word
+    name: jamf
+    words:
+    - jamf-site-verification
+  - type: word
+    name: parallels
+    words:
+    - parallels-domain-verification
+  - type: word
+    name: dropbox
+    words:
+    - dropbox-domain-verification
+  - type: word
+    name: vmware-cloud
+    words:
+    - vmware-cloud-verification
+  - type: word
+    name: canva
+    words:
+    - canva-site-verification
+  - type: word
+    name: mongodb
+    words:
+    - mongodb-site-verification
+  - type: word
+    name: slack
+    words:
+    - slack-domain-verification
+  - type: word
+    name: teamViewer
+    words:
+    - teamviewer-sso-verification
+  - type: word
+    name: bugcrowd
+    words:
+    - bugcrowd-verification
+  - type: word
+    name: cisco
+    words:
+    - cisco-site-verification
+  - type: word
+    name: palo-alto-networks
+    words:
+    - paloaltonetworks-site-verification
+  - type: word
+    name: twilio
+    words:
+    - twilio-domain-verification
+  - type: word
+    name: dell-technologies
+    words:
+    - dell-technologies-domain-verification
+  - type: word
+    name: 1password
+    words:
+    - 1password-site-verification
+  - type: word
+    name: duo
+    words:
+    - duo_sso_verification
+  - type: word
+    name: sophos
+    words:
+    - sophos-domain-verification
+  - type: word
+    name: pinterest
+    words:
+    - pinterest-site-verification
+  - type: word
+    name: citrix
+    words:
+    - citrix-verification-code
+  - type: word
+    name: zapier
+    words:
+    - zapier-domain-verification-challenge
+  - type: word
+    name: uber
+    words:
+    - uber-domain-verification
+  - type: word
+    name: zoom
+    words:
+    - zoom-domain-verification
+  - type: word
+    name: lastpass
+    words:
+    - lastpass-verification-code
+  - type: word
+    name: google-workspace
+    words:
+    - google-site-verification
+  - type: word
+    name: flexera
+    words:
+    - flexera-domain-verification
+  - type: word
+    name: yandex
+    words:
+    - yandex-verification
+  - type: word
+    name: calendly
+    words:
+    - calendly-site-verification
+  - type: word
+    name: docusign
+    words:
+    - docusign
+  - type: word
+    name: whimsical
+    words:
+    - whimsical

@@ -1,48 +1,94 @@
 id: graphql-field-suggestion
-
 info:
   name: GraphQL Field Suggestion Information Disclosure
   author: Dolev Farhi
   severity: info
-  description: |
-    If introspection is disabled on your target, Field Suggestion can allow users to still earn information on the GraphQL schema.
+  description: 'If introspection is disabled on your target, Field Suggestion can
+    allow users to still earn information on the GraphQL schema.
+
     By default, GraphQL backends have a feature for fields and operations suggestions.
-    If you try to query a field but you have made a typo, GraphQL will attempt to suggest fields that are similar to the initial attempt.
+
+    If you try to query a field but you have made a typo, GraphQL will attempt to
+    suggest fields that are similar to the initial attempt.
+
+    '
   reference:
-    - https://github.com/webonyx/graphql-php/issues/454
-    - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application
-    - https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html
-    - https://graphql.security
+  - https://github.com/webonyx/graphql-php/issues/454
+  - https://github.com/dolevf/Damn-Vulnerable-GraphQL-Application
+  - https://cheatsheetseries.owasp.org/cheatsheets/GraphQL_Cheat_Sheet.html
+  - https://graphql.security
   metadata:
     max-request: 2
   tags: graphql,misconfig
+  impact: '- The attacker could gain information about the structure of the GraphQL
+    schema, including the available types, fields, and their relationships.
 
+    - The attacker could use the field suggestion feature to enumerate the existing
+    fields and operations in the GraphQL API, even if introspection is disabled.
+
+    - The attacker could leverage the information disclosed through the field suggestion
+    feature to refine their attack and potentially uncover sensitive data or functionality.
+
+    - The attacker could use the disclosed information to plan more sophisticated
+    attacks, such as constructing targeted queries to extract additional data or perform
+    unauthorized actions.
+
+    - The information disclosure could lead to a further compromise of the application,
+    as the attacker gains a better understanding of the system''s internals and potential
+    attack vectors.'
+  remediation: 'To address the "GraphQL Field Suggestion Information Disclosure" vulnerability,
+    it is essential to disable the field suggestion feature in your GraphQL backend.
+    This will prevent attackers from leveraging the field suggestion functionality
+    to gather information about the schema, even if introspection is disabled. By
+    removing this attack surface, you can significantly reduce the risk of unauthorized
+    access and further compromise of your application.
+
+
+    - Locate the configuration settings for your GraphQL backend and identify the
+    option to enable or disable the field suggestion feature.
+
+    - Disable the field suggestion feature by setting the appropriate configuration
+    parameter or flag.
+
+    - Ensure that the field suggestion is disabled in both development and production
+    environments to maintain consistent security across all deployments.
+
+    - Review your application''s logging and monitoring systems to detect any attempts
+    to exploit the field suggestion feature and respond accordingly.
+
+    - Document the decision to disable the field suggestion feature and update your
+    application''s security documentation to maintain a clear record of the implemented
+    remediation.'
 http:
-  - raw:
-      - |
-        POST /graphql HTTP/1.1
-        Host: {{Hostname}}
-        Content-Type: application/json
+- raw:
+  - 'POST /graphql HTTP/1.1
 
-        {"query":"query {\n  __schema {\n directive\n }\n}","variables":null}
-      - |
-        POST /api/graphql HTTP/1.1
-        Host: {{Hostname}}
-        Content-Type: application/json
+    Host: {{Hostname}}
 
-        {"query":"query {\n  __schema {\n directive\n }\n}","variables":null}
+    Content-Type: application/json
 
-    stop-at-first-match: true
 
-    matchers-condition: and
-    matchers:
-      - type: word
-        part: body
-        words:
-          - "Did you mean"
+    {"query":"query {\n  __schema {\n directive\n }\n}","variables":null}
 
-      - type: word
-        part: header
-        words:
-          - "application/json"
-# digest: 4b0a00483046022100ed7b7b983242b44f202ea00764f11688a43478d25a4e69ea9470ef493786e843022100ad19559982340e948e482d167462d1a80f4cc22866322a1d94730b209c40c275:922c64590222798bb761d5b6d8e72950
+    '
+  - 'POST /api/graphql HTTP/1.1
+
+    Host: {{Hostname}}
+
+    Content-Type: application/json
+
+
+    {"query":"query {\n  __schema {\n directive\n }\n}","variables":null}
+
+    '
+  stop-at-first-match: true
+  matchers-condition: and
+  matchers:
+  - type: word
+    part: body
+    words:
+    - Did you mean
+  - type: word
+    part: header
+    words:
+    - application/json

@@ -1,23 +1,67 @@
 id: http-missing-permissions-policy
-
 info:
   name: Missing Permissions-Policy Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'Permissions-Policy' header is missing. This controls browser features like camera, mic, and geolocation.
+  description: The 'Permissions-Policy' header is missing. This controls browser features
+    like camera, mic, and geolocation.
   metadata:
     max-request: 1
   tags: misconfig,headers,permissions-policy
+  impact: '- An attacker could potentially access the target''s camera, microphone,
+    and geolocation data without the user''s consent, allowing for unauthorized surveillance
+    and data collection.
 
+    - The lack of the Permissions-Policy header could enable cross-origin resource
+    sharing (CORS) attacks, potentially leading to the exfiltration of sensitive data.
+
+    - Certain browser features, such as the ability to play video or audio, could
+    be enabled without the user''s knowledge or permission, potentially leading to
+    unwanted content being played.
+
+    - The absence of the Permissions-Policy header could allow the execution of powerful
+    browser features, such as the ability to lock the screen or control the user''s
+    input devices, leading to potential system compromise.
+
+    - An attacker could leverage the missing header to bypass security restrictions
+    and gain unauthorized access to resources, potentially leading to further exploitation
+    of the system.'
+  remediation: 'To address the "Missing Permissions-Policy Header" vulnerability,
+    the following steps should be taken:
+
+
+    Developers should add the ''Permissions-Policy'' header to the web application''s
+    response headers to control the browser''s access to various features, such as
+    camera, microphone, and geolocation. This will help mitigate the potential risks
+    associated with unauthorized access to sensitive user data and system resources.
+
+
+    - Implement the ''Permissions-Policy'' header and configure it to explicitly enable
+    or disable the desired browser features based on the application''s security requirements.
+    For example, you can use the following format: ''Permissions-Policy: camera=self;
+    geolocation=self''.
+
+    - Regularly review and update the ''Permissions-Policy'' configuration to ensure
+    it aligns with the current security requirements and best practices.
+
+    - Educate the development team on the importance of the ''Permissions-Policy''
+    header and its role in enhancing the overall security of the web application.
+
+    - Incorporate the ''Permissions-Policy'' header into the organization''s secure
+    coding practices and include it as a mandatory requirement in the application''s
+    security standards.
+
+    - Monitor the web application''s responses to ensure the ''Permissions-Policy''
+    header is consistently included and properly configured across all endpoints.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-    host-redirects: true
-    max-redirects: 3
-    matchers:
-      - type: dsl
-        dsl:
-          - "!regex('(?i)permissions-policy', header)"
-          - "status_code != 301 && status_code != 302"
-        condition: and
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 3
+  matchers:
+  - type: dsl
+    dsl:
+    - '!regex(''(?i)permissions-policy'', header)'
+    - status_code != 301 && status_code != 302
+    condition: and

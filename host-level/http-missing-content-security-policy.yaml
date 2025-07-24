@@ -1,23 +1,62 @@
 id: http-missing-content-security-policy
-
 info:
   name: Missing Content-Security-Policy Header
   author: socketz,geeknik,G4L1T0,convisoappsec,kurohost,dawid-czarnecki,forgedhallpass,jub0bs,userdehghani
   severity: info
-  description: The 'Content-Security-Policy' header is missing. This helps prevent XSS and other code injection attacks.
+  description: The 'Content-Security-Policy' header is missing. This helps prevent
+    XSS and other code injection attacks.
   metadata:
     max-request: 1
   tags: misconfig,headers,content-security-policy
+  impact: '- An attacker could inject malicious scripts into the web page, allowing
+    them to steal sensitive user data, such as login credentials or personal information.
 
+    - The lack of the Content-Security-Policy header could enable cross-site scripting
+    (XSS) attacks, where an attacker can execute arbitrary code in the victim''s browser.
+
+    - Attackers could potentially bypass security restrictions and gain access to
+    restricted areas of the web application or sensitive backend systems.
+
+    - The absence of the Content-Security-Policy header could make the web application
+    vulnerable to other code injection attacks, such as SQL injection or command injection.
+
+    - Without the Content-Security-Policy header, the web application may be susceptible
+    to a wide range of client-side attacks, compromising the overall security of the
+    system.'
+  remediation: 'To address the "Missing Content-Security-Policy Header" vulnerability,
+    the web application should be configured to include a well-designed Content-Security-Policy
+    (CSP) header. The CSP header is a powerful security feature that helps mitigate
+    cross-site scripting (XSS) and other code injection attacks by restricting the
+    sources from which resources can be loaded and the types of content that can be
+    executed within the web application.
+
+
+    - Implement a Content-Security-Policy header that specifies the allowed sources
+    for various resource types, such as scripts, styles, images, and fonts. This can
+    be done by setting the appropriate directives in the header, such as `script-src`,
+    `style-src`, `img-src`, and `font-src`.
+
+    - Consider enabling the `default-src` directive to set a default policy for all
+    resource types, and then selectively override it for specific resource types as
+    needed.
+
+    - Ensure that the CSP header is set on all web pages, including the login page
+    and any pages that handle sensitive user data.
+
+    - Regularly review and update the CSP policy to adapt to changes in the web application''s
+    functionality and to address any new security risks.
+
+    - Implement a strict `Content-Security-Policy-Report-Only` header during the deployment
+    and testing phases to monitor the policy''s effectiveness without enforcing it.'
 http:
-  - method: GET
-    path:
-      - "{{BaseURL}}"
-    host-redirects: true
-    max-redirects: 3
-    matchers:
-      - type: dsl
-        dsl:
-          - "!regex('(?i)content-security-policy', header)"
-          - "status_code != 301 && status_code != 302"
-        condition: and
+- method: GET
+  path:
+  - '{{BaseURL}}'
+  host-redirects: true
+  max-redirects: 3
+  matchers:
+  - type: dsl
+    dsl:
+    - '!regex(''(?i)content-security-policy'', header)'
+    - status_code != 301 && status_code != 302
+    condition: and
