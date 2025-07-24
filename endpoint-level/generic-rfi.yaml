@@ -27,6 +27,26 @@ http:
         fuzz:
           - "{{rfi}}"
 
+      - part: body
+        mode: single
+        fuzz:
+          - "{{rfi}}"
+
+      - part: header
+        mode: single
+        fuzz:
+          - "{{rfi}}"
+
+      - part: path
+        mode: single
+        fuzz:
+          - "{{rfi}}"
+
+      - part: cookie
+        mode: single
+        fuzz:
+          - "{{rfi}}"
+
     stop-at-first-match: true
     matchers:
       - type: word

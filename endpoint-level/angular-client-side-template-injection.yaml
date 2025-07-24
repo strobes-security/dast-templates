@@ -39,6 +39,24 @@ headless:
         fuzz:
           - "{{payload}}"
 
+      - part: body
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{payload}}"
+
+      - part: header
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{payload}}"
+
+      - part: path
+        type: postfix
+        mode: single
+        fuzz:
+          - "{{payload}}"
+
     matchers:
       - type: word
         part: body

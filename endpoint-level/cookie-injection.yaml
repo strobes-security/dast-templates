@@ -31,6 +31,26 @@ http:
         fuzz:
           - "{{reflection}}"
 
+      - part: body
+        type: postfix
+        fuzz:
+          - "{{reflection}}"
+
+      - part: cookie
+        type: postfix
+        fuzz:
+          - "{{reflection}}"
+
+      - part: header
+        type: postfix
+        fuzz:
+          - "{{reflection}}"
+
+      - part: path
+        type: postfix
+        fuzz:
+          - "{{reflection}}"
+
     matchers:
       - type: regex
         part: header
